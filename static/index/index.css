@@ -1,0 +1,48 @@
+@import url('https://fonts.googleapis.com/css2?family=Gurajada&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.cen{
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.logo-text{
+    font-family: 'Gurajada', serif;
+    font-size: 4rem;
+}
+#checkbox{
+    opacity: 0;
+}
+#checkbox:checked>.fa-circle{
+    transform: translateX(30px);
+}
+.label{
+    background-color: #707071;
+    color: white;
+    width: 60px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 30px;
+    border-radius: 50px;
+    position: relative;
+}
+.ball {
+    width: 25px;
+    height: 24px;
+    background-color: white;
+    position: absolute;
+    left: 5px;
+    border-radius: 50%;
+    transition: transform 0.2s linear;
+}
+.checkbox:checked + .label .ball{
+    transform: translateX(26px);
+    background-color: white;
+}
