@@ -20,9 +20,48 @@
         <span class="logo-text mt-3">#vocalForLocal</span>
     </div>
     <div id="body">
+        <nav class="navbar navbar-expand-lg navbar-{{ theme }} bg-{{ theme }}" id="nav" style="transition:0.6s;position: sticky;top: 0;left: 0;">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="{% url 'index' %}{% if theme == 'dark' %}?isDark=True{% endif %}"><span class="logo-text">#vocalForLocal</span></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link {% block homActive %}{% endblock homActive %}" aria-current="page" href="{% url 'index' %}{% if theme == 'dark' %}?isDark=True{% endif %}">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% block comActive %}{% endblock comActive %}" href="{% url 'community' %}{% if theme == 'dark' %}?isDark=True{% endif %}">Community</a>
+                        </li>
+                    </ul>
+                    <div style="display: flex;">
+                        {% if theme == 'dark' %}
+                        <input type="checkbox" class="checkbox" id="checkbox" checked>
+                        {% else %}
+                        <input type="checkbox" class="checkbox" id="checkbox">
+                        {% endif %}
+                        <label for="checkbox" class="label">
+                            <div class='ball'></div>
+                            <i class="fas fa-sun" style="color:yellow"></i>
+                            <i class="far fa-moon"></i>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <div>
         {% block body %}{% endblock body %}
-        <footer>
-            <span class="logo-text mt-3">#vocalForLocal &copy;</span>
+    </div>
+        <footer class="footer-{{theme}}">
+            <div>
+                <span class="logo-text mt-3">#vocalForLocal &copy;</span>
+            </div>
+            <div>
+
+            </div>
         </footer>
     </div>
     
@@ -41,6 +80,20 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
         crossorigin="anonymous"></script>
+    <script>
+        const checkbox1 = document.getElementById('checkbox')
+        checkbox1.addEventListener('change',function(){
+            let append = '';
+            if($('#checkbox').prop('checked')){
+                append = '?isDark=True'
+            }
+            $('nav a').each((ind,ele)=>{
+                let pos = ele.getAttribute('href').indexOf('?isDark=');
+                let link = ele.getAttribute('href');
+                if(pos!=-1){link = link.slice(0,pos);}
+                ele.setAttribute('href',link+append)
+            })
+        })
+    </script>
 </body>
-
 </html>

@@ -4,6 +4,8 @@ checkbox.addEventListener('change', ()=>{
     $('nav').toggleClass('navbar-light');
     $('nav').toggleClass('bg-dark');
     $('nav').toggleClass('navbar-dark');
+    $('footer').toggleClass('footer-dark');
+    $('footer').toggleClass('footer-light');
 })
 
 $(document).ready(function(){       

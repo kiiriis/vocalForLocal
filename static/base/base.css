@@ -5,10 +5,13 @@
     box-sizing: border-box;
 }
 *::selection{
-    background-color: yellow;
+    background-color: #8dc4c9ba;
 }
 .nav-shadow{
     box-shadow: 0 -10px 20px 10px grey;
+}
+.nav-link.active{
+    font-weight: 600;
 }
 .cen{
     height: 100vh;
@@ -53,13 +56,22 @@
     background-color: white;
 }
 footer{
+    box-shadow: 0 10px 20px 10px grey;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: grey;
     width:100%;
     font-size: xx-large;
-    height:113px;
+    height:78px;
+    flex-direction: column;
+    transition: 0.6s;
+}
+.footer-light{
+    background-color: #f8f9fa;
+}
+.footer-dark{
+    background-color: #212529;
+    color: white;
 }
 .light{
     background-color: #f8f9fa;

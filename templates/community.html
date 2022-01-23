@@ -1,9 +1,52 @@
 {% extends 'base.html' %}
 
-{% block cdns %}{% endblock cdns %}
+{% block cdns %}
+<script src='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.js'></script>
+<link href='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.css' rel='stylesheet' />
+<link rel="stylesheet" href="/static/community/community.css">
+{% endblock cdns %}
 
-{% block title %}{% endblock title %}
+{% block title %}Community | #vocalForLocal{% endblock title %}
 
-{% block body %}{% endblock body %}
+{% block comActive %}active{% endblock comActive %}
 
-{% block scripts %}{% endblock scripts %}
+{% block body %}
+
+<div id='map'></div>
+
+{% endblock body %}
+
+{% block scripts %}
+<script src="/static/community/community.js"></script>
+<script>
+    mapboxgl.accessToken = "{{token}}";
+    var map = new mapboxgl.Map({
+        container: 'map',
+        {% if theme == "light" %}
+        style: 'mapbox://styles/mapbox/streets-v11',
+        {% else %}
+        style: 'mapbox://styles/mapbox/dark-v10',
+        {% endif %}
+    });
+    map.on('idle',function(){
+        map.resize()
+    })
+    const checkbox2 = document.getElementById('checkbox');
+    checkbox2.addEventListener('change', ()=>{
+        if($('#checkbox').prop('checked')){
+            mapboxgl.accessToken = "{{token}}";
+            var map = new mapboxgl.Map({
+                container: 'map',
+                style: 'mapbox://styles/mapbox/dark-v10',
+            });
+        }
+        else{
+            mapboxgl.accessToken = "{{token}}";
+            var map = new mapboxgl.Map({
+                container: 'map',
+                style: 'mapbox://styles/mapbox/streets-v11',
+            });
+        }
+    })
+</script>
+{% endblock scripts %}
