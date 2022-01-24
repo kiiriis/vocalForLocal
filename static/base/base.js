@@ -49,6 +49,7 @@ checkbox.addEventListener('change', ()=>{
             $('.navbar').removeClass("nav-shadow-dark")
         }
     }
+    $('body').toggleClass('dark')
     $('nav').toggleClass('bg-light');
     $('nav').toggleClass('navbar-light');
     $('nav').toggleClass('bg-dark');

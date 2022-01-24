@@ -8,18 +8,21 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
     {% block cdns %}{% endblock cdns %}
     <title> {% block title %}{% endblock title %} </title>
 </head>
 
-<body>
-    <div id="spinner" class="cen">
+<body class="{{theme}}">
+    <div id="spinner" class="cen {{theme}}">
         <div class="spinner-border" style="width: 2.75rem; height: 2.75rem;" role="status">
             <span class="visually-hidden">Loading...</span>
         </div>
         <span class="logo-text mt-3">#vocalForLocal</span>
     </div>
-    <div class="{{theme}}" id="body">
+    <div class="{{theme}}" id="body" style="color:#212529;">
         <nav class="navbar navbar-expand-lg navbar-{{ theme }} bg-{{ theme }}" id="nav" style="transition:0.6s;position: sticky;top: 0;left: 0;">
             <div class="container-fluid">
                 <a class="navbar-brand" href="{% url 'index' %}{% if theme == 'dark' %}?isDark=True{% endif %}"><span class="logo-text">#vocalForLocal</span></a>
@@ -72,8 +75,9 @@
             $('#spinner').fadeOut(1000);
             setTimeout(() => {
                 $('#spinner').remove();
-                $('#body').show();
-            }, 1250);
+                // $('#body').show("fold",1000);
+                $('#body').show("fade",1000);
+            }, 500);
         })
     </script>
     {% block scripts %}{% endblock scripts %}
