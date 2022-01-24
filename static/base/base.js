@@ -50,6 +50,9 @@ checkbox.addEventListener('change', ()=>{
         }
     }
     $('body').toggleClass('dark')
+    $('body').toggleClass('light')
+    $('#intro').toggleClass('dark')
+    $('#intro').toggleClass('light')
     $('nav').toggleClass('bg-light');
     $('nav').toggleClass('navbar-light');
     $('nav').toggleClass('bg-dark');

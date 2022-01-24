@@ -56,8 +56,8 @@
             </div>
         </nav>
         <div>
-        {% block body %}{% endblock body %}
-    </div>
+            {% block body %}{% endblock body %}
+        </div>
         <footer class="footer-{{theme}}">
             <div>
                 <span class="logo-text mt-3">#vocalForLocal &copy;</span>
@@ -75,7 +75,6 @@
             $('#spinner').fadeOut(1000);
             setTimeout(() => {
                 $('#spinner').remove();
-                // $('#body').show("fold",1000);
                 $('#body').show("fade",1000);
             }, 500);
         })

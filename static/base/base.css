@@ -5,8 +5,11 @@
     box-sizing: border-box;
 }
 *::selection{
-    background-color: #8dc4c9ba;
+    background-color: #ff3478;
 }
+/* #body.light::selection{
+    background-color: #BBBFCA;
+} */
 .nav-shadow-light{
     box-shadow: 0 -10px 20px 10px grey;
 }
@@ -30,6 +33,7 @@
 }
 #checkbox{
     opacity: 0;
+    display: none;
 }
 #checkbox:checked>.fa-circle{
     transform: translateX(30px);
@@ -81,6 +85,6 @@ footer{
     background-color: #f8f9fa;
 }
 .dark{
-    background-color: #212529;
     color: white;
+    background-color: #212529;
 }
