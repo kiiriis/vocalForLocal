@@ -5,7 +5,7 @@
   box-sizing: border-box;
 }
 *::selection {
-  background-color: #0e0005;
+  background-color: #ff3478;
 }
 /* #body.light::selection{
     background-color: #BBBFCA;
