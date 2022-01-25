@@ -1,90 +1,90 @@
-@import url('https://fonts.googleapis.com/css2?family=Gurajada&display=swap');
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+@import url("https://fonts.googleapis.com/css2?family=Gurajada&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
-*::selection{
-    background-color: #ff3478;
+*::selection {
+  background-color: #0e0005;
 }
 /* #body.light::selection{
     background-color: #BBBFCA;
 } */
-.nav-shadow-light{
-    box-shadow: 0 -10px 20px 10px grey;
+.nav-shadow-light {
+  box-shadow: 0 -10px 20px 10px grey;
 }
-.nav-shadow-dark{
-    box-shadow: 0 -10px 20px 10px white;
+.nav-shadow-dark {
+  box-shadow: 0 -10px 20px 10px white;
 }
-.nav-link.active{
-    font-weight: 600;
+.nav-link.active {
+  font-weight: 600;
 }
-.cen{
-    height: 100vh;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+.cen {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
-.logo-text{
-    font-family: 'Gurajada', serif;
-    font-size: 2.5rem;
+.logo-text {
+  font-family: "Gurajada", serif;
+  font-size: 2.5rem;
 }
-#checkbox{
-    opacity: 0;
-    display: none;
+#checkbox {
+  opacity: 0;
+  display: none;
 }
-#checkbox:checked>.fa-circle{
-    transform: translateX(30px);
+#checkbox:checked > .fa-circle {
+  transform: translateX(30px);
 }
-.label{
-    background-color: #707071;
-    color: white;
-    width: 60px;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    height: 30px;
-    border-radius: 50px;
-    position: relative;
+.label {
+  background-color: #707071;
+  color: white;
+  width: 60px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 30px;
+  border-radius: 50px;
+  position: relative;
 }
 .ball {
-    width: 25px;
-    height: 24px;
-    background-color: white;
-    position: absolute;
-    left: 5px;
-    border-radius: 50%;
-    transition: transform 0.2s linear;
+  width: 25px;
+  height: 24px;
+  background-color: white;
+  position: absolute;
+  left: 5px;
+  border-radius: 50%;
+  transition: transform 0.2s linear;
 }
-.checkbox:checked + .label .ball{
-    transform: translateX(26px);
-    background-color: white;
+.checkbox:checked + .label .ball {
+  transform: translateX(26px);
+  background-color: white;
 }
-footer{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width:100%;
-    font-size: xx-large;
-    height:78px;
-    flex-direction: column;
-    transition: 0.6s;
+footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  font-size: xx-large;
+  height: 78px;
+  flex-direction: column;
+  transition: 0.6s;
 }
-.footer-light{
-    background-color: #f8f9fa;
-    box-shadow: 0 10px 20px 10px grey;
+.footer-light {
+  background-color: #f8f9fa;
+  box-shadow: 0 10px 20px 10px grey;
 }
-.footer-dark{
-    background-color: #212529;
-    color: white;
-    box-shadow: 0 10px 20px 10px white;
+.footer-dark {
+  background-color: #212529;
+  color: white;
+  box-shadow: 0 10px 20px 10px white;
 }
-.light{
-    background-color: #f8f9fa;
+.light {
+  background-color: #f8f9fa;
 }
-.dark{
-    color: white;
-    background-color: #212529;
+.dark {
+  color: white;
+  background-color: #212529;
 }
