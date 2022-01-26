@@ -60,6 +60,8 @@ checkbox.addEventListener('change', ()=>{
     $('footer').toggleClass('footer-dark');
     $('footer').toggleClass('footer-light');
     $('#body').toggleClass('dark');
+    $('.rippler').toggleClass('rippler-light')
+    $('.rippler').toggleClass('rippler-dark')
 })
 
 // Ripple

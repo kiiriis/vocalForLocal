@@ -30,7 +30,7 @@
     }
 }
 
-button {
+/* button {
   position: relative;
   display: block;
   width: 13em;
@@ -46,4 +46,4 @@ button {
   -ms-user-select: none;
   user-select: none;
   border-radius: 2px;
-}
+} */

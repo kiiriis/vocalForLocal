@@ -41,7 +41,8 @@
                             <a class="nav-link {% block comActive %}{% endblock comActive %}" href="{% url 'community' %}{% if theme == 'dark' %}?isDark=True{% endif %}">Community</a>
                         </li>
                     </ul>
-                    <div style="display: flex;">
+                    <div style="display: flex;align-items: center;">
+                        <button class="rippler rippler-{{theme}}">Login</button>
                         {% if theme == 'dark' %}
                         <input type="checkbox" class="checkbox" id="checkbox" checked>
                         {% else %}
