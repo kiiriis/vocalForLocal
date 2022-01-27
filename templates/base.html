@@ -34,15 +34,23 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        {% block navElements %}
                         <li class="nav-item">
                             <a class="nav-link {% block homActive %}{% endblock homActive %}" aria-current="page" href="{% url 'index' %}{% if theme == 'dark' %}?isDark=True{% endif %}">Home</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link {% block comActive %}{% endblock comActive %}" href="{% url 'community' %}{% if theme == 'dark' %}?isDark=True{% endif %}">Community</a>
                         </li>
+                        {% endblock navElements %}
                     </ul>
-                    <div style="display: flex;align-items: center;">
-                        <button class="rippler rippler-{{theme}}">Login</button>
+                    <div class="righty" style="display: flex;align-items: center;">
+                        {% block log %}
+                        {% if request.user.is_anonymous %}
+                            <a class="rippler rippler-{{theme}}" href="{% url 'login' %}">Login</a>
+                        {% else %}
+                            <a class="rippler rippler-{{theme}}" href="{% url 'logout' %}">Logout</a>
+                        {% endif %}
+                        {% endblock log %}
                         {% if theme == 'dark' %}
                         <input type="checkbox" class="checkbox" id="checkbox" checked>
                         {% else %}

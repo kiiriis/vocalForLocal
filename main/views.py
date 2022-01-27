@@ -6,16 +6,27 @@ import os
 load_dotenv()
 
 # Create your views here.
-def index(request):
+def getTheme(request):
     theme = "light"
     if request.GET.get('isDark'):
         if request.GET.get('isDark')=="True":
             theme = "dark"
+    return theme
+
+def index(request):
+    theme = getTheme(request)
     return render(request,'index.html',{'theme':theme})
 
 def community(request):
-    theme = "light"
-    if request.GET.get('isDark'):
-        if request.GET.get('isDark')=="True":
-            theme = "dark"
+    theme = getTheme(request)
     return render(request,'community.html',{'theme':theme,'token':os.getenv('MAP_ACCESS_TOKEN')})
+
+def loginUser(request):
+    theme = getTheme(request)
+    return render(request, "login.html", {'theme':theme})
+
+def logoutUser(request):
+    pass
+
+def signUp(request):
+    pass

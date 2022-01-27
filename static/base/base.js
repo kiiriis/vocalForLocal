@@ -68,7 +68,7 @@ checkbox.addEventListener('change', ()=>{
 
 var addRippleEffect = function (e) {
     var target = e.target;
-    if (target.tagName.toLowerCase() !== 'button') return false;
+    //if (target.tagName.toLowerCase() !== 'button') return false;
     var rect = target.getBoundingClientRect();
     var ripple = target.querySelector('.ripple');
     if (!ripple) {
@@ -90,6 +90,7 @@ $(document).ready(function(){
     navShadowHandler();
     let buts = document.getElementsByClassName("rippler");
     for (let i = 0; i < buts.length; i++) {
-        buts[i].addEventListener('click', addRippleEffect, false);
+        buts[i].addEventListener('mousedown', addRippleEffect, false);
+        buts[i].addEventListener('mouseenter', addRippleEffect, false);
     }
 })

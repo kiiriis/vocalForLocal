@@ -93,7 +93,33 @@ footer {
   background-color: #212529;
 }
 
+@media screen and (max-width: 990px) {
+    .righty{
+      flex-direction: column;
+    }
+    .righty > a{
+      width: fit-content;
+    }
+    .nav-link{
+      text-align: center;
+    }
+}
+
 /* Ripple */
+
+a.rippler{
+    text-decoration: none;
+    text-align: center;
+    padding: 10px;
+}
+
+a.rippler.rippler-light:hover{
+    color:#212529;
+}
+
+a.rippler.rippler-dark:hover{
+    color:white;
+}
 
 .rippler{
     position: relative;
@@ -108,7 +134,7 @@ footer {
     -ms-user-select: none;
     user-select: none;
     border-radius: 2px;
-    width: 6.5em;
+    width: auto;
     height: 3em;
     margin-right: 0.75em;
     background-color: transparent;
@@ -122,13 +148,19 @@ footer {
     color: white;
 }
 
+.rippler-light{
+    color:#212529;
+}
+
 .ripple{
   position: absolute;
   top: 0;
   left: 0;
   bottom: 0;
   right: 0;
-  background: rgba(158, 158, 158, 0.375);
+  background: rgba(180, 180, 180, 0.719);
+  /* background: rgba(0, 0, 0, 0.288); */
+  /* background: rgba(158, 158, 158, 0.375); */
   /* background: rgba(0,0,0,.25); */
   border-radius: 100%;
   -webkit-transform: scale(0);
@@ -138,8 +170,8 @@ footer {
 }
 
 .ripple.show {
-  -webkit-animation: ripple 0.75s ease-out;
-  animation: ripple 0.75s ease-out;
+  -webkit-animation: ripple 0.50s ease-out;
+  animation: ripple 0.50s ease-out;
 }
 
 @-webkit-keyframes 
