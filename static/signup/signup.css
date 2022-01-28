@@ -1,0 +1,7 @@
+.form-container {
+    width: 75%;
+}
+
+.form-container > input {
+    box-shadow: none !important;
+}

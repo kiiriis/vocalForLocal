@@ -22,11 +22,11 @@ def community(request):
     return render(request,'community.html',{'theme':theme,'token':os.getenv('MAP_ACCESS_TOKEN')})
 
 def loginUser(request):
-    theme = getTheme(request)
-    return render(request, "login.html", {'theme':theme})
+    pass
 
 def logoutUser(request):
     pass
 
 def signUp(request):
-    pass
+    theme = getTheme(request)
+    return render(request, "signup.html", {'theme':theme})
