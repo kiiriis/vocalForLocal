@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
 
 {% block cdns %}
-<link href="https://preview.keenthemes.com/craft/assets/css/style.bundle.css" rel="stylesheet" type="text/css"/>
+<link href="https://preview.keenthemes.com/craft/assets/css/style.bundle.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="/static/signup/signup.css">
 <script src="https://preview.keenthemes.com/craft/assets/js/scripts.bundle.js"></script>
 {% endblock cdns %}
 
@@ -22,107 +23,113 @@
 
 <div class="form-container">
 
+  <form class="needs-validation" novalidate>
 
-<!--begin::Image input-->
-<div class="image-input image-input-circle" data-kt-image-input="true" style="background-image: url(/static/server/empty.jpg)">
-<!--begin::Image preview wrapper-->
-<div class="image-input-wrapper w-125px h-125px" style="background-image: url(/static/server/empty.jpg)"></div>
-<!--end::Image preview wrapper-->
-
-<!--begin::Edit button-->
-<label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-white shadow"
-data-kt-image-input-action="change"
-data-bs-toggle="tooltip"
-data-bs-dismiss="click"
-title="Change avatar">
-  <i class="bi bi-pencil-fill fs-7"></i>
-
-  <!--begin::Inputs-->
-  <input type="file" name="avatar" accept=".png, .jpg, .jpeg" />
-  <input type="hidden" name="avatar_remove" />
-  <!--end::Inputs-->
-</label>
-<!--end::Edit button-->
-
-<!--begin::Cancel button-->
-<span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-white shadow"
-data-kt-image-input-action="cancel"
-data-bs-toggle="tooltip"
-data-bs-dismiss="click"
-title="Cancel avatar">
-  <i class="bi bi-x fs-2"></i>
-</span>
-<!--end::Cancel button-->
-
-<!--begin::Remove button-->
-<span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-white shadow"
-data-kt-image-input-action="remove"
-data-bs-toggle="tooltip"
-data-bs-dismiss="click"
-title="Remove avatar">
-  <i class="bi bi-x fs-2"></i>
-</span>
-<!--end::Remove button-->
-</div>
-<!--end::Image input-->
-
-
-
-    <form class="row g-3 needs-validation" novalidate>
-        <div class="col-md-4 position-relative">
-          <label for="validationTooltip01" class="form-label">First name</label>
-          <input type="text" class="form-control" id="validationTooltip01" value="Mark" required>
-          <div class="valid-tooltip">
-            Looks good!
+    <div class="row">
+      <div class="col-md-4" style="display:flex;justify-content:center;">
+        <!--begin::Image input-->
+        <div class="image-input image-input-circle w-125px h-125px" data-kt-image-input="true"
+          style="background-image: url(/static/server/empty.jpg); width:fit-content; margin:auto;">
+          <!--begin::Image preview wrapper-->
+          <div class="image-input-wrapper w-125px h-125px" style="background-image: url(/static/server/empty.jpg)">
           </div>
+          <!--end::Image preview wrapper-->
+
+          <!--begin::Edit button-->
+          <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-white shadow"
+            data-kt-image-input-action="change" data-bs-toggle="tooltip" data-bs-dismiss="click" title="Change avatar">
+            <i class="fas fa-pen"></i>
+
+            <!--begin::Inputs-->
+            <input type="file" name="avatar" accept=".png, .jpg, .jpeg" />
+            <input type="hidden" name="avatar_remove" />
+            <!--end::Inputs-->
+          </label>
+          <!--end::Edit button-->
+
+          <!--begin::Cancel button-->
+          <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-white shadow"
+            data-kt-image-input-action="cancel" data-bs-toggle="tooltip" data-bs-dismiss="click" title="Cancel avatar">
+            <i class="far fa-window-close"></i>
+          </span>
+          <!--end::Cancel button-->
+
+          <!--begin::Remove button-->
+          <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-white shadow"
+            data-kt-image-input-action="remove" data-bs-toggle="tooltip" data-bs-dismiss="click" title="Remove avatar">
+            <i class="fas fa-user-times"></i>
+          </span>
+          <!--end::Remove button-->
         </div>
-        <div class="col-md-4 position-relative">
-          <label for="validationTooltip02" class="form-label">Last name</label>
-          <input type="text" class="form-control" id="validationTooltip02" value="Otto" required>
-          <div class="valid-tooltip">
-            Looks good!
-          </div>
-        </div>
-        <div class="col-md-4 position-relative">
-          <label for="validationTooltipUsername" class="form-label">Username</label>
-          <div class="input-group has-validation">
-            <span class="input-group-text" id="validationTooltipUsernamePrepend">@</span>
-            <input type="text" class="form-control" id="validationTooltipUsername" aria-describedby="validationTooltipUsernamePrepend" required>
-            <div class="invalid-tooltip">
-              Please choose a unique and valid username.
+        <!--end::Image input-->
+      </div>
+      <div class="col-md-8">
+        <div class="row">
+          <div class="position-relative">
+            <label for="validationTooltip01" class="form-label">First name</label>
+            <input type="text" class="form-control is-invalid" id="validationTooltip01" placeholder="First name" required>
+            <div class="valid-tooltip">
+              Looks good!
             </div>
           </div>
         </div>
-        <div class="col-md-6 position-relative">
-          <label for="validationTooltip03" class="form-label">City</label>
-          <input type="text" class="form-control" id="validationTooltip03" required>
-          <div class="invalid-tooltip">
-            Please provide a valid city.
+        <div class="row">
+          <div class="position-relative">
+            <label for="validationTooltip02" class="form-label">Last name</label>
+            <input type="text" class="form-control is-invalid" id="validationTooltip02" placeholder="Last name" required>
+            <div class="valid-tooltip">
+              Looks good!
+            </div>
           </div>
         </div>
-        <div class="col-md-3 position-relative">
-          <label for="validationTooltip04" class="form-label">State</label>
-          <select class="form-select" id="validationTooltip04" required>
-            <option selected disabled value="">Choose...</option>
-            <option>...</option>
-          </select>
-          <div class="invalid-tooltip">
-            Please select a valid state.
-          </div>
+      </div>
+    </div>
+
+    <div class="position-relative">
+      <label for="validationTooltipUsername" class="form-label">Username</label>
+      <div class="input-group has-validation">
+        <span class="input-group-text" id="validationTooltipUsernamePrepend">@</span>
+        <input type="text" class="form-control" id="validationTooltipUsername"
+          aria-describedby="validationTooltipUsernamePrepend" required>
+        <div class="invalid-tooltip">
+          Please choose a unique and valid username.
         </div>
-        <div class="col-md-3 position-relative">
-          <label for="validationTooltip05" class="form-label">Zip</label>
-          <input type="text" class="form-control" id="validationTooltip05" required>
-          <div class="invalid-tooltip">
-            Please provide a valid zip.
-          </div>
-        </div>
-        <div class="col-12">
-          <button class="btn btn-primary" type="submit">Submit form</button>
-        </div>
-    </form>
+      </div>
+    </div>
+    <div class="position-relative">
+      <label for="validationTooltip03" class="form-label">City</label>
+      <input type="text" class="form-control" id="validationTooltip03" required>
+      <div class="invalid-tooltip">
+        Please provide a valid city.
+      </div>
+    </div>
+    <div class="position-relative">
+      <label for="validationTooltip04" class="form-label">State</label>
+      <select class="form-select" id="validationTooltip04" required>
+        <option selected disabled value="">Choose...</option>
+        <option>...</option>
+      </select>
+      <div class="invalid-tooltip">
+        Please select a valid state.
+      </div>
+    </div>
+    <div class="position-relative">
+      <label for="validationTooltip05" class="form-label">Zip</label>
+      <input type="text" class="form-control" id="validationTooltip05" required>
+      <div class="invalid-tooltip">
+        Please provide a valid zip.
+      </div>
+    </div>
+    
+    <div class="col-12">
+      <button class="btn btn-primary" type="submit">Submit form</button>
+    </div>
+    
+  </form>
 </div>
 
 {% endblock body %}
 
-{% block scripts %}{% endblock scripts %}
+{% block scripts %}
+<script src="/static/signup/signup.js"></script>p
+{% endblock scripts %}

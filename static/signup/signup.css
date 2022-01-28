@@ -1,7 +1,13 @@
 .form-container {
-    width: 75%;
+    width: 50%!important;
+    margin: auto;
 }
 
 .form-container > input {
     box-shadow: none !important;
+}
+
+.form-container .row{
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
