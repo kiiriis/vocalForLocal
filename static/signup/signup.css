@@ -35,6 +35,11 @@
     color: white;
 }
 
+.btn-secondary.rippler{
+    color: black;
+    background-color: #6c757d2e!important;
+}
+
 .bg-dark{
     --bs-bg-opacity: 1;
     background-color: rgba(33,37,41,var(--bs-bg-opacity))!important;

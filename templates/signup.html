@@ -48,7 +48,7 @@
           <!--begin::Cancel button-->
           <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-white shadow"
             data-kt-image-input-action="cancel" data-bs-toggle="tooltip" data-bs-dismiss="click" title="Cancel avatar">
-            <i class="far fa-window-close"></i>
+            <i class="fas fa-times"></i>
           </span>
           <!--end::Cancel button-->
 
@@ -66,18 +66,18 @@
           <div class="position-relative">
             <label for="first_name" class="form-label">First name</label>
             <input type="text" class="form-control" name="first_name" id="first_name" placeholder="First name" required>
-            <div class="valid-tooltip">
+            {% comment %} <div class="valid-tooltip">
               Looks good!
-            </div>
+            </div> {% endcomment %}
           </div>
         </div>
         <div class="row">
           <div class="position-relative">
             <label for="last_name" class="form-label">Last name</label>
             <input type="text" class="form-control" name="last_name" id="last_name" placeholder="Last name" required>
-            <div class="valid-tooltip">
+            {% comment %} <div class="valid-tooltip">
               Looks good!
-            </div>
+            </div> {% endcomment %}
           </div>
         </div>
       </div>
@@ -99,35 +99,41 @@
         <label class="form-label">Type of account :</label>
         <div class="input-group">
           <div class="input-group-text">
-            <input class="form-check-input mt-0" id="validationFormCheck2" type="radio" name="radio-stacked" value="" aria-label="Radio button for following text input" required>
-            <div class="invalid-feedback">More example invalid feedback text</div>
+            <input class="form-check-input mt-0" id="account-p" type="radio" name="account" value="" aria-label="Radio button for following text input" required>
+            {% comment %} <div class="invalid-feedback">More example invalid feedback text</div> {% endcomment %}
           </div>
-          <span class="form-control" aria-label="Text input with radio button"><label for="validationFormCheck2">Private</label></span>
+          <span class="form-control" aria-label="Text input with radio button"><label for="account-p">Private</label></span>
         </div>
       </div>
       <div class="col-md-4">
         <div class="input-group">
           <div class="input-group-text">
-            <input class="form-check-input mt-0" id="validationFormCheck3" type="radio" name="radio-stacked" value="" aria-label="Radio button for following text input" required>
-            <div class="invalid-feedback">More example invalid feedback text</div>
+            <input class="form-check-input mt-0" id="account-b" type="radio" name="account" value="" aria-label="Radio button for following text input" required>
+            {% comment %} <div class="invalid-feedback">More example invalid feedback text</div> {% endcomment %}
           </div>
-          <span class="form-control" aria-label="Text input with radio button"><label for="validationFormCheck3">Business</label></span>
+          <span class="form-control" aria-label="Text input with radio button"><label for="account-b">Business</label></span>
         </div>
       </div>
       
     </div>
     
-    <div class="mb-3 row">
-      <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
-      <div class="col-sm-10">
-        <input type="password" class="form-control is-invalid" id="inputPassword">
+    <div class="mb-3 row" style="margin-top:20px;">
+      <label for="pass-1" class="col-sm-2 col-form-label">Password</label>
+      <div class="col-sm-10" style="position:relative;">
+        <input type="password" class="form-control" name="password" id="pass-1">
+        <div class="invalid-tooltip">
+          Ensure minimum of 8 characters for maximum security.
+        </div>
       </div>
     </div>
 
     <div class="mb-3 row">
-      <label for="inputPassword2" class="col-sm-2 col-form-label">Confirm password</label>
-      <div class="col-sm-10">
-        <input type="password" class="form-control is-invalid" id="inputPassword2">
+      <label for="pass-2" class="col-sm-2 col-form-label">Confirm password</label>
+      <div class="col-sm-10" style="position:relative;">
+        <input type="password" class="form-control" id="pass-2">
+        <div class="invalid-tooltip">
+          Make sure the password matches with the one entered above.
+        </div>
       </div>
     </div>
     
@@ -169,39 +175,43 @@
 
     <div class="input-group mb-3 ep">
       <label for="email" class="col-sm-2 col-form-label">Email</label>
-      <input type="email" class="form-control is-invalid" id="email" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon1">
+      <input type="email" class="form-control" name="email" id="email" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon1">
       <button type="button" class="outline-btn" id="button-addon1">Button</button>
     </div>
 
     <div class="input-group mb-3 ep">
       <label for="phno" class="col-sm-2 col-form-label">Phone number</label>
-      <input type="tel" class="form-control" id="phno" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2">
+      <input type="tel" class="form-control" name="phno" id="phno" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2">
       <button class="outline-btn" type="button" id="button-addon2">Button</button>
     </div>
 
     <div class="mb-3 row position-relative">
-      <label for="validationTooltip05" class="col-sm-2 col-form-label">Zip</label>
+      <label for="zip" class="col-sm-2 col-form-label">Zip</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control is-invalid" id="validationTooltip05" required>
+        <input type="text" class="form-control" id="zip" name="zip" required>
         <div class="invalid-tooltip">
           Please provide a valid zip.
         </div>
       </div>
     </div>
 
-    {% comment %} <div class="row mb-3">
-      <label for="validationTextarea" class="form-label input-group-text">Textarea</label>
-      <textarea class="form-control is-invalid" id="validationTextarea" placeholder="Required example textarea" required></textarea>
-      <div class="invalid-feedback">
-        Please enter a message in the textarea.
-      </div>
-    </div> {% endcomment %}
-
     <div class="input-group">
       <span class="textarea-label input-group-text col-sm-2">Textarea</span>
-      <textarea class="form-control is-invalid" aria-label="Textarea" id="validationTextarea" placeholder="Required example textarea" style="border-radius: 0.475rem;" required></textarea>
+      <textarea class="form-control" aria-label="Textarea" id="address" name="address" placeholder="Required example textarea" style="border-radius: 0.475rem;" required></textarea>
       <div class="invalid-feedback">
-        Please enter a message in the textarea.
+        Please enter your address.
+      </div>
+    </div>
+
+    <div class="col-md-12" style="margin-top:33px;">
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="" id="agree" required>
+        <label class="form-check-label" for="agree" style="font-size:16px;">
+          You agree to the terms and conditions of <b>#vocalForLocal</b> and will abide by its rules. Any kind of misbehaviour, threats or unorderly actions can lead to permanent ban of your account.
+        </label>
+        <div class="invalid-feedback">
+          You must agree before submitting.
+        </div>
       </div>
     </div>
     
