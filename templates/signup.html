@@ -140,49 +140,40 @@
     <div class="row">
       <div class="col-md-4">
         <div class="mb-3">
-          <select class="form-select" required aria-label="select example">
+          <select class="form-select" id="country" name="country" required aria-label="select">
             <option value="">Country</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
           </select>
-          <div class="invalid-feedback">Example invalid select feedback</div>
+          <div class="invalid-feedback">Choose your country</div>
         </div>
       </div>
       <div class="col-md-4">
         <div class="mb-3">
-          <select class="form-select" required aria-label="select example">
+          <select class="form-select" id="state" name="state" required aria-label="select">
             <option value="">State</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
           </select>
-          <div class="invalid-feedback">Example invalid select feedback</div>
+          <div class="invalid-feedback">Choose your state</div>
         </div>
       </div>
       <div class="col-md-4">
         <div class="mb-3">
-          <select class="form-select" required aria-label="select example">
+          <select class="form-select" id="city" name="city" required aria-label="select">
             <option value="">City</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
           </select>
-          <div class="invalid-feedback">Example invalid select feedback</div>
+          <div class="invalid-feedback">Choose your city</div>
         </div>
       </div>
     </div>
 
     <div class="input-group mb-3 ep">
       <label for="email" class="col-sm-2 col-form-label">Email</label>
-      <input type="email" class="form-control" name="email" id="email" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon1">
-      <button type="button" class="outline-btn" id="button-addon1">Button</button>
+      <input type="email" class="form-control" name="email" id="email" placeholder="xxx@xxx.xxx" aria-label="Recipient's username" aria-describedby="button-addon1">
+      <button type="button" class="outline-btn" id="button-addon1">Send OTP</button>
     </div>
 
     <div class="input-group mb-3 ep">
       <label for="phno" class="col-sm-2 col-form-label">Phone number</label>
-      <input type="tel" class="form-control" name="phno" id="phno" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2">
-      <button class="outline-btn" type="button" id="button-addon2">Button</button>
+      <input type="tel" class="form-control" name="phno" id="phno" placeholder="xxxxxxxxxx" aria-label="Recipient's username" aria-describedby="button-addon2">
+      <button class="outline-btn" type="button" id="button-addon2">Send OTP</button>
     </div>
 
     <div class="mb-3 row position-relative">
@@ -196,8 +187,8 @@
     </div>
 
     <div class="input-group">
-      <span class="textarea-label input-group-text col-sm-2">Textarea</span>
-      <textarea class="form-control" aria-label="Textarea" id="address" name="address" placeholder="Required example textarea" style="border-radius: 0.475rem;" required></textarea>
+      <span class="textarea-label input-group-text col-sm-2">Address</span>
+      <textarea class="form-control" aria-label="Textarea" id="address" name="address" placeholder="Address" style="border-radius: 0.475rem;" required></textarea>
       <div class="invalid-feedback">
         Please enter your address.
       </div>
@@ -215,8 +206,8 @@
       </div>
     </div>
     
-    <div class="row mb-6">
-      <div class="col-md-12" style="padding:0;">
+    <div class="row mb-15 mt-10" style="justify-content:flex-end;">
+      <div class="col-md-2" style="padding:0;">
         <button class="btn-secondary rippler rippler-{{theme}}" type="submit">Submit form</button>
       </div>
     </div>
@@ -228,4 +219,7 @@
 
 {% block scripts %}
 <script src="/static/signup/signup.js"></script>
+<script>
+    setter("{{csc_token}}");
+</script>
 {% endblock scripts %}

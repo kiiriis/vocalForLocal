@@ -13,6 +13,10 @@ $('#first_name').keyup(inputValidator);
 
 $('#last_name').keyup(inputValidator);
 
+$('#country').change(inputValidator);
+$('#state').change(inputValidator);
+$('#city').change(inputValidator);
+
 function radioEvent(){
   if($('#account-b').prop('checked') || $('#account-p').prop('checked')){
     $('#account-b').removeClass('is-invalid');
@@ -143,6 +147,35 @@ form.addEventListener('submit', function (event) {
       $('#pass-1').addClass('is-invalid')
     }
 
+    // Country, State, City
+    if($('#country').val().length>0){
+        $('#country').removeClass('is-invalid');
+        $('#country').addClass('is-valid');
+    }
+    else{
+        proper = false
+        $('#country').removeClass('is-valid')
+        $('#country').addClass('is-invalid');
+    }
+    if($('#state').val().length>0){
+        $('#state').removeClass('is-invalid');
+        $('#state').addClass('is-valid');
+    }
+    else{
+        proper = false
+        $('#state').removeClass('is-valid')
+        $('#state').addClass('is-invalid');
+    }
+    if($('#city').val().length>0){
+        $('#city').removeClass('is-invalid');
+        $('#city').addClass('is-valid');
+    }
+    else{
+        proper = false
+        $('#city').removeClass('is-valid')
+        $('#city').addClass('is-invalid');
+    }
+
     // Zip
     if ($('#zip').val().trim().length>0 && isNaN($('#zip').val() / 1) == false) {
         $('#zip').removeClass('is-invalid')
@@ -184,3 +217,103 @@ form.addEventListener('submit', function (event) {
 
   // form.classList.add('was-validated')
 }, false)
+
+
+// Country, State and City
+
+let auth_token;
+
+function setter(val){
+  auth_token = val
+}
+
+$(document).ready(function(){
+  $('#country').click(function () {
+    getCountries();
+    $('#country').unbind('click');
+  })
+  $('#country').change(getStates)
+  $('#state').change(getCities)
+})
+
+
+$(document).ready(function () {
+  $.ajax({
+    type: 'get',
+    url: 'https://www.universal-tutorial.com/api/getaccesstoken',
+    success: function (data) {
+      auth_token = data.auth_token;
+    },
+    error: function (error) {
+      console.log(error);
+    },
+    headers: {
+      "Accept": "application/json",
+      "api-token": auth_token,
+      "user-email": "murtazamister1@gmail.com"
+    }
+  })
+})
+
+function getCountries() {
+  $.ajax({
+    type: 'get',
+    url: 'https://www.universal-tutorial.com/api/countries',
+    success: function (data) {
+      $('#country').empty();
+      data.forEach((ele) => {
+        $('#country').append(`<option value="${ele.country_name}">${ele.country_name}</option>`);
+      })
+      getStates();
+    },
+    error: function (error) {
+      console.log(error);
+    },
+    headers: {
+      "Authorization": "Bearer " + auth_token,
+      "Accept": "application/json"
+    }
+  })
+}
+function getStates() {
+  $.ajax({
+    type: 'get',
+    url: 'https://www.universal-tutorial.com/api/states/' + $('#country').val(),
+    success: function (data) {
+      $('#state').empty();
+      data.forEach((ele) => {
+        $('#state').append(`<option value="${ele.state_name}">${ele.state_name}</option>`);
+      })
+      getCities();
+    },
+    error: function (error) {
+      console.log(error);
+    },
+    headers: {
+      "Authorization": "Bearer " + auth_token,
+      "Accept": "application/json"
+    }
+  })
+}
+function getCities() {
+  $.ajax({
+    type: 'get',
+    url: 'https://www.universal-tutorial.com/api/cities/' + $('#state').val(),
+    success: function (data) {
+      $('#city').empty();
+      data.forEach((ele) => {
+        $('#city').append(`<option value="${ele.city_name}">${ele.city_name}</option>`);
+      })
+      if(data.length == 0){
+        $('#city').append(`<option value="none">none</option>`);
+      }
+    },
+    error: function (error) {
+      console.log(error);
+    },
+    headers: {
+      "Authorization": "Bearer " + auth_token,
+      "Accept": "application/json"
+    }
+  })
+}

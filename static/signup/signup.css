@@ -70,10 +70,10 @@
     padding: 0;
 }
 
-.ripple.show {
+/* .ripple.show {
     -webkit-animation-duration: 2.00s!important;
     animation-duration: 2.00s!important;
-}
+} */
 
 @media screen and (max-width: 570px) {
     .ep{

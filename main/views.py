@@ -29,4 +29,4 @@ def logoutUser(request):
 
 def signUp(request):
     theme = getTheme(request)
-    return render(request, "signup.html", {'theme':theme})
+    return render(request, "signup.html", {'theme':theme,'csc_token':os.getenv('CSC_API_TOKEN')})
