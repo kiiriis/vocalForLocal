@@ -22,7 +22,7 @@
 <div class="form-container">
 
   <form class="needs-validation" novalidate>
-
+    {% csrf_token %}
     <div class="row">
       <div class="col-md-4" style="display:flex;justify-content:center;">
         <!--begin::Image input-->
@@ -167,7 +167,7 @@
     <div class="input-group mb-3 ep">
       <label for="email" class="col-sm-2 col-form-label">Email</label>
       <input type="email" class="form-control" name="email" id="email" placeholder="xxx@xxx.xxx" aria-label="Recipient's username" aria-describedby="button-addon1">
-      <button type="button" class="outline-btn" id="button-addon1">Send OTP</button>
+      <button type="button" class="outline-btn" id="send_email_otp" onclick="send_otp_email()">Send OTP</button>
     </div>
 
     <div class="input-group mb-3 ep">
@@ -221,5 +221,20 @@
 <script src="/static/signup/signup.js"></script>
 <script>
     setter("{{csc_token}}");
+
+    let otp;
+    function send_otp_email(){
+      $.ajax({
+        type: 'POST',
+        url: 'sendEmailOtp',
+        data: {
+          email: $('#email').val(),
+          csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+        },
+        success: function(data){
+          otp = data;
+        }
+      });
+    }
 </script>
 {% endblock scripts %}
