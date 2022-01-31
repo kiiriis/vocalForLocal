@@ -1,3 +1,51 @@
+function validateEmail() {
+  var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(document.getElementById('email').value);
+}
+
+function setTimer(ele){
+  ele.html('01:00')
+  ele.prop('disabled',true)
+  let i = 59;
+  let timer = setInterval(()=>{
+    ele.html('00:'+(i+'').padStart(2,'0'))
+    i = i-1;
+    if(i==-1){
+      clearInterval(timer);
+      ele.prop('disabled',false)
+      rename(ele);
+    }
+  },1000);
+}
+
+function rename(ele){
+  ele.html('Resend OTP');
+}
+
+let otp;
+function send_otp_email(){
+  if(validateEmail()){
+    $('#email').removeClass('is-invalid');
+    $('#email_verify').css('display','flex');
+    setTimer($('#send_email_otp'))
+    $.ajax({
+      type: 'POST',
+      url: 'sendEmailOtp',
+      data: {
+        email: $('#email').val(),
+        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+      },
+      success: function(data){
+        otp = data;
+      }
+    });
+  }
+  else{
+    $('#email').removeClass('is-valid')
+    $('#email').addClass('is-invalid')
+  }
+}
+
 function inputValidator(){
   if($(this).val().trim().length){
     $(this).removeClass('is-invalid');

@@ -47,7 +47,7 @@ def sendEmailOtp(request):
     OTP = generateEmailOTP()
     html = '''
     <div style='font-family:system-ui;font-size:25px;width:max-content;'>
-        <p style='text-align: center;'>Welcome to <span style='font-weight: 700;'>#vocalForLocal</span></p><br>
+        <p>Welcome to <span style='font-weight: 700;'>#vocalForLocal</span></p><br>
         <div style='height:max-content;width:max-content;'>
             <p style='margin:5px;font-size: 15px;'>Please use this verification code to verify your Email ID</p><br>
             <p style='font-weight: 700;margin: 5px;font-size:20px;'>'''+OTP+'''</p><br>
