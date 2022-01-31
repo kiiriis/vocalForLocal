@@ -21,7 +21,7 @@
 
 <div class="form-container">
 
-  <form class="needs-validation" novalidate>
+  <form class="needs-validation" id="signup_form" method="post" novalidate>
     {% csrf_token %}
     <div class="row">
       <div class="col-md-4" style="display:flex;justify-content:center;">
@@ -168,7 +168,7 @@
       <label for="email" class="col-sm-2 col-form-label">Email</label>
       <input type="email" class="form-control" name="email" id="email" placeholder="xxx@xxx.xxx" aria-label="Recipient's username" aria-describedby="button-addon1">
       <div class="invalid-tooltip">
-        Please provide a valid email id.
+        Please provide a valid email id and get it verified.
       </div>
       <button type="button" class="outline-btn" id="send_email_otp" onclick="send_otp_email()">Send OTP</button>
       <div id="email_verify" style="display:none;">
@@ -196,13 +196,16 @@
       </div>
     </div>
 
-    <div class="input-group">
+    <div class="input-group ep">
       <span class="textarea-label input-group-text col-sm-2">Address</span>
       <textarea class="form-control" aria-label="Textarea" id="address" name="address" placeholder="Address" style="border-radius: 0.475rem;" required></textarea>
       <div class="invalid-feedback">
         Please enter your address.
       </div>
     </div>
+
+    <input type="hidden" name="latitude" id="latitude" disabled>
+    <input type="hidden" name="longitude" id="longitude" disabled>
 
     <div class="col-md-12" style="margin-top:33px;">
       <div class="form-check">
@@ -223,6 +226,36 @@
     </div>
     
   </form>
+</div>
+
+<div class="modal fade" id="grantLocation" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="grantLocationLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="grantLocationLabel">Permission Required</h5>
+                {% comment %} <button type="button" class="btn-close" data-bs-dismiss="modal"
+                    aria-label="Close"></button> {% endcomment %}
+            </div>
+            <div class="modal-body">
+                <p>As far as this website is concerned, we need access to your location to accurately determine which
+                    stores are nearby your area and to provide you with the best of our services.</p>
+                <p>We are not involved with any kind of third party applications and your location will not be forwarded
+                    to any external sources.</p>
+                <p>This is how you can grant us access to your location</p>
+                <p>Method 1</p>
+                <img src="/static/permission/permission.jpg" alt="Location Access">
+                <p>Look at the top right of your browser, click on the location icon, select Allow and click Done</p>
+                <p>Method 2</p>
+                <p>Click on the i icon on the left side of website's name, toggle the location checkbox and reload the
+                    website</p>
+            </div>
+            {% comment %} <div class="modal-footer"> {% endcomment %}
+                {% comment %} <button type="button" class="btn btn-primary" data-bs-dismiss="modal">I
+                    Understand</button> {% endcomment %}
+                {% comment %} </div> {% endcomment %}
+        </div>
+    </div>
 </div>
 
 {% endblock body %}

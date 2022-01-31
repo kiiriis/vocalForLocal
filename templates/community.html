@@ -14,28 +14,34 @@
 
 <div id='map'></div>
 
-<div class="modal fade" id="grantLocation" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="grantLocationLabel" aria-hidden="true">
-<div class="modal-dialog">
-    <div class="modal-content">
-    <div class="modal-header">
-        <h5 class="modal-title" id="grantLocationLabel">Permission Required</h5>
-        {% comment %} <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> {% endcomment %}
+<div class="modal fade" id="grantLocation" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="grantLocationLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="grantLocationLabel">Permission Required</h5>
+                {% comment %} <button type="button" class="btn-close" data-bs-dismiss="modal"
+                    aria-label="Close"></button> {% endcomment %}
+            </div>
+            <div class="modal-body">
+                <p>As far as this website is concerned, we need access to your location to accurately determine which
+                    stores are nearby your area and to provide you with the best of our services.</p>
+                <p>We are not involved with any kind of third party applications and your location will not be forwarded
+                    to any external sources.</p>
+                <p>This is how you can grant us access to your location</p>
+                <p>Method 1</p>
+                <img src="/static/permission/permission.jpg" alt="Location Access">
+                <p>Look at the top right of your browser, click on the location icon, select Allow and click Done</p>
+                <p>Method 2</p>
+                <p>Click on the i icon on the left side of website's name, toggle the location checkbox and reload the
+                    website</p>
+            </div>
+            {% comment %} <div class="modal-footer"> {% endcomment %}
+                {% comment %} <button type="button" class="btn btn-primary" data-bs-dismiss="modal">I
+                    Understand</button> {% endcomment %}
+                {% comment %} </div> {% endcomment %}
+        </div>
     </div>
-    <div class="modal-body">
-        <p>As far as this website is concerned, we need access to your location to accurately determine which stores are nearby your area and to provide you with the best of our services.</p>
-        <p>We are not involved with any kind of third party applications and your location will not be forwarded to any external sources.</p>
-        <p>This is how you can grant us access to your location</p>
-        <p>Method 1</p>
-        <img src="/static/permission/permission.jpg" alt="Location Access">
-        <p>Look at the top right of your browser, click on the location icon, select Allow and click Done</p>
-        <p>Method 2</p>
-        <p>Click on the i icon on the left side of website's name, toggle the location checkbox and reload the website</p>
-    </div>
-    {% comment %} <div class="modal-footer"> {% endcomment %}
-        {% comment %} <button type="button" class="btn btn-primary" data-bs-dismiss="modal">I Understand</button> {% endcomment %}
-    {% comment %} </div> {% endcomment %}
-    </div>
-</div>
 </div>
 
 {% endblock body %}
@@ -43,6 +49,6 @@
 {% block scripts %}
 <script src="/static/community/community.js"></script>
 <script>
-    setter("{{token}}","{{theme}}");
+    setter("{{token}}", "{{theme}}");
 </script>
 {% endblock scripts %}

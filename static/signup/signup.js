@@ -3,6 +3,33 @@ function validateEmail() {
   return re.test(document.getElementById('email').value);
 }
 
+function getLocation(){
+  if (window.navigator.geolocation) {
+      window.navigator.geolocation.getCurrentPosition(successfulLookup, denial, {enableHighAccuracy: true});
+  }
+}
+
+function successfulLookup(position){
+  const { latitude, longitude } = position.coords;
+  $('#latitude').val(latitude)
+  $('#longitude').val(longitude)
+}
+
+function denial(position){
+  var myModal = new bootstrap.Modal(document.getElementById('grantLocation'), {
+      keyboard: false
+  })
+  myModal.show()
+  setInterval(() => {
+      navigator.permissions.query({name:'geolocation'}).then(function(result) {
+      if (result.state === 'granted') {
+          myModal.hide()
+          getLocation()
+      }
+      });
+  }, 1000);
+}
+
 function setTimer(ele){
   ele.html('01:00')
   ele.prop('disabled',true)
@@ -127,9 +154,12 @@ $('#pass-1').keyup(function(){
     $('#pass-1').removeClass('is-valid')
     $('#pass-1').addClass('is-invalid')
   }
+  if($('#pass-2').val().length > 0){
+    pass2Checker()
+  }
 })
 
-$('#pass-2').keyup(function(){
+function pass2Checker(){
   if($('#pass-2').val() == $('#pass-1').val() && $('#pass-2').val().trim().length>7){
     $('#pass-2').removeClass('is-invalid')
     $('#pass-2').addClass('is-valid')
@@ -138,7 +168,9 @@ $('#pass-2').keyup(function(){
     $('#pass-2').removeClass('is-valid')
     $('#pass-2').addClass('is-invalid')
   }
-})
+}
+
+$('#pass-2').keyup(pass2Checker)
 
 $('#zip').keyup(function(){
   if ($('#zip').val().trim().length>0 && isNaN($('#zip').val() / 1) == false) {
@@ -305,6 +337,16 @@ form.addEventListener('submit', function (event) {
       window.scrollTo(0, 0);
       event.preventDefault()
       event.stopPropagation()
+    }
+    else{
+      event.preventDefault();
+      event.stopPropagation();
+      getLocation()
+      navigator.permissions.query({name:'geolocation'}).then(function(result) {
+        if (result.state === 'granted') {
+            $('#signup_form').submit()
+        }
+      });
     }
 
   // form.classList.add('was-validated')
