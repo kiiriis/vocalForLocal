@@ -164,7 +164,7 @@
       </div>
     </div>
 
-    <div class="input-group mb-3 ep">
+    <div id="email-section" class="input-group mb-3 ep">
       <label for="email" class="col-sm-2 col-form-label">Email</label>
       <input type="email" class="form-control" name="email" id="email" placeholder="xxx@xxx.xxx" aria-label="Recipient's username" aria-describedby="button-addon1">
       <div class="invalid-tooltip">
@@ -173,7 +173,10 @@
       <button type="button" class="outline-btn" id="send_email_otp" onclick="send_otp_email()">Send OTP</button>
       <div id="email_verify" style="display:none;">
         <input type="text" class="form-control" name="otp_email" id="otp_email" placeholder="Enter OTP">
-        <button type="button" class="outline-btn">Verify</button>
+        <div class="invalid-tooltip">
+          Please enter the OTP recieved in this email id.
+        </div>
+        <button type="button" class="outline-btn" id="verify_email">Verify</button>
       </div>
     </div>
 

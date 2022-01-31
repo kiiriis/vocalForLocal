@@ -22,23 +22,58 @@ function rename(ele){
   ele.html('Resend OTP');
 }
 
-let otp;
+function edit_email(){
+  $('#email_editor').remove()
+  $('#email').prop('disabled',false)
+  $('#email').focus()
+}
+
+let otp,userEmail,emailVerified = false,phoneVerified = false,userPhone,ph_otp;
 function send_otp_email(){
   if(validateEmail()){
     $('#email').removeClass('is-invalid');
     $('#email_verify').css('display','flex');
     setTimer($('#send_email_otp'))
+    userEmail = $('#email').val()
     $.ajax({
       type: 'POST',
       url: 'sendEmailOtp',
       data: {
-        email: $('#email').val(),
+        email: userEmail,
         csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
       },
       success: function(data){
+        $('#email').val(userEmail)
         otp = data;
       }
     });
+    $('#verify_email').click(()=>{
+      if($('#otp_email').val() == otp){
+        emailVerified = true;
+        $('#email_verify').remove()
+        $('#send_email_otp').remove()
+        $('#email').addClass('is-valid')
+        $('#email').prop('disabled',true)
+        $('#email-section').append(`<button type="button" class="outline-btn" id="email_editor" onclick="edit_email()"><i class="fas fa-pen"></i></button>`)
+        $('#email').keyup(()=>{
+          emailVerified = false
+          $('#email').removeClass('is-valid');
+          $('#email-section').append(`
+          <button type="button" class="outline-btn" id="send_email_otp" onclick="send_otp_email()">Send OTP</button>
+          <div id="email_verify" style="display:none;">
+          <input type="text" class="form-control" name="otp_email" id="otp_email" placeholder="Enter OTP">
+          <div class="invalid-tooltip">
+            Please enter the OTP recieved in this email id.
+          </div>
+          <button type="button" class="outline-btn" id="verify_email">Verify</button>
+          </div>`)
+          $('#email').unbind('keyup');
+        })
+      }
+      else{
+        $('#otp_email').addClass('is-invalid')
+      }
+    })
   }
   else{
     $('#email').removeClass('is-valid')
@@ -222,6 +257,15 @@ form.addEventListener('submit', function (event) {
         proper = false
         $('#city').removeClass('is-valid')
         $('#city').addClass('is-invalid');
+    }
+
+    // Email or Phone numer
+    if(!(emailVerified || phoneVerified)){
+      $('#email').removeClass('is-valid')
+      $('#phno').removeClass('is-valid')
+      $('#email').addClass('is-invalid')
+      $('#phno').addClass('is-invalid')
+      proper = false
     }
 
     // Zip
