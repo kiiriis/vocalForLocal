@@ -12,6 +12,39 @@
     margin-bottom: 10px;
 }
 
+#send_email_otp.dark:hover{
+    background-color: black!important;
+}
+
+input.dark{
+    background-color: #bdbaba;
+}
+
+select.dark{
+    background-color: #bdbaba;
+}
+
+textarea.dark{
+    background-color: #bdbaba;
+}
+
+label.dark{
+    color: white;
+}
+
+span.dark{
+    background-color: #bdbaba;
+}
+
+.ep span.dark{
+    background-color: transparent;
+    color: white;
+}
+
+button.dark{
+    color: white!important;
+}
+
 .outline-btn{
     padding: calc(0.75rem + 1px) calc(1.5rem + 1px);
     display: inline-block;
@@ -26,7 +59,7 @@
     border: 1px solid transparent;
     border-color: #6c757d;
     font-size: 1.1rem;
-    border-radius: 0.475rem;
+    border-radius: 0.475rem!important;
     transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
 
@@ -67,6 +100,7 @@
     border: none;
     font-size: inherit;
     color: #3f4254;
+    background-color: transparent;
     padding: 0;
 }
 

@@ -55,7 +55,7 @@ function edit_email(){
   $('#email').focus()
 }
 
-let otp,userEmail,emailVerified = false,phoneVerified = false,userPhone,ph_otp;
+let otp,userEmail,emailVerified = false;
 function send_otp_email(){
   if(validateEmail()){
     $('#email').removeClass('is-invalid');
@@ -79,20 +79,25 @@ function send_otp_email(){
         emailVerified = true;
         $('#email_verify').remove()
         $('#send_email_otp').remove()
+        $('#email').removeClass('is-invalid')
         $('#email').addClass('is-valid')
         $('#email').prop('disabled',true)
         $('#email-section').append(`<button type="button" class="outline-btn" id="email_editor" onclick="edit_email()"><i class="fas fa-pen"></i></button>`)
         $('#email').keyup(()=>{
+          let theme = "light";
+          if($('#checkbox').prop('checked')){
+            theme = "dark";
+          }
           emailVerified = false
           $('#email').removeClass('is-valid');
           $('#email-section').append(`
-          <button type="button" class="outline-btn" id="send_email_otp" onclick="send_otp_email()">Send OTP</button>
+          <button type="button" class="outline-btn ${theme} dark-form-handler" id="send_email_otp" onclick="send_otp_email()">Send OTP</button>
           <div id="email_verify" style="display:none;">
-          <input type="text" class="form-control" name="otp_email" id="otp_email" placeholder="Enter OTP">
-          <div class="invalid-tooltip">
-            Please enter the OTP recieved in this email id.
-          </div>
-          <button type="button" class="outline-btn" id="verify_email">Verify</button>
+            <input type="text" class="form-control ${theme} dark-form-handler" name="otp_email" id="otp_email" placeholder="Enter OTP">
+            <div class="invalid-tooltip">
+              Please enter the OTP recieved in this email id.
+            </div>
+            <button type="button" class="outline-btn ${theme} dark-form-handler" id="verify_email">Verify</button>
           </div>`)
           $('#email').unbind('keyup');
         })
@@ -172,16 +177,19 @@ function pass2Checker(){
 
 $('#pass-2').keyup(pass2Checker)
 
-$('#zip').keyup(function(){
-  if ($('#zip').val().trim().length>0 && isNaN($('#zip').val() / 1) == false) {
-    $('#zip').removeClass('is-invalid')
-    $('#zip').addClass('is-valid')
+function numbersOnly(ele){
+  if ($(ele).val().trim().length>0 && isNaN($(ele).val() / 1) == false) {
+      $(ele).removeClass('is-invalid')
+      $(ele).addClass('is-valid')
+  }
+  else{
+      $(ele).removeClass('is-valid')
+      $(ele).addClass('is-invalid')
+  }
 }
-else{
-    $('#zip').removeClass('is-valid')
-    $('#zip').addClass('is-invalid')
-}
-})
+
+$('#zip').keyup(()=>{numbersOnly($('#zip'))});
+$('#phno').keyup(()=>{numbersOnly($('#phno'))});
 
 $('#address').keyup(inputValidator)
 
@@ -291,13 +299,22 @@ form.addEventListener('submit', function (event) {
         $('#city').addClass('is-invalid');
     }
 
-    // Email or Phone numer
-    if(!(emailVerified || phoneVerified)){
+    // Email verified
+    if(!emailVerified){
       $('#email').removeClass('is-valid')
-      $('#phno').removeClass('is-valid')
       $('#email').addClass('is-invalid')
-      $('#phno').addClass('is-invalid')
       proper = false
+    }
+
+    // Phone
+    if ($('#phno').val().trim().length>0 && isNaN($('#phno').val() / 1) == false) {
+        $('#phno').removeClass('is-invalid')
+        $('#phno').addClass('is-valid')
+    }
+    else{
+        proper = false
+        $('#phno').removeClass('is-valid')
+        $('#phno').addClass('is-invalid')
     }
 
     // Zip
@@ -451,3 +468,12 @@ function getCities() {
     }
   })
 }
+
+// Dark form handler --------------------------------------------------------------------------------------------------
+
+let darkElements = $('.dark-form-handler').length
+$('#checkbox').change(function(){
+  for(let i = 0;i<darkElements;i++){
+    document.getElementsByClassName('dark-form-handler')[i].classList.toggle('dark');
+  }
+})

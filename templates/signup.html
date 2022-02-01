@@ -14,7 +14,7 @@
 {% endblock navElements %}
 
 {% block log %}
-<a class="rippler rippler-{{theme}}" href="{% url 'signUp' %}">Already a User?</a>
+<a class="rippler rippler-{{theme}} dark-form-handler" href="{% url 'signUp' %}">Already a User?</a>
 {% endblock log %}
 
 {% block body %}
@@ -64,8 +64,8 @@
       <div class="col-md-8">
         <div class="row">
           <div class="position-relative">
-            <label for="first_name" class="form-label">First name</label>
-            <input type="text" class="form-control" name="first_name" id="first_name" placeholder="First name" required>
+            <label for="first_name" class="form-label {{theme}} dark-form-handler">First name</label>
+            <input type="text" class="form-control {{theme}} dark-form-handler" name="first_name" id="first_name" placeholder="First name" required>
             {% comment %} <div class="valid-tooltip">
               Looks good!
             </div> {% endcomment %}
@@ -73,8 +73,8 @@
         </div>
         <div class="row">
           <div class="position-relative">
-            <label for="last_name" class="form-label">Last name</label>
-            <input type="text" class="form-control" name="last_name" id="last_name" placeholder="Last name" required>
+            <label for="last_name" class="form-label {{theme}} dark-form-handler">Last name</label>
+            <input type="text" class="form-control {{theme}} dark-form-handler" name="last_name" id="last_name" placeholder="Last name" required>
             {% comment %} <div class="valid-tooltip">
               Looks good!
             </div> {% endcomment %}
@@ -85,10 +85,10 @@
 
     <div class="row" style="align-items:flex-end;">
       <div class="position-relative col-md-4">
-        <label for="username" class="form-label">Username</label>
+        <label for="username" class="form-label {{theme}} dark-form-handler">Username</label>
         <div class="input-group has-validation">
           <span class="input-group-text" id="validationTooltipUsernamePrepend">@</span>
-          <input type="text" class="form-control" name="username" id="username"
+          <input type="text" class="form-control {{theme}} dark-form-handler" name="username" id="username"
             aria-describedby="username" required>
           <div class="invalid-tooltip">
             Please choose a unique and valid username.
@@ -96,13 +96,13 @@
         </div>
       </div>
       <div class="col-md-4">
-        <label class="form-label">Type of account :</label>
+        <label class="form-label {{theme}} dark-form-handler">Type of account :</label>
         <div class="input-group">
           <div class="input-group-text">
             <input class="form-check-input mt-0" id="account-p" type="radio" name="account" value="" aria-label="Radio button for following text input" required>
             {% comment %} <div class="invalid-feedback">More example invalid feedback text</div> {% endcomment %}
           </div>
-          <span class="form-control" aria-label="Text input with radio button"><label for="account-p">Private</label></span>
+          <span class="form-control {{theme}} dark-form-handler" aria-label="Text input with radio button"><label for="account-p">Private</label></span>
         </div>
       </div>
       <div class="col-md-4">
@@ -111,16 +111,16 @@
             <input class="form-check-input mt-0" id="account-b" type="radio" name="account" value="" aria-label="Radio button for following text input" required>
             {% comment %} <div class="invalid-feedback">More example invalid feedback text</div> {% endcomment %}
           </div>
-          <span class="form-control" aria-label="Text input with radio button"><label for="account-b">Business</label></span>
+          <span class="form-control {{theme}} dark-form-handler" aria-label="Text input with radio button"><label for="account-b">Business</label></span>
         </div>
       </div>
       
     </div>
     
     <div class="mb-3 row" style="margin-top:20px;">
-      <label for="pass-1" class="col-sm-2 col-form-label">Password</label>
+      <label for="pass-1" class="col-sm-2 col-form-label {{theme}} dark-form-handler">Password</label>
       <div class="col-sm-10" style="position:relative;">
-        <input type="password" class="form-control" name="password" id="pass-1">
+        <input type="password" class="form-control {{theme}} dark-form-handler" name="password" id="pass-1">
         <div class="invalid-tooltip">
           Ensure minimum of 8 characters for maximum security.
         </div>
@@ -128,9 +128,9 @@
     </div>
 
     <div class="mb-3 row">
-      <label for="pass-2" class="col-sm-2 col-form-label">Confirm password</label>
+      <label for="pass-2" class="col-sm-2 col-form-label {{theme}} dark-form-handler">Confirm password</label>
       <div class="col-sm-10" style="position:relative;">
-        <input type="password" class="form-control" id="pass-2">
+        <input type="password" class="form-control {{theme}} dark-form-handler" id="pass-2">
         <div class="invalid-tooltip">
           Make sure the password matches with the one entered above.
         </div>
@@ -140,7 +140,7 @@
     <div class="row">
       <div class="col-md-4">
         <div class="mb-3">
-          <select class="form-select" id="country" name="country" required aria-label="select">
+          <select class="form-select {{theme}} dark-form-handler" id="country" name="country" required aria-label="select">
             <option value="">Country</option>
           </select>
           <div class="invalid-feedback">Choose your country</div>
@@ -148,7 +148,7 @@
       </div>
       <div class="col-md-4">
         <div class="mb-3">
-          <select class="form-select" id="state" name="state" required aria-label="select">
+          <select class="form-select {{theme}} dark-form-handler" id="state" name="state" required aria-label="select">
             <option value="">State</option>
           </select>
           <div class="invalid-feedback">Choose your state</div>
@@ -156,7 +156,7 @@
       </div>
       <div class="col-md-4">
         <div class="mb-3">
-          <select class="form-select" id="city" name="city" required aria-label="select">
+          <select class="form-select {{theme}} dark-form-handler" id="city" name="city" required aria-label="select">
             <option value="">City</option>
           </select>
           <div class="invalid-feedback">Choose your city</div>
@@ -165,31 +165,31 @@
     </div>
 
     <div id="email-section" class="input-group mb-3 ep">
-      <label for="email" class="col-sm-2 col-form-label">Email</label>
-      <input type="email" class="form-control" name="email" id="email" placeholder="xxx@xxx.xxx" aria-label="Recipient's username" aria-describedby="button-addon1">
+      <label for="email" class="col-sm-2 col-form-label {{theme}} dark-form-handler">Email</label>
+      <input type="email" class="form-control {{theme}} dark-form-handler" name="email" id="email" placeholder="xxx@xxx.xxx" aria-label="Recipient's username" aria-describedby="button-addon1">
       <div class="invalid-tooltip">
         Please provide a valid email id and get it verified.
       </div>
-      <button type="button" class="outline-btn" id="send_email_otp" onclick="send_otp_email()">Send OTP</button>
+      <button type="button" class="outline-btn {{theme}} dark-form-handler" id="send_email_otp" onclick="send_otp_email()">Send OTP</button>
       <div id="email_verify" style="display:none;">
-        <input type="text" class="form-control" name="otp_email" id="otp_email" placeholder="Enter OTP">
+        <input type="text" class="form-control {{theme}} dark-form-handler" name="otp_email" id="otp_email" placeholder="Enter OTP">
         <div class="invalid-tooltip">
           Please enter the OTP recieved in this email id.
         </div>
-        <button type="button" class="outline-btn" id="verify_email">Verify</button>
+        <button type="button" class="outline-btn {{theme}} dark-form-handler" id="verify_email">Verify</button>
       </div>
     </div>
 
     <div class="input-group mb-3 ep">
-      <label for="phno" class="col-sm-2 col-form-label">Phone number</label>
-      <input type="tel" class="form-control" name="phno" id="phno" placeholder="xxxxxxxxxx" aria-label="Recipient's username" aria-describedby="button-addon2">
-      <button class="outline-btn" type="button" id="button-addon2">Send OTP</button>
+      <label for="phno" class="col-sm-2 col-form-label {{theme}} dark-form-handler">Phone number</label>
+      <input type="tel" class="form-control {{theme}} dark-form-handler" name="phno" id="phno" placeholder="xxxxxxxxxx" aria-label="Recipient's username" aria-describedby="button-addon2">
+      {% comment %} <button class="outline-btn" type="button" id="button-addon2">Send OTP</button> {% endcomment %}
     </div>
 
     <div class="mb-3 row position-relative">
-      <label for="zip" class="col-sm-2 col-form-label">Zip</label>
+      <label for="zip" class="col-sm-2 col-form-label {{theme}} dark-form-handler">Zip</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" id="zip" name="zip" required>
+        <input type="text" class="form-control {{theme}} dark-form-handler" id="zip" name="zip" required>
         <div class="invalid-tooltip">
           Please provide a valid zip.
         </div>
@@ -197,8 +197,8 @@
     </div>
 
     <div class="input-group ep">
-      <span class="textarea-label input-group-text col-sm-2">Address</span>
-      <textarea class="form-control" aria-label="Textarea" id="address" name="address" placeholder="Address" style="border-radius: 0.475rem;" required></textarea>
+      <span class="textarea-label input-group-text col-sm-2 {{theme}} dark-form-handler">Address</span>
+      <textarea class="form-control {{theme}} dark-form-handler" aria-label="Textarea" id="address" name="address" placeholder="Address" style="border-radius: 0.475rem;" required></textarea>
       <div class="invalid-feedback">
         Please enter your address.
       </div>
@@ -210,7 +210,7 @@
     <div class="col-md-12" style="margin-top:33px;">
       <div class="form-check">
         <input class="form-check-input" type="checkbox" value="" id="agree" required>
-        <label class="form-check-label" for="agree" style="font-size:16px;">
+        <label class="form-check-label {{theme}} dark-form-handler" for="agree" style="font-size:16px;">
           You agree to the terms and conditions of <b>#vocalForLocal</b> and will abide by its rules. Any kind of misbehaviour, threats or unorderly actions can lead to permanent ban of your account.
         </label>
         <div class="invalid-feedback">
@@ -221,7 +221,7 @@
     
     <div class="row mb-15 mt-10" style="justify-content:flex-end;">
       <div class="col-md-2" style="padding:0;">
-        <button class="btn-secondary rippler rippler-{{theme}}" type="submit">Submit form</button>
+        <button class="btn-secondary rippler rippler-{{theme}} dark-form-handler {{theme}} dark-form-handler" type="submit">Submit form</button>
       </div>
     </div>
     
