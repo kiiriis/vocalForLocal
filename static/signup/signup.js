@@ -3,6 +3,11 @@ function validateEmail() {
   return re.test(document.getElementById('email').value);
 }
 
+function validatePhone(){
+  var filter = /^((\+[1-9]{1,4}[ \-]*)|(\([0-9]{2,3}\)[ \-]*)|([0-9]{2,4})[ \-]*)*?[0-9]{3,4}?[ \-]*[0-9]{3,4}?$/;
+  return filter.test(document.getElementById('phno').value);
+}
+
 function getLocation(){
   if (window.navigator.geolocation) {
       window.navigator.geolocation.getCurrentPosition(successfulLookup, denial, {enableHighAccuracy: true});
@@ -188,8 +193,19 @@ function numbersOnly(ele){
   }
 }
 
+function numbersOnly(ele, bool){
+  if (bool) {
+      $(ele).removeClass('is-invalid')
+      $(ele).addClass('is-valid')
+  }
+  else{
+      $(ele).removeClass('is-valid')
+      $(ele).addClass('is-invalid')
+  }
+}
+
 $('#zip').keyup(()=>{numbersOnly($('#zip'))});
-$('#phno').keyup(()=>{numbersOnly($('#phno'))});
+$('#phno').keyup(()=>{numbersOnly($('#phno'),validatePhone())});
 
 $('#address').keyup(inputValidator)
 
@@ -477,3 +493,29 @@ $('#checkbox').change(function(){
     document.getElementsByClassName('dark-form-handler')[i].classList.toggle('dark');
   }
 })
+
+// Private & Business names --------------------------------------------------------------------------------------------------
+
+function name_handlers(){
+  if($('#account-b').prop('checked')){
+    $('#first_name_div label').text("Owner's first name")
+    $('#last_name_div label').text("Owner's last name")
+    $('#username-div label').text("Owner's username")
+    $('#email-section label').text("Owner's email")
+    $('#phno-div label').text("Owner's phone number")
+    $('#zip-div label').text("Owner's zip code")
+    $('#address-div span').text("Owner's address")
+  }
+  else{
+    $('#first_name_div label').text("First name")
+    $('#last_name_div label').text("Last name")
+    $('#username-div label').text("Username")
+    $('#email-section label').text("Email")
+    $('#phno-div label').text("Phone number")
+    $('#zip-div label').text("Zip code")
+    $('#address-div span').text("Address")
+  }
+}
+
+$('#account-p').change(()=>{name_handlers()})
+$('#account-b').change(()=>{name_handlers()})
