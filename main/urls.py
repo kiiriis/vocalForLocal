@@ -10,4 +10,5 @@ urlpatterns = [
     path('logout',views.logoutUser,name="logout"),
     path('signup',views.signUp,name="signUp"),
     path('sendEmailOtp',views.sendEmailOtp,name="sendEmailOtp"),
+    path('unameChecker',views.unameChecker,name="unameChecker"),
 ]

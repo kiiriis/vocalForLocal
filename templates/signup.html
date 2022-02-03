@@ -6,7 +6,7 @@
 <script src="https://preview.keenthemes.com/craft/assets/js/scripts.bundle.js"></script>
 {% endblock cdns %}
 
-{% block title %}{% endblock title %}
+{% block title %}Sign Up | #vocalForLocal{% endblock title %}
 
 
 {% block navElements %}
@@ -21,7 +21,7 @@
 
 <div class="form-container">
 
-  <form class="needs-validation" id="signup_form" method="post" novalidate>
+  <form class="needs-validation" id="signup_form" method="post" novalidate enctype="multipart/form-data">
     {% csrf_token %}
     <div class="row">
       <div class="col-md-4" style="display:flex;justify-content:center;">
@@ -87,8 +87,8 @@
           <span class="input-group-text" id="validationTooltipUsernamePrepend">@</span>
           <input type="text" class="form-control {{theme}} dark-form-handler" name="username" id="username"
             aria-describedby="username" required>
-          <div class="invalid-tooltip">
-            Please choose a unique and valid username.
+          <div class="invalid-tooltip" id="username-tooltip">
+            Please provide a valid username.
           </div>
         </div>
       </div>
@@ -163,7 +163,7 @@
 
     <div id="email-section" class="input-group mb-3 ep">
       <label for="email" class="col-sm-2 col-form-label {{theme}} dark-form-handler">Email</label>
-      <input type="email" class="form-control {{theme}} dark-form-handler" name="email" id="email" placeholder="xxx@xxx.xxx" aria-label="Recipient's username" aria-describedby="button-addon1">
+      <input type="text" class="form-control {{theme}} dark-form-handler" name="email" id="email" placeholder="xxx@xxx.xxx" aria-label="Recipient's username" aria-describedby="button-addon1">
       <div class="invalid-tooltip">
         Please provide a valid email id and get it verified. It won't be shared with any third party applications and you won't recieve any promotional messages, so feel free to verify yourselves!
       </div>
@@ -204,8 +204,8 @@
       </div>
     </div>
 
-    <input type="hidden" name="latitude" id="latitude" disabled>
-    <input type="hidden" name="longitude" id="longitude" disabled>
+    <input type="hidden" name="latitude" id="latitude" />
+    <input type="hidden" name="longitude" id="longitude" />
 
     <div class="col-md-12" style="margin-top:33px;">
       <div class="form-check">
@@ -263,6 +263,6 @@
 {% block scripts %}
 <script src="/static/signup/signup.js"></script>
 <script>
-    setter("{{csc_token}}");
+    setter("{{csc_token}}",`{{csc_email}}`);
 </script>
 {% endblock scripts %}

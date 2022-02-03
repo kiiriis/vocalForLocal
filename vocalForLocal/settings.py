@@ -143,7 +143,7 @@ EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 
 # FOR MEDIA FILES
 
-MEDIA_URL = '/images/'
+MEDIA_URL = '/users/'
 MEDIA_ROOT = BASE_DIR / "static/users"
 
 # Custom user model

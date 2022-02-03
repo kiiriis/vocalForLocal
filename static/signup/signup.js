@@ -60,7 +60,56 @@ function edit_email(){
   $('#email').focus()
 }
 
-let otp,userEmail,emailVerified = false;
+let otp,userEmail,emailVerified = false,unameVerified = false;
+
+$('#username').keyup(()=>{
+  $('#username').removeClass("is-invalid")
+  $('#username').removeClass("is-valid")
+})
+
+$('#username').change(()=>{
+  let val = $('#username').val();
+  let regex = /^[a-z0-9-\\_\\.]{3,20}$/;
+  let multiHyphens = /[-]{2,}/;
+  let multiUnderScores = /[_]{2,}/;
+  let multiDots = /[.]{2,}/;
+  let allSpecials = /^[\\_\\.\\-]+$/g;
+  if(regex.test(val) && !multiHyphens.test(val) && !multiUnderScores.test(val) && !multiDots.test(val) && !allSpecials.test(val)){
+      $.ajax({
+      type: 'POST',
+      url: 'unameChecker',
+      data:{
+        username: val,
+        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+      },
+      success: function(data){
+        if(data == "1"){
+          $('#username-tooltip').text("Username already taken")
+          unameVerified = false
+          $('#username').removeClass('is-valid');
+          $('#username').addClass('is-invalid');
+        }
+        else{
+          unameVerified = true;
+          $('#username').removeClass('is-invalid');
+          $('#username').addClass('is-valid');
+        }
+      }
+    })
+  }
+  else{
+    if(!regex.test(val)){
+      $('#username-tooltip').text("Valid username includes letters from a-z, 0-9, -, _ and a . with minimum length = 3")
+    }
+    else{
+      $('#username-tooltip').text("Multiple special characters not allowed")
+    }
+    unameVerified = false
+    $('#username').removeClass('is-valid');
+    $('#username').addClass('is-invalid');
+  }
+})
+
 function send_otp_email(){
   if(validateEmail()){
     $('#email').removeClass('is-invalid');
@@ -193,7 +242,7 @@ function numbersOnly(ele){
   }
 }
 
-function numbersOnly(ele, bool){
+function numbersOnly2(ele, bool){
   if (bool) {
       $(ele).removeClass('is-invalid')
       $(ele).addClass('is-valid')
@@ -205,12 +254,13 @@ function numbersOnly(ele, bool){
 }
 
 $('#zip').keyup(()=>{numbersOnly($('#zip'))});
-$('#phno').keyup(()=>{numbersOnly($('#phno'),validatePhone())});
+$('#phno').keyup(()=>{numbersOnly2($('#phno'),validatePhone())});
 
 $('#address').keyup(inputValidator)
 
 $('#agree').change(function(){
   if($('#agree').prop('checked')){
+    getLocation();
     $('#agree').removeClass('is-invalid')
     $('#agree').addClass("is-valid")
   }
@@ -355,6 +405,18 @@ form.addEventListener('submit', function (event) {
       $('#address').addClass('is-invalid')
     }
 
+    // Username
+    if(unameVerified){
+      $('#username').removeClass('is-invalid')
+      $('#username').addClass("is-valid")
+    }
+    else{
+      proper = false
+      $('#username-tooltip').text("Please enter a valid username.")
+      $('#username').removeClass('is-valid')
+      $('#username').addClass('is-invalid')
+    }
+
     // Agreement
     if($('#agree').prop('checked')){
       $('#agree').removeClass('is-invalid')
@@ -377,6 +439,7 @@ form.addEventListener('submit', function (event) {
       getLocation()
       navigator.permissions.query({name:'geolocation'}).then(function(result) {
         if (result.state === 'granted') {
+            $('#email').prop('disabled',false);
             $('#signup_form').submit()
         }
       });
@@ -388,10 +451,29 @@ form.addEventListener('submit', function (event) {
 
 // Country, State and City
 
-let auth_token;
+let auth_token,api_token,auth_email;
 
-function setter(val){
+function getToken() {
+  $.ajax({
+    type: 'get',
+    url: 'https://www.universal-tutorial.com/api/getaccesstoken',
+    success: function (data) {
+      api_token = data.auth_token;
+    },
+    error: function (error) {
+      console.log(error);
+    },
+    headers: {
+      "Accept": "application/json",
+      "api-token": auth_token,
+      "user-email": auth_email,
+    }
+  })
+}
+function setter(val,email){
   auth_token = val
+  auth_email = email
+  getToken()
 }
 
 $(document).ready(function(){
@@ -401,25 +483,6 @@ $(document).ready(function(){
   })
   $('#country').change(getStates)
   $('#state').change(getCities)
-})
-
-
-$(document).ready(function () {
-  $.ajax({
-    type: 'get',
-    url: 'https://www.universal-tutorial.com/api/getaccesstoken',
-    success: function (data) {
-      auth_token = data.auth_token;
-    },
-    error: function (error) {
-      console.log(error);
-    },
-    headers: {
-      "Accept": "application/json",
-      "api-token": auth_token,
-      "user-email": "murtazamister1@gmail.com"
-    }
-  })
 })
 
 function getCountries() {
@@ -437,8 +500,8 @@ function getCountries() {
       console.log(error);
     },
     headers: {
-      "Authorization": "Bearer " + auth_token,
-      "Accept": "application/json"
+      "Authorization": "Bearer " + api_token,
+      "Accept": "application/json",
     }
   })
 }
@@ -457,7 +520,7 @@ function getStates() {
       console.log(error);
     },
     headers: {
-      "Authorization": "Bearer " + auth_token,
+      "Authorization": "Bearer " + api_token,
       "Accept": "application/json"
     }
   })
@@ -479,7 +542,7 @@ function getCities() {
       console.log(error);
     },
     headers: {
-      "Authorization": "Bearer " + auth_token,
+      "Authorization": "Bearer " + api_token,
       "Accept": "application/json"
     }
   })
