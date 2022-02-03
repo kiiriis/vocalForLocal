@@ -69,12 +69,11 @@ $('#username').keyup(()=>{
 
 $('#username').change(()=>{
   let val = $('#username').val();
-  let regex = /^[a-z0-9-\\_\\.]{3,20}$/;
+  let regex = /^[a-z0-9-\\_]{3,20}$/;
   let multiHyphens = /[-]{2,}/;
   let multiUnderScores = /[_]{2,}/;
-  let multiDots = /[.]{2,}/;
-  let allSpecials = /^[\\_\\.\\-]+$/g;
-  if(regex.test(val) && !multiHyphens.test(val) && !multiUnderScores.test(val) && !multiDots.test(val) && !allSpecials.test(val)){
+  let allSpecials = /^[\\_\\-]+$/g;
+  if(regex.test(val) && !multiHyphens.test(val) && !multiUnderScores.test(val) && !allSpecials.test(val)){
       $.ajax({
       type: 'POST',
       url: 'unameChecker',
@@ -99,7 +98,7 @@ $('#username').change(()=>{
   }
   else{
     if(!regex.test(val)){
-      $('#username-tooltip').text("Valid username includes letters from a-z, 0-9, -, _ and a . with minimum length = 3")
+      $('#username-tooltip').text("Valid username includes letters from a-z, 0-9, - and _ with minimum length = 3")
     }
     else{
       $('#username-tooltip').text("Multiple special characters not allowed")

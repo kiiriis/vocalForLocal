@@ -18,7 +18,7 @@ class User(AbstractUser):
     latitude = models.FloatField(null=True)
     longitude = models.FloatField(null=True)
     address = models.TextField()
-    display_pic = models.ImageField(null=True, blank=True, default="admin.jpg")
+    display_pic = models.ImageField(null=True, blank=True, default="users/admin.jpg", upload_to="users/")
 
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = []

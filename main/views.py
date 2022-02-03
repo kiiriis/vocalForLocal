@@ -39,8 +39,8 @@ def signUp(request):
     if request.method != "POST":
         return render(request, "signup.html", {'theme':theme,'csc_email':os.getenv('CSC_EMAIL'),'csc_token':os.getenv('CSC_API_TOKEN')})
     else :
-        filepath = request.FILES.get('filepath', False)
-        if not filepath:
+        if request.FILES.get('avatar') == None:
+            print("Here i am")
             u = User(
                 first_name=request.POST['first_name'],
                 last_name=request.POST['last_name'],
@@ -59,8 +59,7 @@ def signUp(request):
             )
         else:
             u = User(
-                # Check if this works!
-                display_pic = request.FILES['avatar'],
+                display_pic = request.FILES.get('avatar'),
                 first_name=request.POST['first_name'],
                 last_name=request.POST['last_name'],
                 username=request.POST['username'],
