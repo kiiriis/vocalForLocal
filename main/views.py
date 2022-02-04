@@ -1,11 +1,10 @@
-from asyncio.windows_events import NULL
 from django.http.response import HttpResponse
 from django.shortcuts import redirect, render
 from django.core.mail import send_mail
 from django.contrib.auth import authenticate, login, logout
 from main.models import User
 from dotenv import load_dotenv
-from main.utility import getTheme
+from main.helper import getTheme
 import os
 
 load_dotenv()
@@ -20,7 +19,7 @@ def community(request):
     return render(request,'community.html',{'theme':theme,'token':os.getenv('MAP_ACCESS_TOKEN')})
 
 def loginUser(request):
-    pass
+    return HttpResponse("Signed Up")
 
 def logoutUser(request):
     if not request.user.is_anonymous:

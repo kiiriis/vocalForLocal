@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from .manager import UserManager
+from main.manager import UserManager
+from main.helper import saveDp
+import os
 
 # Create your models here.
 class User(AbstractUser):
@@ -18,7 +20,7 @@ class User(AbstractUser):
     latitude = models.FloatField(null=True)
     longitude = models.FloatField(null=True)
     address = models.TextField()
-    display_pic = models.ImageField(null=True, blank=True, default="users/admin.jpg", upload_to="users/")
+    display_pic = models.ImageField(null=True, blank=True, default="users/admin.jpg", upload_to=saveDp)
 
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = []

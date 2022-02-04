@@ -1,28 +1,11 @@
-from asyncio.windows_events import NULL
 from django.http.response import HttpResponse
 from django.core.mail import send_mail
 from main.models import User
-import math, random
 from dotenv import load_dotenv
+from main.helper import generateEmailOTP
 import os
 
 load_dotenv()
-
-def getTheme(request):
-    theme = "light"
-    if request.GET.get('isDark'):
-        if request.GET.get('isDark')=="True":
-            theme = "dark"
-    return theme
-
-def generateEmailOTP():
-    digits = os.getenv("DIGITS")
-    OTP = ""
-    otp_size = (int)(os.getenv("OTP_SIZE"))
-    digits_len = (int)(os.getenv("DIGITS_LEN"))
-    for i in range(otp_size) :
-        OTP += digits[(math.floor(random.random() * digits_len))]
-    return OTP
 
 def sendEmailOtp(request):
     email=request.POST["email"]

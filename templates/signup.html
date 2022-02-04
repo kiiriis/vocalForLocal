@@ -21,7 +21,7 @@
 
 <div class="form-container">
 
-  <form class="needs-validation" id="signup_form" method="post" novalidate enctype="multipart/form-data">
+  <form class="needs-validation" action="{% url 'login' %}" id="signup_form" method="post" novalidate enctype="multipart/form-data">
     {% csrf_token %}
     <div class="row">
       <div class="col-md-4" style="display:flex;justify-content:center;">
