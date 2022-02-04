@@ -1,7 +1,8 @@
 from xml.etree.ElementInclude import include
 from django.contrib import admin
 from django.urls import path
-from . import views
+from main import views
+from main import utility
 
 urlpatterns = [
     path('',views.index,name="index"),
@@ -9,6 +10,8 @@ urlpatterns = [
     path('login',views.loginUser,name="login"),
     path('logout',views.logoutUser,name="logout"),
     path('signup',views.signUp,name="signUp"),
-    path('sendEmailOtp',views.sendEmailOtp,name="sendEmailOtp"),
-    path('unameChecker',views.unameChecker,name="unameChecker"),
+    path('sendEmailOtp',utility.sendEmailOtp,name="sendEmailOtp"),
+    path('unameChecker',utility.unameChecker,name="unameChecker"),
+    path('emailChecker',utility.emailChecker,name="emailChecker"),
+    path('phoneChecker',utility.phoneChecker,name="phoneChecker"),
 ]

@@ -1,11 +1,126 @@
+let otp,userEmail,emailVerified = false,unameVerified = false,phoneVerified = false;
+
+function echecker(value) {
+  return $.ajax({
+      type : 'POST',
+      url: 'emailChecker',
+      data:{
+        email : value,
+        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+      }
+    })
+}
+
+function send_otp_email(){
+  $('#email').removeClass('is-invalid');
+  $('#email_verify').css('display','flex');
+  setTimer($('#send_email_otp'))
+  userEmail = $('#email').val()
+  $.ajax({
+    type: 'POST',
+    url: 'sendEmailOtp',
+    data: {
+      email: userEmail,
+      csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+    },
+    success: function(data){
+      $('#email').val(userEmail)
+      otp = data;
+    }
+  });
+  $('#verify_email').click(()=>{
+    if($('#otp_email').val() == otp){
+      emailVerified = true;
+      $('#email_verify').remove()
+      $('#send_email_otp').remove()
+      $('#email').removeClass('is-invalid')
+      $('#email').addClass('is-valid')
+      $('#email').prop('disabled',true)
+      $('#email-section').append(`<button type="button" class="outline-btn" id="email_editor" onclick="edit_email()"><i class="fas fa-pen"></i></button>`)
+      $('#email').keyup(()=>{
+        let theme = "light";
+        if($('#checkbox').prop('checked')){
+          theme = "dark";
+        }
+        emailVerified = false
+        $('#email').removeClass('is-valid');
+        $('#email-section').append(`
+        <button type="button" class="outline-btn {{theme}} dark-form-handler" id="send_email_otp" onclick="validateEmail()">Send OTP</button>
+      <div id="email_verify" style="display:none;">
+        <input type="text" class="form-control {{theme}} dark-form-handler" name="otp_email" id="otp_email" placeholder="Enter OTP">
+        <div class="invalid-tooltip">
+          Please enter the OTP recieved in this email id.
+        </div>
+        <button type="button" class="outline-btn {{theme}} dark-form-handler" id="verify_email">Verify</button>
+      </div>`)
+        $('#email').unbind('keyup');
+      })
+    }
+    else{
+      $('#otp_email').addClass('is-invalid')
+    }
+  })
+}
+
+
+
 function validateEmail() {
-  var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  return re.test(document.getElementById('email').value);
+  let re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  let value = document.getElementById('email').value;
+  if(re.test(value)){
+    $.when(echecker(value)).then(function successHandler(data){
+      if(data==="0"){
+        send_otp_email()
+      }
+      else{
+        $('#email-tooltip').text("Email ID already in use.")
+        $('#email').removeClass('is-valid')
+        $('#email').addClass('is-invalid')
+      }
+    }, function errorHandler(er){
+      console.log(er)
+    })
+  }
+  else{
+    $('#email-tooltip').text("Please provide a valid email id and get it verified. It won't be shared with any third party applications and you won't recieve any promotional messages, so feel free to verify yourselves!")
+    $('#email').removeClass('is-valid')
+    $('#email').addClass('is-invalid')
+  }
 }
 
 function validatePhone(){
+  let ele = $('#phno')
+  let value = document.getElementById('phno').value
   var filter = /^((\+[1-9]{1,4}[ \-]*)|(\([0-9]{2,3}\)[ \-]*)|([0-9]{2,4})[ \-]*)*?[0-9]{3,4}?[ \-]*[0-9]{3,4}?$/;
-  return filter.test(document.getElementById('phno').value);
+  if(filter.test(value)){
+    $.ajax({
+      type : 'POST',
+      url: 'phoneChecker',
+      data:{
+        phno : value,
+        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+      },
+      success: function(data){
+        if(data==="0"){
+          phoneVerified = true;
+          $(ele).removeClass('is-invalid')
+          $(ele).addClass('is-valid')
+        }
+        else{
+          phoneVerified = false;
+          $('#phone-tooltip').text("Phone number already in use.");
+          $(ele).removeClass('is-valid')
+          $(ele).addClass('is-invalid')
+        }
+      }
+    })
+  }
+  else{
+      phoneVerified = false;
+      $('#phone-tooltip').text("Please enter a valid phone number.");
+      $(ele).removeClass('is-valid')
+      $(ele).addClass('is-invalid')
+  }
 }
 
 function getLocation(){
@@ -60,8 +175,6 @@ function edit_email(){
   $('#email').focus()
 }
 
-let otp,userEmail,emailVerified = false,unameVerified = false;
-
 $('#username').keyup(()=>{
   $('#username').removeClass("is-invalid")
   $('#username').removeClass("is-valid")
@@ -108,63 +221,6 @@ $('#username').change(()=>{
     $('#username').addClass('is-invalid');
   }
 })
-
-function send_otp_email(){
-  if(validateEmail()){
-    $('#email').removeClass('is-invalid');
-    $('#email_verify').css('display','flex');
-    setTimer($('#send_email_otp'))
-    userEmail = $('#email').val()
-    $.ajax({
-      type: 'POST',
-      url: 'sendEmailOtp',
-      data: {
-        email: userEmail,
-        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
-      },
-      success: function(data){
-        $('#email').val(userEmail)
-        otp = data;
-      }
-    });
-    $('#verify_email').click(()=>{
-      if($('#otp_email').val() == otp){
-        emailVerified = true;
-        $('#email_verify').remove()
-        $('#send_email_otp').remove()
-        $('#email').removeClass('is-invalid')
-        $('#email').addClass('is-valid')
-        $('#email').prop('disabled',true)
-        $('#email-section').append(`<button type="button" class="outline-btn" id="email_editor" onclick="edit_email()"><i class="fas fa-pen"></i></button>`)
-        $('#email').keyup(()=>{
-          let theme = "light";
-          if($('#checkbox').prop('checked')){
-            theme = "dark";
-          }
-          emailVerified = false
-          $('#email').removeClass('is-valid');
-          $('#email-section').append(`
-          <button type="button" class="outline-btn ${theme} dark-form-handler" id="send_email_otp" onclick="send_otp_email()">Send OTP</button>
-          <div id="email_verify" style="display:none;">
-            <input type="text" class="form-control ${theme} dark-form-handler" name="otp_email" id="otp_email" placeholder="Enter OTP">
-            <div class="invalid-tooltip">
-              Please enter the OTP recieved in this email id.
-            </div>
-            <button type="button" class="outline-btn ${theme} dark-form-handler" id="verify_email">Verify</button>
-          </div>`)
-          $('#email').unbind('keyup');
-        })
-      }
-      else{
-        $('#otp_email').addClass('is-invalid')
-      }
-    })
-  }
-  else{
-    $('#email').removeClass('is-valid')
-    $('#email').addClass('is-invalid')
-  }
-}
 
 function inputValidator(){
   if($(this).val().trim().length){
@@ -241,19 +297,8 @@ function numbersOnly(ele){
   }
 }
 
-function numbersOnly2(ele, bool){
-  if (bool) {
-      $(ele).removeClass('is-invalid')
-      $(ele).addClass('is-valid')
-  }
-  else{
-      $(ele).removeClass('is-valid')
-      $(ele).addClass('is-invalid')
-  }
-}
-
 $('#zip').keyup(()=>{numbersOnly($('#zip'))});
-$('#phno').keyup(()=>{numbersOnly2($('#phno'),validatePhone())});
+$('#phno').change(()=>{validatePhone()});
 
 $('#address').keyup(inputValidator)
 
@@ -372,14 +417,8 @@ form.addEventListener('submit', function (event) {
     }
 
     // Phone
-    if ($('#phno').val().trim().length>0 && isNaN($('#phno').val() / 1) == false) {
-        $('#phno').removeClass('is-invalid')
-        $('#phno').addClass('is-valid')
-    }
-    else{
-        proper = false
-        $('#phno').removeClass('is-valid')
-        $('#phno').addClass('is-invalid')
+    if(!phoneVerified){
+      proper = false;
     }
 
     // Zip

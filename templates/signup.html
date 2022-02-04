@@ -164,10 +164,10 @@
     <div id="email-section" class="input-group mb-3 ep">
       <label for="email" class="col-sm-2 col-form-label {{theme}} dark-form-handler">Email</label>
       <input type="text" class="form-control {{theme}} dark-form-handler" name="email" id="email" placeholder="xxx@xxx.xxx" aria-label="Recipient's username" aria-describedby="button-addon1">
-      <div class="invalid-tooltip">
+      <div class="invalid-tooltip" id="email-tooltip">
         Please provide a valid email id and get it verified. It won't be shared with any third party applications and you won't recieve any promotional messages, so feel free to verify yourselves!
       </div>
-      <button type="button" class="outline-btn {{theme}} dark-form-handler" id="send_email_otp" onclick="send_otp_email()">Send OTP</button>
+      <button type="button" class="outline-btn {{theme}} dark-form-handler" id="send_email_otp" onclick="validateEmail()">Send OTP</button>
       <div id="email_verify" style="display:none;">
         <input type="text" class="form-control {{theme}} dark-form-handler" name="otp_email" id="otp_email" placeholder="Enter OTP">
         <div class="invalid-tooltip">
@@ -180,7 +180,7 @@
     <div class="input-group mb-3 ep" id="phno-div">
       <label for="phno" class="col-sm-2 col-form-label {{theme}} dark-form-handler">Phone number</label>
       <input type="tel" class="form-control {{theme}} dark-form-handler" name="phno" id="phno" placeholder="xxxxxxxxxx" aria-label="Recipient's username" aria-describedby="button-addon2">
-      <div class="invalid-tooltip">
+      <div class="invalid-tooltip" id="phone-tooltip">
         Please enter a valid phone number.
       </div>
       {% comment %} <button class="outline-btn" type="button" id="button-addon2">Send OTP</button> {% endcomment %}
