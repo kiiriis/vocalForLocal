@@ -182,7 +182,7 @@ $('#username').keyup(()=>{
 
 $('#username').change(()=>{
   let val = $('#username').val();
-  let regex = /^[a-z0-9-\\_]{3,20}$/;
+  let regex = /^[a-z0-9-\\_]{3,30}$/;
   let multiHyphens = /[-]{2,}/;
   let multiUnderScores = /[_]{2,}/;
   let allSpecials = /^[\\_\\-]+$/g;
