@@ -46,9 +46,9 @@
                     <div class="righty" style="display: flex;align-items: center;">
                         {% block log %}
                         {% if request.user.is_anonymous %}
-                            <a class="rippler rippler-{{theme}}" href="{% url 'signUp' %}">Login</a>
+                            <a class="rippler rippler-{{theme}}" href="{% url 'login' %}{% if theme == 'dark' %}?isDark=True{% endif %}">Login</a>
                         {% else %}
-                            <a class="rippler rippler-{{theme}}" href="{% url 'logout' %}">Logout</a>
+                            <a class="rippler rippler-{{theme}}" href="{% url 'logout' %}{% if theme == 'dark' %}?isDark=True{% endif %}">Logout</a>
                         {% endif %}
                         {% endblock log %}
                         {% if theme == 'dark' %}
@@ -65,7 +65,7 @@
                 </div>
             </div>
         </nav>
-        <div>
+        <div style="min-height: calc(100vh - 86px - 78px);">
             {% block body %}{% endblock body %}
         </div>
         <footer class="footer-{{theme}}">

@@ -14,14 +14,14 @@
 {% endblock navElements %}
 
 {% block log %}
-<a class="rippler rippler-{{theme}} dark-form-handler" href="{% url 'signUp' %}">Already a User?</a>
+<a class="rippler rippler-{{theme}} dark-form-handler" href="{% url 'login' %}{% if theme == 'dark' %}?isDark=True{% endif %}">Already a User?</a>
 {% endblock log %}
 
 {% block body %}
 
 <div class="form-container">
 
-  <form class="needs-validation" action="{% url 'login' %}" id="signup_form" method="post" novalidate enctype="multipart/form-data">
+  <form class="needs-validation" action="{% url 'signUp' %}" id="signup_form" method="post" novalidate enctype="multipart/form-data">
     {% csrf_token %}
     <div class="row">
       <div class="col-md-4" style="display:flex;justify-content:center;">
@@ -96,7 +96,7 @@
         <label class="form-label {{theme}} dark-form-handler">Type of account :</label>
         <div class="input-group">
           <div class="input-group-text">
-            <input class="form-check-input mt-0 is-valid" id="account-p" type="radio" name="account" value="" aria-label="Radio button for following text input" required checked>
+            <input class="form-check-input mt-0 is-valid" id="account-p" type="radio" name="account" value="private" aria-label="Radio button for following text input" required checked>
             {% comment %} <div class="invalid-feedback">More example invalid feedback text</div> {% endcomment %}
           </div>
           <span class="form-control {{theme}} dark-form-handler" aria-label="Text input with radio button"><label for="account-p">Private</label></span>
@@ -105,7 +105,7 @@
       <div class="col-md-4">
         <div class="input-group">
           <div class="input-group-text">
-            <input class="form-check-input mt-0" id="account-b" type="radio" name="account" value="" aria-label="Radio button for following text input" required>
+            <input class="form-check-input mt-0" id="account-b" type="radio" name="account" value="business" aria-label="Radio button for following text input" required>
             {% comment %} <div class="invalid-feedback">More example invalid feedback text</div> {% endcomment %}
           </div>
           <span class="form-control {{theme}} dark-form-handler" aria-label="Text input with radio button"><label for="account-b">Business</label></span>

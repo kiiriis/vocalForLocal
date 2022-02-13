@@ -1,0 +1,18 @@
+input:focus{
+    box-shadow: none!important;
+}
+#container{
+    width: 75%;
+}
+button .ripple{
+    background: rgba(105, 188, 255, 0.719);
+}
+#fp .ripple{
+    background: rgba(69, 171, 255, 0.774);
+}
+.rippler:focus{
+    box-shadow: none!important;
+}
+.btn-primary{
+    height: 40px;
+}

@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from main.models import User
 from dotenv import load_dotenv
 from main.helper import getTheme
+from django.contrib import messages
 import os
 
 load_dotenv()
@@ -19,7 +20,23 @@ def community(request):
     return render(request,'community.html',{'theme':theme,'token':os.getenv('MAP_ACCESS_TOKEN')})
 
 def loginUser(request):
-    return HttpResponse("Signed Up")
+    theme = getTheme(request)
+    if request.method != "POST":
+        return render(request,'login.html',{'theme':theme})
+    else:
+        if request.method=='POST':
+            username = request.POST['username']
+            password = request.POST['password']
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                print("valid")
+                login(request,user)
+                return redirect('/')
+            else:
+                print("invalid")
+                messages.error(request, "INVALID CREDENTIALS!")
+                return redirect('/login')
+        return redirect('/')
 
 def logoutUser(request):
     if not request.user.is_anonymous:
@@ -31,8 +48,8 @@ def signUp(request):
     if request.method != "POST":
         return render(request, "signup.html", {'theme':theme,'csc_email':os.getenv('CSC_EMAIL'),'csc_token':os.getenv('CSC_API_TOKEN')})
     else :
+        print(request.POST['account'])
         if request.FILES.get('avatar') == None:
-            print("Here i am")
             u = User(
                 first_name=request.POST['first_name'],
                 last_name=request.POST['last_name'],
@@ -69,4 +86,4 @@ def signUp(request):
             )
         u.save()
         # message also
-        return redirect('/loginUser')
+        return redirect('/login')
