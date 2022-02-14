@@ -26,7 +26,7 @@
     <div class="{{theme}}" id="body" style="color:#212529;">
         <nav class="navbar navbar-expand-lg navbar-{{ theme }} bg-{{ theme }}" id="nav" style="transition:0.6s;position: sticky;top: 0;left: 0;">
             <div class="container-fluid">
-                <a class="navbar-brand" href="{% url 'index' %}{% if theme == 'dark' %}?isDark=True{% endif %}"><span class="logo-text">#vocalForLocal</span></a>
+                <a class="vfl navbar-brand" href="{% url 'index' %}{% if theme == 'dark' %}?isDark=True{% endif %}"><span class="logo-text">#vocalForLocal</span></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
@@ -36,19 +36,19 @@
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         {% block navElements %}
                         <li class="nav-item">
-                            <a class="nav-link {% block homActive %}{% endblock homActive %}" aria-current="page" href="{% url 'index' %}{% if theme == 'dark' %}?isDark=True{% endif %}">Home</a>
+                            <a class="vfl nav-link {% block homActive %}{% endblock homActive %}" aria-current="page" href="{% url 'index' %}{% if theme == 'dark' %}?isDark=True{% endif %}">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {% block comActive %}{% endblock comActive %}" href="{% url 'community' %}{% if theme == 'dark' %}?isDark=True{% endif %}">Community</a>
+                            <a class="vfl nav-link {% block comActive %}{% endblock comActive %}" href="{% url 'community' %}{% if theme == 'dark' %}?isDark=True{% endif %}">Community</a>
                         </li>
                         {% endblock navElements %}
                     </ul>
                     <div class="righty" style="display: flex;align-items: center;">
                         {% block log %}
                         {% if request.user.is_anonymous %}
-                            <a class="rippler rippler-{{theme}}" href="{% url 'login' %}{% if theme == 'dark' %}?isDark=True{% endif %}">Login</a>
+                            <a class="vfl rippler rippler-{{theme}}" href="{% url 'login' %}{% if theme == 'dark' %}?isDark=True{% endif %}">Login</a>
                         {% else %}
-                            <a class="rippler rippler-{{theme}}" href="{% url 'logout' %}{% if theme == 'dark' %}?isDark=True{% endif %}">Logout</a>
+                            <a class="vfl rippler rippler-{{theme}}" href="{% url 'logout' %}{% if theme == 'dark' %}?isDark=True{% endif %}">Logout</a>
                         {% endif %}
                         {% endblock log %}
                         {% if theme == 'dark' %}
@@ -99,8 +99,16 @@
             let append = '';
             if($('#checkbox').prop('checked')){
                 append = '?isDark=True'
+                if($('#themeInput').length){
+                    $('#themeInput').val("dark")
+                }
             }
-            $('nav a').each((ind,ele)=>{
+            else{
+                if($('#themeInput').length){
+                    $('#themeInput').val("light")
+                }
+            }
+            $('a.vfl').each((ind,ele)=>{
                 let pos = ele.getAttribute('href').indexOf('?isDark=');
                 let link = ele.getAttribute('href');
                 if(pos!=-1){link = link.slice(0,pos);}

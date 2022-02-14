@@ -1,4 +1,4 @@
-let otp,userEmail,emailVerified = false,unameVerified = false,phoneVerified = false;
+let otp,userEmail,emailVerified = false,unameVerified = false,phoneVerified = false,username;
 
 function echecker(value) {
   return $.ajax({
@@ -31,6 +31,7 @@ function send_otp_email(){
   $('#verify_email').click(()=>{
     if($('#otp_email').val() == otp){
       emailVerified = true;
+      $('#email').val(userEmail)
       $('#email_verify').remove()
       $('#send_email_otp').remove()
       $('#email').removeClass('is-invalid')
@@ -61,8 +62,6 @@ function send_otp_email(){
     }
   })
 }
-
-
 
 function validateEmail() {
   let re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -203,6 +202,7 @@ $('#username').change(()=>{
         }
         else{
           unameVerified = true;
+          username = val;
           $('#username').removeClass('is-invalid');
           $('#username').addClass('is-valid');
         }
@@ -415,6 +415,9 @@ form.addEventListener('submit', function (event) {
       $('#email').addClass('is-invalid')
       proper = false
     }
+    else{
+      $('#email').val(userEmail)
+    }
 
     // Phone
     if(!phoneVerified){
@@ -447,6 +450,7 @@ form.addEventListener('submit', function (event) {
     if(unameVerified){
       $('#username').removeClass('is-invalid')
       $('#username').addClass("is-valid")
+      $('#username').val(username)
     }
     else{
       proper = false

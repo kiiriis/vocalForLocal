@@ -16,3 +16,24 @@ button .ripple{
 .btn-primary{
     height: 40px;
 }
+.message{
+    font-weight: 500;
+}
+.message.error{
+    color:red;
+}
+.message.success{
+    color:green;
+}
+.message.info{
+    color:#cdcd00;
+}
+
+@media screen and (max-width: 600px) {
+    .submit-container{
+        flex-direction: column;
+    }
+    .submit-container a{
+        margin-bottom: 10px;
+    }
+}

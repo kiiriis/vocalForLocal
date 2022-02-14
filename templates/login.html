@@ -13,11 +13,18 @@
 {% endblock navElements %}
 
 {% block log %}
-<a class="rippler rippler-{{theme}} dark-form-handler" href="{% url 'signUp' %}{% if theme == 'dark' %}?isDark=True{% endif %}">Sign Up</a>
+<a class="vfl rippler rippler-{{theme}} dark-form-handler" href="{% url 'signUp' %}{% if theme == 'dark' %}?isDark=True{% endif %}">Sign Up</a>
 {% endblock log %}
 
 {% block body %}
-<div id="container" style="display:flex;justify-content:center;align-items:center;width:100%;padding-top:50px;">
+<div id="container" style="display:flex;flex-direction:column;justify-content:center;align-items:center;width:100%;padding-top:50px;">
+    <div style="margin-bottom:10px;">
+        {% if messages %}
+            {% for message in messages %}
+            <span{% if message.tags %} class="message {{ message.tags }}"{% endif %}>{{ message }}</span>
+            {% endfor %}
+        {% endif %}
+    </div>
     <form class="flex g-3 needs-validation" style="width:35%;" method="post" novalidate>
         {% csrf_token %}
         <div class="position-relative" id="username-div">
@@ -25,7 +32,7 @@
             <div class="input-group has-validation">
                 <span class="input-group-text" id="validationTooltipUsernamePrepend">@</span>
                 <input type="text" class="form-control {{theme}} dark-form-handler" name="username" id="username"
-                    aria-describedby="username" required>
+                    aria-describedby="username" value="{{username}}" required>
                 <div class="invalid-tooltip" id="username-tooltip">
                     Please provide a valid username.
                 </div>
@@ -40,8 +47,9 @@
                 </div>
             </div>
         </div>
-        <div class="mb-15 mt-10" style="display:flex;justify-content:space-between;align-items:center;margin-top:25px;">
-            <a class="rippler rippler-{{theme}} dark-form-handler {{theme}} dark-form-handler" id="fp" style="padding:0;padding-top:3px;width:140px;margin:0;height:30px;color:blue;font-weight:500;" href="#">Forgot password</a>
+        <input type="hidden" name="theme" id="themeInput" value="{{theme}}"/>
+        <div class="mb-15 mt-10 submit-container" style="display:flex;justify-content:space-between;align-items:center;margin-top:25px;">
+            <a class="vfl rippler rippler-{{theme}} dark-form-handler {{theme}} dark-form-handler" id="fp" style="padding:0;padding-top:3px;width:140px;margin:0;height:30px;color:blue;font-weight:500;" href="{% url 'resetPassword' %}{% if theme == 'dark' %}?isDark=True{% endif %}">Forgot password</a>
             <button class="btn-primary rippler rippler-{{theme}} dark-form-handler {{theme}} dark-form-handler" type="submit" style="margin:0;">Login</button>
         </div>
     </form>

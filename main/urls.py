@@ -10,6 +10,7 @@ urlpatterns = [
     path('login',views.loginUser,name="login"),
     path('logout',views.logoutUser,name="logout"),
     path('signup',views.signUp,name="signUp"),
+    path('resetPassword',views.resetPassword,name="resetPassword"),
     path('sendEmailOtp',utility.sendEmailOtp,name="sendEmailOtp"),
     path('unameChecker',utility.unameChecker,name="unameChecker"),
     path('emailChecker',utility.emailChecker,name="emailChecker"),

@@ -15,6 +15,17 @@ def getTheme(request):
             theme = "dark"
     return theme
 
+def redirector(link,theme,*args):
+    adder = ''
+    for arg in args:
+        adder += '&'+arg
+    if(theme == "dark"):
+        return f"{link}?isDark=True"+adder
+    else:
+        if(len(adder)):
+            return f"{link}"+'?'+adder[1:]
+        return link
+
 def generateEmailOTP():
     digits = os.getenv("DIGITS")
     OTP = ""

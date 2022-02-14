@@ -14,7 +14,7 @@
 {% endblock navElements %}
 
 {% block log %}
-<a class="rippler rippler-{{theme}} dark-form-handler" href="{% url 'login' %}{% if theme == 'dark' %}?isDark=True{% endif %}">Already a User?</a>
+<a class="vfl rippler rippler-{{theme}} dark-form-handler" href="{% url 'login' %}{% if theme == 'dark' %}?isDark=True{% endif %}">Already a User?</a>
 {% endblock log %}
 
 {% block body %}
@@ -206,6 +206,7 @@
 
     <input type="hidden" name="latitude" id="latitude" />
     <input type="hidden" name="longitude" id="longitude" />
+    <input type="hidden" name="theme" id="themeInput" value="{{theme}}"/>
 
     <div class="col-md-12" style="margin-top:33px;">
       <div class="form-check">

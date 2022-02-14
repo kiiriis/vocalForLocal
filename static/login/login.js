@@ -1,3 +1,10 @@
+let darkElements = $('.dark-form-handler').length
+$('#checkbox').change(function(){
+  for(let i = 0;i<darkElements;i++){
+    document.getElementsByClassName('dark-form-handler')[i].classList.toggle('dark');
+  }
+})
+
 let form = document.querySelector('.needs-validation')
 
 function unameChecker(){
