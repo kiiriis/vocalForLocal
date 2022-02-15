@@ -1,19 +1,49 @@
 {% extends 'base.html' %}
 
-{% block cdns %}{% endblock cdns %}
+{% block cdns %}
+<link rel="stylesheet" href="/static/dashboard/dashboard.css">
+{% endblock cdns %}
 
-{% block title %}{% endblock title %}
+{% block title %}Dashboard | #vocalForLocal{% endblock title %}
 
+{% block dashActive %}active{% endblock dashActive %}
 
-{% block navElements %}
+{% block body %}
 
-{% block homActive %}{% endblock homActive %}
-{% block comActive %}{% endblock comActive %}
+<div id="dash-container" style="width:100%">
+    <section class="vfl-element {{theme}} dash-section" id="profile">
+        <div class="flex-col">
+            <div class="mt-3 flex-col align-items-center">
+                <img src="/media/{{request.user.display_pic}}" id="user-img" alt="{{request.user.username}}">
+                <span style="font-size:20px;margin-top:10px;margin-bottom:20px;">{{request.user.first_name}} {{request.user.last_name}}</span>
+            </div>
+            <div id="table">
+                <span>Username</span>
+                <span class="value blur">{{request.user.username}}</span>
+                <span>Email ID</span>
+                <span class="value blur">{{request.user.email}}</span>
+                <span>Account type</span>
+                <span class="value blur">{{request.user.account_type | capfirst}}</span>
+                <span>Address</span>
+                <span class="value blur">{% if request.user.city != "none" %}{{request.user.city}},{% endif %} {{request.user.state}}, {{request.user.country}}</span>
+                <span>Phone number</span>
+                <span class="value blur">{{request.user.phone_number}}</span>
+            </div>
+            <div style="display:flex;justify-content:flex-end;">
+                <a id="editProfile" class="vfl rippler rippler-{{theme}}" href="{% url 'editProfile' %}{% if theme == 'dark' %}?isDark=True{% endif %}">Edit profile</a>
+            </div>
+        </div>
+    </section>
+    <section id="mid">
+        <div class="flex-col">
+            <input class="vfl-element {{theme}}" type="text" name="search" id="search" placeholder="Search for your requirements...">
+        </div>
+    </section>
+    <section class="vfl-element {{theme}} dash-section" id="chat">Three</section>
+</div>
 
-{% endblock navElements %}
+{% endblock body %}
 
-{% block log %}{% endblock log %}
-
-{% block body %}{% endblock body %}
-
-{% block scripts %}{% endblock scripts %}
+{% block scripts %}
+<script src="/static/dashboard/dashboard.js"></script>
+{% endblock scripts %}

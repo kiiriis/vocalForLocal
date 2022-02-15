@@ -1,6 +1,9 @@
 import math, random
 import os
 
+def isAnonymous(user):
+    return user.is_anonymous
+
 def saveDp(instance, filename):
     upload_to = "users/"
     ext = filename.split('.')[-1]

@@ -3,8 +3,9 @@ from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate, login, logout
 from main.models import User
 from dotenv import load_dotenv
-from main.helper import getTheme,redirector
+from main.helper import getTheme,redirector,isAnonymous
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required, user_passes_test
 import os
 
 load_dotenv()
@@ -18,6 +19,7 @@ def community(request):
     theme = getTheme(request)
     return render(request,'community.html',{'theme':theme,'token':os.getenv('MAP_ACCESS_TOKEN')})
 
+@user_passes_test(isAnonymous, login_url='/')
 def loginUser(request):
     if request.method != "POST":
         theme = getTheme(request)
@@ -32,7 +34,7 @@ def loginUser(request):
         user = authenticate(username=username, password=password)
         if user is not None:
             login(request,user)
-            return redirect(redirector('/',theme))
+            return redirect(redirector('/dashboard',theme))
         else:
             messages.error(request, "INVALID CREDENTIALS!")
             return redirect(redirector('/login',theme,f'username={username}'))
@@ -51,12 +53,14 @@ def resetPassword(request):
         messages.info(request, "Your password has been reset")
         return redirect(redirector('/login',theme,f'username={u.username}'))
 
+@login_required(login_url='/login')
 def logoutUser(request):
     theme = getTheme(request)
     if not request.user.is_anonymous:
         logout(request)
     return redirect(redirector('/',theme))
 
+@user_passes_test(isAnonymous, login_url='/')
 def signUp(request):
     if request.method != "POST":
         theme = getTheme(request)
@@ -102,3 +106,12 @@ def signUp(request):
         u.save()
         messages.success(request, 'Welcome to #vocalForLocal')
         return redirect(redirector('/login',theme,f'username={request.POST["username"]}'))
+
+@login_required(login_url='/login')
+def dashboard(request):
+    theme = getTheme(request)
+    return render(request,'dashboard.html',{'theme':theme})
+
+@login_required(login_url='/login')
+def editProfile(request):
+    pass

@@ -39,6 +39,9 @@
                             <a class="vfl nav-link {% block homActive %}{% endblock homActive %}" aria-current="page" href="{% url 'index' %}{% if theme == 'dark' %}?isDark=True{% endif %}">Home</a>
                         </li>
                         <li class="nav-item">
+                            <a class="vfl nav-link {% block dashActive %}{% endblock dashActive %}" aria-current="page" href="{% url 'dashboard' %}{% if theme == 'dark' %}?isDark=True{% endif %}">Dashboard</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="vfl nav-link {% block comActive %}{% endblock comActive %}" href="{% url 'community' %}{% if theme == 'dark' %}?isDark=True{% endif %}">Community</a>
                         </li>
                         {% endblock navElements %}

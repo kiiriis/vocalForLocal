@@ -62,6 +62,10 @@ checkbox.addEventListener('change', ()=>{
     $('#body').toggleClass('dark');
     $('.rippler').toggleClass('rippler-light')
     $('.rippler').toggleClass('rippler-dark')
+    Array.from(document.getElementsByClassName('vfl-element')).forEach(ele=>{
+        ele.classList.toggle('dark')
+        ele.classList.toggle('light')
+    })
 })
 
 // Ripple
