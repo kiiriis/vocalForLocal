@@ -28,6 +28,9 @@ button .ripple{
 .message.info{
     color:#cdcd00;
 }
+.submit-container button{
+    margin: 0;
+}
 
 @media screen and (max-width: 600px) {
     .submit-container{
@@ -35,5 +38,10 @@ button .ripple{
     }
     .submit-container a{
         margin-bottom: 10px;
+    }
+    .submit-container button{
+        margin-bottom: 10px;
+        width: 100%;
+        margin-top: 10px;
     }
 }

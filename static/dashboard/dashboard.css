@@ -22,6 +22,9 @@
     width: 97px;
     box-shadow: 8px 8px 33px -10px;
 }
+#user-img.dark{
+    box-shadow: none;
+}
 .blur{
     filter: blur(4px);
     cursor: pointer;
@@ -42,12 +45,9 @@
     font-weight: 500;
 }
 #editProfile{
-    margin: 0;
+    margin: 10px;
     height: auto;
-    width: max-content;
-    margin-top: 10px;
-    margin-bottom: 20px;
-    margin-right: 15px;
+    width: 100%;
     font-size: 14px;
 }
 #search.dark{
@@ -72,7 +72,44 @@
 #search:focus{
     border-bottom: 2px solid #319de9;
 }
+.sep{
+    width:95%;
+}
+.sep.dark{
+    background-color:white;
+}
+.sep.light{
+    background-color:black;
+}
+.fixed{
+    position:fixed;
+    width:calc(100% - 81%);
+}
 
 @media screen and (max-width: 1320px) {
-    
+    .fixed{
+        position: relative;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+    }
+    #dash-container{
+        grid-template-columns: none;
+        display: block;
+    }
+    #table{
+        display: none;
+    }
+    .ep-container{
+        width: 100%;
+    }
+    #editProfile{
+        width: 100%;
+        margin-top: 0px;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+    #profile{
+        height: fit-content;
+    }
 }
