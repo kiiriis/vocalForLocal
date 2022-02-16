@@ -85,6 +85,14 @@
     position:fixed;
     width:calc(100% - 81%);
 }
+.search-results{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+.search-results .card{
+    width: 100%;
+    margin: 20px;
+}
 
 @media screen and (max-width: 1320px) {
     .fixed{
