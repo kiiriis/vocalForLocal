@@ -1,6 +1,7 @@
 #dash-container{
     display: grid;
-    grid-template-columns: 1fr 3fr 1.25fr;
+    /* grid-template-columns: 1fr 3fr 1.25fr; */
+    grid-template-columns: 1fr 4.25fr;
     /* background-color: red; */
     column-gap: 4px;
     min-height: calc(100vh - 86px - 78px);
@@ -87,14 +88,36 @@
 }
 .search-results{
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
 }
 .search-results .card{
     width: 100%;
     margin: 20px;
 }
+#adder-container{
+    padding-left: 35px;
+    display:flex;
+    align-items: flex-start;
+    justify-content:center;
+    flex-direction:column;
+}
+.adder{
+    height: 150px;
+    width: 150px;
+    border: 2px dashed;
+}
+.adder .rippler{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
 @media screen and (max-width: 1320px) {
+    .card{
+        width: 90%!important;
+    }
     .fixed{
         position: relative;
         justify-content: center;
@@ -119,5 +142,8 @@
     }
     #profile{
         height: fit-content;
+    }
+    .search-results{
+        display: block;
     }
 }

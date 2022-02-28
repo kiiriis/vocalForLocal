@@ -1,7 +1,12 @@
+from distutils.command.upload import upload
+from pickle import FALSE
+from tkinter import CASCADE
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from main.manager import UserManager
 from main.helper import saveDp
+from django_mysql.models import ListCharField
+from django.db.models import CharField
 import os
 
 # Create your models here.
@@ -25,3 +30,40 @@ class User(AbstractUser):
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = []
     objects = UserManager()
+
+class Business(models.Model):
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100, unique = True)
+    latitude = models.FloatField(null=True)
+    longitude = models.FloatField(null=True)
+    keywords = ListCharField(
+        base_field = CharField(max_length = 50),
+        size = 10,
+        max_length = (10*51)
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    # Person.objects.create(name='Horatio', post_nominals=['PhD', 'Esq.', 'III'])
+    # Person.objects.filter(post_nominals__contains='PhD')
+    # getting multiple images # https://www.youtube.com/watch?v=Rcly7QHKYps
+
+    def __str__(self):
+        return self.name
+
+class BusinessImage(models.Model):
+    belongs_to = models.ForeignKey(Business,on_delete=models.CASCADE)
+    image = models.ImageField(upload_to = "business/"+str(belongs_to.name)+"/",null=True,blank=True)
+
+class Feedback(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    business = models.ForeignKey(Business, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    class Rating(models.IntegerChoices):
+        star_1 = 1, 'Disappointed'
+        star_2 = 2, 'Unhappy'
+        star_3 = 3, 'Works'
+        star_4 = 4, 'Satisfied'
+        star_5 = 5, 'Delighted'
+    rating = models.PositiveSmallIntegerField(choices=Rating.choices, help_text="How would you rate this business?")
+    description = models.TextField()
+    edited = models.BooleanField(default=FALSE)

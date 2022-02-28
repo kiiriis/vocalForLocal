@@ -114,4 +114,4 @@ def dashboard(request):
 
 @login_required(login_url='/login')
 def editProfile(request):
-    pass
+    return HttpResponse("Coming soon...")
