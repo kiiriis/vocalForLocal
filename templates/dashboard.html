@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="/static/dashboard/dashboard.css">
 {% endblock cdns %}
 
-{% block title %}Dashboard | #vocalForLocal{% endblock title %}
+{% block title %}Business Signup | #vocalForLocal{% endblock title %}
 
 {% block dashActive %}active{% endblock dashActive %}
 
@@ -14,8 +14,10 @@
     <section class="vfl-element {{theme}} dash-section" id="profile">
         <div class="flex-col fixed">
             <div class="mt-3 flex-col align-items-center">
-                <img class="vfl-element {{theme}}" src="/media/{{request.user.display_pic}}" id="user-img" alt="{{request.user.username}}">
-                <span style="font-size:20px;margin-top:10px;margin-bottom:20px;">{{request.user.first_name}} {{request.user.last_name}}</span>
+                <img class="vfl-element {{theme}}" src="/media/{{request.user.display_pic}}" id="user-img"
+                    alt="{{request.user.username}}">
+                <span style="font-size:20px;margin-top:10px;margin-bottom:20px;">{{request.user.first_name}}
+                    {{request.user.last_name}}</span>
             </div>
             <div id="table">
                 <span>Username</span>
@@ -25,70 +27,84 @@
                 <span>Account type</span>
                 <span class="value blur">{{request.user.account_type | capfirst}}</span>
                 <span>Address</span>
-                <span class="value blur">{% if request.user.city != "none" %}{{request.user.city}},{% endif %} {{request.user.state}}, {{request.user.country}}</span>
+                <span class="value blur">{% if request.user.city != "none" %}{{request.user.city}},{% endif %}
+                    {{request.user.state}}, {{request.user.country}}</span>
                 <span>Phone number</span>
                 <span class="value blur">{{request.user.phone_number}}</span>
             </div>
             <div class="ep-container" style="display:flex;justify-content:flex-end;">
-                <a id="editProfile" class="vfl rippler rippler-{{theme}}" href="{% url 'editProfile' %}{% if theme == 'dark' %}?isDark=True{% endif %}">Edit profile</a>
-                {% comment %} <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Toggle right offcanvas</button> {% endcomment %}
-                {% comment %} <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">Enable both scrolling & backdrop</button> {% endcomment %}
+                <a id="editProfile" class="vfl rippler rippler-{{theme}}"
+                    href="{% url 'editProfile' %}{% if theme == 'dark' %}?isDark=True{% endif %}">Edit profile</a>
+                {% comment %} <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Toggle right offcanvas</button> {%
+                endcomment %}
+                {% comment %} <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">Enable both
+                    scrolling & backdrop</button> {% endcomment %}
             </div>
         </div>
     </section>
     <section id="mid">
         <div class="flex-col">
-            <input class="vfl-element {{theme}}" type="text" name="search" id="search" placeholder="Search for your requirements...">
+            <input class="vfl-element {{theme}}" type="text" name="search" id="search"
+                placeholder="Search for your requirements...">
         </div>
         <div id="adder-container">
             {% if request.user.account_type == "business" %}
-                <div class="vfl-element adder">
-                    <a id="addBusiness" class="vfl rippler rippler-{{theme}}" href="{% url 'editProfile' %}{% if theme == 'dark' %}?isDark=True{% endif %}"><i class="far fa-plus" style="font-size:40px;"></i></a>
-                </div>
-                <div>
-                    hi</div>
-                <hr class="vfl-element {{theme}} sep">
+            <div class="vfl-element adder">
+                <a id="addBusiness" class="vfl rippler rippler-{{theme}}"
+                    href="{% url 'businessSignup' %}{% if theme == 'dark' %}?isDark=True{% endif %}"><i
+                        class="far fa-plus" style="font-size:40px;"></i></a>
+            </div>
+            <div>
+                hi</div>
+            <hr class="vfl-element {{theme}} sep">
             {% endif %}
         </div>
         <div class="search-results">
             <div class="card" style="width: 20rem;">
                 <img src="/static/server/empty.jpg" class="card-img-top" alt="...">
                 <div class="card-body">
-                  <h5 class="card-title">Card title</h5>
-                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                  <a href="#" class="btn btn-primary">Go somewhere</a>
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                        card's content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
                 </div>
-              </div>
-              <div class="card" style="width: 20rem;">
+            </div>
+            <div class="card" style="width: 20rem;">
                 <img src="/static/server/empty.jpg" class="card-img-top" alt="...">
                 <div class="card-body">
-                  <h5 class="card-title">Card title</h5>
-                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                  <a href="#" class="btn btn-primary">Go somewhere</a>
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                        card's content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
                 </div>
-              </div>
-              <div class="card" style="width: 20rem;">
+            </div>
+            <div class="card" style="width: 20rem;">
                 <img src="/static/server/empty.jpg" class="card-img-top" alt="...">
                 <div class="card-body">
-                  <h5 class="card-title">Card title</h5>
-                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                  <a href="#" class="btn btn-primary">Go somewhere</a>
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                        card's content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
                 </div>
-              </div>
-              <div class="card" style="width: 20rem;">
+            </div>
+            <div class="card" style="width: 20rem;">
                 <img src="/static/server/empty.jpg" class="card-img-top" alt="...">
                 <div class="card-body">
-                  <h5 class="card-title">Card title</h5>
-                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                  <a href="#" class="btn btn-primary">Go somewhere</a>
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                        card's content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
                 </div>
             </div>
         </div>
     </section>
 
-    
 
-    {% comment %} <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+
+    {% comment %} <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight"
+        aria-labelledby="offcanvasRightLabel">
         <div class="offcanvas-header">
             <h5 id="offcanvasRightLabel">Offcanvas right</h5>
             <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -98,7 +114,8 @@
         </div>
     </div> {% endcomment %}
 
-    <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+    <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasRight"
+        aria-labelledby="offcanvasRightLabel">
         <div class="offcanvas-header">
             <h5 id="offcanvasRightLabel">Offcanvas right</h5>
             <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -108,13 +125,14 @@
         </div>
     </div>
 
-    <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
+    <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions"
+        aria-labelledby="offcanvasWithBothOptionsLabel">
         <div class="offcanvas-header">
-          <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Backdroped with scrolling</h5>
-          <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Backdroped with scrolling</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
-          <p>Try scrolling the rest of the page to see this option in action.</p>
+            <p>Try scrolling the rest of the page to see this option in action.</p>
         </div>
     </div>
 

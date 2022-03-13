@@ -1,0 +1,124 @@
+.form-container {
+  width: 50% !important;
+  margin: auto;
+}
+
+.form-container > input {
+  box-shadow: none !important;
+}
+
+.form-container .row {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+#send_email_otp.dark:hover {
+  background-color: black !important;
+}
+
+input.dark {
+  background-color: #bdbaba;
+}
+
+select.dark {
+  background-color: #bdbaba;
+}
+
+textarea.dark {
+  background-color: #bdbaba;
+}
+
+label.dark {
+  color: white;
+}
+
+span.dark {
+  background-color: #bdbaba;
+}
+
+.ep span.dark {
+  background-color: transparent;
+  color: white;
+}
+
+button.dark {
+  color: white !important;
+}
+
+.outline-btn {
+  padding: calc(0.75rem + 1px) calc(1.5rem + 1px);
+  display: inline-block;
+  font-weight: 500;
+  line-height: 1.5;
+  color: #181c32;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  user-select: none;
+  background-color: transparent !important;
+  border: 1px solid transparent;
+  border-color: #6c757d;
+  font-size: 1.1rem;
+  border-radius: 0.475rem !important;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.outline-btn:hover {
+  background-color: #6c757d !important;
+  color: white;
+}
+
+.btn-secondary.rippler {
+  color: black;
+  background-color: #6c757d2e !important;
+}
+
+.bg-dark {
+  --bs-bg-opacity: 1;
+  background-color: rgba(33, 37, 41, var(--bs-bg-opacity)) !important;
+}
+
+.row {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  align-items: center;
+  justify-content: center;
+}
+
+.row .col-md-12 button {
+  width: 100%;
+  font-weight: 400;
+  font-size: 20px;
+  height: 45px;
+  margin-top: 20px;
+  margin-bottom: 25px;
+  box-shadow: none;
+  background-color: transparent;
+}
+
+.textarea-label {
+  border: none;
+  font-size: inherit;
+  color: #3f4254;
+  background-color: transparent;
+  padding: 0;
+}
+
+/* .ripple.show {
+    -webkit-animation-duration: 2.00s!important;
+    animation-duration: 2.00s!important;
+} */
+
+@media screen and (max-width: 570px) {
+  .ep {
+    display: flex;
+    flex-direction: column;
+  }
+  .ep > input {
+    width: 100% !important;
+  }
+  .ep > textarea {
+    width: 100% !important;
+  }
+}
