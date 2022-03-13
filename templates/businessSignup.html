@@ -9,10 +9,12 @@
 Empty {% endcomment %} {% endblock navElements %} {% block log %}
 <!-- <a class="vfl rippler rippler-{{theme}} dark-form-handler"
   href="{% url 'login' %}{% if theme == 'dark' %}?isDark=True{% endif %}">Already a User?</a> -->
-{% endblock log %} {% block body %}
+{% endblock log %}
+
+{% block body %}
 
 <div class="form-container">
-  <form class="needs-validation" action="{% url 'signUp' %}" id="signup_form" method="POST" novalidate
+  <form class="needs-validation" action="{% url 'businessSignup' %}" id="signup_form" method="POST" novalidate
     enctype="multipart/form-data">
     {% csrf_token %}
     <div class="row">
@@ -100,8 +102,8 @@ Empty {% endcomment %} {% endblock navElements %} {% block log %}
         products here :
         <a href="javascript:void(0)" class="custom-file-container__image-clear" title="Clear Image">&times;</a></label>
       <label class="custom-file-container__custom-file">
-        <input type="file" class="custom-file-container__custom-file__custom-file-input" accept="*" multiple
-          aria-label="Choose File" />
+        <input type="file" name="images" class="custom-file-container__custom-file__custom-file-input" accept="*"
+          multiple aria-label="Choose File" />
         <input type="hidden" name="MAX_FILE_SIZE" value="10485760" />
         <span class="custom-file-container__custom-file__custom-file-control"></span>
       </label>
@@ -179,7 +181,7 @@ Empty {% endcomment %} {% endblock navElements %} {% block log %}
 </div>
 
 {% endblock body %} {% block scripts %}
-<script src="/static/signup/signup.js"></script>
+<script src="/static/business_signup/business_signup.js"></script>
 <script src="https://unpkg.com/file-upload-with-preview@4.1.0/dist/file-upload-with-preview.min.js"></script>
 <script>
   var upload = new FileUploadWithPreview("myUniqueUploadId");

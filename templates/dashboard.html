@@ -22,10 +22,10 @@
             <div id="table">
                 <span>Username</span>
                 <span class="value">{{request.user.username}}</span>
+                <span>Account type</span>
+                <span class="value">{{request.user.account_type | capfirst}}</span>
                 <span>Email ID</span>
                 <span class="value blur">{{request.user.email}}</span>
-                <span>Account type</span>
-                <span class="value blur">{{request.user.account_type | capfirst}}</span>
                 <span>Address</span>
                 <span class="value blur">{% if request.user.city != "none" %}{{request.user.city}},{% endif %}
                     {{request.user.state}}, {{request.user.country}}</span>
@@ -35,12 +35,11 @@
             <div class="ep-container" style="display:flex;justify-content:flex-end;">
                 <a id="editProfile" class="vfl rippler rippler-{{theme}}"
                     href="{% url 'editProfile' %}{% if theme == 'dark' %}?isDark=True{% endif %}">Edit profile</a>
-                {% comment %} <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
-                    data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Toggle right offcanvas</button> {%
-                endcomment %}
-                {% comment %} <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
+                <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Toggle right offcanvas</button>
+                <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
                     data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">Enable both
-                    scrolling & backdrop</button> {% endcomment %}
+                    scrolling & backdrop</button>
             </div>
         </div>
     </section>
@@ -51,7 +50,7 @@
         </div>
         <div id="adder-container">
             {% if request.user.account_type == "business" %}
-            <div class="vfl-element adder">
+            <div class="vfl-element adder {{theme}}">
                 <a id="addBusiness" class="vfl rippler rippler-{{theme}}"
                     href="{% url 'businessSignup' %}{% if theme == 'dark' %}?isDark=True{% endif %}"><i
                         class="far fa-plus" style="font-size:40px;"></i></a>

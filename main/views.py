@@ -132,5 +132,7 @@ def businessSignup(request):
         theme = getTheme(request)
         return render(request, 'businessSignup.html', {'theme': theme})
     else:
-        print("hello")
-        return HttpResponse("You are signed")
+        print("hellow wordl")
+        images = request.FILES.getlist('images')
+        print(images)
+        return redirect("/dashboard")

@@ -10,13 +10,16 @@ from django.db.models import CharField
 import os
 
 # Create your models here.
+
+
 class User(AbstractUser):
     # username
     # first name
     # last name
     # email
     # password
-    account_type = models.CharField(max_length=8,choices=(('private','Private'),('business','Business')),default='private')
+    account_type = models.CharField(max_length=8, choices=(
+        ('private', 'Private'), ('business', 'Business')), default='private')
     country = models.CharField(max_length=50)
     state = models.CharField(max_length=50)
     city = models.CharField(max_length=50, default="none")
@@ -25,21 +28,23 @@ class User(AbstractUser):
     latitude = models.FloatField(null=True)
     longitude = models.FloatField(null=True)
     address = models.TextField()
-    display_pic = models.ImageField(null=True, blank=True, default="users/admin.jpg", upload_to=saveDp)
+    display_pic = models.ImageField(
+        null=True, blank=True, default="users/admin.jpg", upload_to=saveDp)
 
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = []
     objects = UserManager()
 
+
 class Business(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
-    name = models.CharField(max_length=100, unique = True)
+    name = models.CharField(max_length=100, unique=True)
     latitude = models.FloatField(null=True)
     longitude = models.FloatField(null=True)
     keywords = ListCharField(
-        base_field = CharField(max_length = 50),
-        size = 10,
-        max_length = (10*51)
+        base_field=CharField(max_length=50),
+        size=10,
+        max_length=(10*51)
     )
     created_at = models.DateTimeField(auto_now_add=True)
     # Person.objects.create(name='Horatio', post_nominals=['PhD', 'Esq.', 'III'])
@@ -49,21 +54,26 @@ class Business(models.Model):
     def __str__(self):
         return self.name
 
+
 class BusinessImage(models.Model):
-    belongs_to = models.ForeignKey(Business,on_delete=models.CASCADE)
-    image = models.ImageField(upload_to = "business/"+str(belongs_to.name)+"/",null=True,blank=True)
+    belongs_to = models.ForeignKey(Business, on_delete=models.CASCADE)
+    image = models.ImageField(
+        upload_to="businesses/"+str(belongs_to.name)+"/", null=True, blank=True)
+
 
 class Feedback(models.Model):
-    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     business = models.ForeignKey(Business, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
     class Rating(models.IntegerChoices):
         star_1 = 1, 'Disappointed'
         star_2 = 2, 'Unhappy'
         star_3 = 3, 'Works'
         star_4 = 4, 'Satisfied'
         star_5 = 5, 'Delighted'
-    rating = models.PositiveSmallIntegerField(choices=Rating.choices, help_text="How would you rate this business?")
+    rating = models.PositiveSmallIntegerField(
+        choices=Rating.choices, help_text="How would you rate this business?")
     description = models.TextField()
     edited = models.BooleanField(default=FALSE)
