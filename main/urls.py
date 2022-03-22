@@ -13,9 +13,9 @@ urlpatterns = [
     path('dashboard', views.dashboard, name="dashboard"),
     path('editProfile', views.editProfile, name="editProfile"),
     path('resetPassword', views.resetPassword, name="resetPassword"),
+    path('businessSignup', views.businessSignup, name="businessSignup"),
     path('sendEmailOtp', utility.sendEmailOtp, name="sendEmailOtp"),
     path('unameChecker', utility.unameChecker, name="unameChecker"),
     path('emailChecker', utility.emailChecker, name="emailChecker"),
     path('phoneChecker', utility.phoneChecker, name="phoneChecker"),
-    path('businessSingup', views.businessSignup, name="businessSignup")
 ]

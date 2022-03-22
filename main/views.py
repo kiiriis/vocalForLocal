@@ -2,7 +2,7 @@ from unicodedata import name
 from django.http.response import HttpResponse
 from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate, login, logout
-from main.models import User
+from main.models import Business, BusinessImage, User
 from dotenv import load_dotenv
 from main.helper import getTheme, redirector, isAnonymous
 from django.contrib import messages
@@ -21,7 +21,7 @@ def index(request):
 
 def community(request):
     theme = getTheme(request)
-    return render(request, 'community.html', {'theme': theme, 'token': os.getenv('MAP_ACCESS_TOKEN')})
+    return render(request, 'community.html', {'theme': theme, 'token': os.getenv('MAP_ACCESS_TOKEN'), 'businesses': Business.objects.all()})
 
 
 @user_passes_test(isAnonymous, login_url='/')
@@ -126,13 +126,43 @@ def dashboard(request):
 def editProfile(request):
     return HttpResponse("Coming soon...")
 
-
+@login_required(login_url='/login')
 def businessSignup(request):
     if(request.method == "GET"):
         theme = getTheme(request)
-        return render(request, 'businessSignup.html', {'theme': theme})
+        return render(request, 'businessSignup.html', {'theme': theme,'csc_email': os.getenv('CSC_EMAIL'), 'csc_token': os.getenv('CSC_API_TOKEN')})
     else:
-        print("hellow wordl")
+        if request.FILES.get('avatar') == None:
+            b = Business(
+                name=request.POST['business_name'],
+                owner = request.user,
+                country=request.POST['country'],
+                state=request.POST['state'],
+                city=request.POST['city'],
+                email=request.POST['email'],
+                latitude=float(request.POST['latitude']),
+                longitude=float(request.POST['longitude']),
+                keywords = request.POST['keywords'].split(','),
+            )
+        else:
+            b = Business(
+                display_pic=request.FILES.get('avatar'),
+                name=request.POST['business_name'],
+                owner = request.user,
+                country=request.POST['country'],
+                state=request.POST['state'],
+                city=request.POST['city'],
+                email=request.POST['email'],
+                latitude=float(request.POST['latitude']),
+                longitude=float(request.POST['longitude']),
+                keywords = request.POST['keywords'].split(','),
+            )
+        b.save()
         images = request.FILES.getlist('images')
-        print(images)
+        for image in images:
+            bi = BusinessImage.objects.create(belongs_to=b)
+            bi.save()
+            bi.image = image
+            print(image)
+            bi.save()
         return redirect("/dashboard")

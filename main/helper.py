@@ -11,6 +11,16 @@ def saveDp(instance, filename):
         filename = f"{instance.username}.{ext}"
     return os.path.join(upload_to,filename)
 
+def saveBDp(instance, filename):
+    upload_to = f"businesses/{instance.name}"
+    ext = filename.split('.')[-1]
+    filename = f"dp.{ext}"
+    return os.path.join(upload_to,filename)
+
+def saveBImg(instance, filename):
+    upload_to = f"businesses/{instance.belongs_to.name}"
+    return os.path.join(upload_to,filename)
+
 def getTheme(request):
     theme = "light"
     if request.GET.get('isDark'):

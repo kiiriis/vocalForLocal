@@ -1,12 +1,20 @@
-{% extends 'base.html' %} {% block cdns %}
+{% extends 'base.html' %} 
+
+{% block cdns %}
 <link href="https://preview.keenthemes.com/craft/assets/css/style.bundle.css" rel="stylesheet" type="text/css" />
 <!-- Browser -->
 <link rel="stylesheet" type="text/css"
   href="https://unpkg.com/file-upload-with-preview@4.1.0/dist/file-upload-with-preview.min.css" />
 <link rel="stylesheet" href="/static/signup/signup.css" />
 <script src="https://preview.keenthemes.com/craft/assets/js/scripts.bundle.js"></script>
-{% endblock cdns %} {% block title %}Sign Up | #vocalForLocal{% endblock title%} {% block navElements %} {% comment %}
-Empty {% endcomment %} {% endblock navElements %} {% block log %}
+{% endblock cdns %} 
+
+{% block title %}Business Sign Up | #vocalForLocal{% endblock title%} 
+
+{% block navElements %} {% comment %}
+Empty {% endcomment %} {% endblock navElements %} 
+
+{% block log %}
 <!-- <a class="vfl rippler rippler-{{theme}} dark-form-handler"
   href="{% url 'login' %}{% if theme == 'dark' %}?isDark=True{% endif %}">Already a User?</a> -->
 {% endblock log %}
@@ -21,12 +29,12 @@ Empty {% endcomment %} {% endblock navElements %} {% block log %}
       <div class="col-md-4" style="display: flex; justify-content: center">
         <!--begin::Image input-->
         <div class="image-input w-125px h-125px mb-5 mt-2" data-kt-image-input="true" style="
-            background-image: url(/static/server/empty.jpg);
+            background-image: url(/media/businesses/shop.jpg);
             width: fit-content;
             margin: auto;
           ">
           <!--begin::Image preview wrapper-->
-          <div class="image-input-wrapper w-125px h-125px" style="background-image: url(/static/server/empty.jpg)">
+          <div class="image-input-wrapper w-125px h-125px" style="background-image: url(/media/businesses/shop.jpg)">
           </div>
           <!--end::Image preview wrapper-->
 
@@ -62,7 +70,7 @@ Empty {% endcomment %} {% endblock navElements %} {% block log %}
         <div class="row" id="first_name_div">
           <div class="position-relative">
             <label for="business_name" class="form-label {{theme}} dark-form-handler">Business Name</label>
-            <input type="text" class="form-control {{theme}} dark-form-handler" name="first_name" id="business_name"
+            <input type="text" class="form-control {{theme}} dark-form-handler" name="business_name" id="business_name"
               placeholder="Business Name" required />
             {% comment %}
             <div class="valid-tooltip">Looks good!</div>
@@ -80,15 +88,58 @@ Empty {% endcomment %} {% endblock navElements %} {% block log %}
       <textarea class="form-control {{theme}} dark-form-handler" aria-label="Textarea" id="business_description"
         name="business_description" placeholder="About your business" style="border-radius: 0.475rem"
         required></textarea>
-      <div class="invalid-feedback">Please enlighenten us with your business description</div>
+      <div class="invalid-feedback">Please enter something about your business</div>
     </div>
-    <br>
+
+    <div class="row">
+      <div class="col-md-4">
+        <div class="mb-3">
+          <select class="form-select {{theme}} dark-form-handler" id="country" name="country" required aria-label="select">
+            <option value="">Country</option>
+          </select>
+          <div class="invalid-feedback">Choose your country</div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="mb-3">
+          <select class="form-select {{theme}} dark-form-handler" id="state" name="state" required aria-label="select">
+            <option value="">State</option>
+          </select>
+          <div class="invalid-feedback">Choose your state</div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="mb-3">
+          <select class="form-select {{theme}} dark-form-handler" id="city" name="city" required aria-label="select">
+            <option value="">City</option>
+          </select>
+          <div class="invalid-feedback">Choose your city</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="email-section" class="input-group mb-3 ep">
+      <label for="email" class="col-sm-2 col-form-label {{theme}} dark-form-handler">Business Email</label>
+      <input type="text" class="form-control {{theme}} dark-form-handler" name="email" id="email" placeholder="xxx@xxx.xxx" aria-label="Recipient's username" aria-describedby="button-addon1">
+      <div class="invalid-tooltip" id="email-tooltip">
+        Please provide a valid email id and get it verified. It won't be shared with any third party applications and you won't recieve any promotional messages, so feel free to verify yourselves!
+      </div>
+      <button type="button" class="outline-btn {{theme}} dark-form-handler" id="send_email_otp" onclick="validateEmail()">Send OTP</button>
+      <div id="email_verify" style="display:none;">
+        <input type="text" class="form-control {{theme}} dark-form-handler" name="otp_email" id="otp_email" placeholder="Enter OTP">
+        <div class="invalid-tooltip">
+          Please enter the OTP recieved in this email id.
+        </div>
+        <button type="button" class="outline-btn {{theme}} dark-form-handler" id="verify_email">Verify</button>
+      </div>
+    </div>
+
     <div class="input-group ep" id="address-div">
       <span class="textarea-label input-group-text col-sm-2 {{theme}} dark-form-handler">Keywords</span>
       <textarea class="form-control {{theme}} dark-form-handler" aria-label="Textarea" id="keywords" name="keywords"
-        placeholder="Enter comma(,) seperated keywords pertaining to your products" style="border-radius: 0.475rem"
+        placeholder="Enter comma(,) seperated keywords pertaining to your business" style="border-radius: 0.475rem"
         required></textarea>
-      <div class="invalid-feedback">Please enlighenten us with your business description</div>
+      <div class="invalid-feedback">Some keywords that define your business (not more than 25) each not more than of 50 characters</div>
     </div>
 
     <input type="hidden" name="latitude" id="latitude" />
@@ -99,15 +150,15 @@ Empty {% endcomment %} {% endblock navElements %} {% block log %}
 
     <div class="custom-file-container mt-3 " data-upload-id="myUniqueUploadId">
       <label class="textarea-label input-group-text col-sm-2 {{theme}} dark-form-handler">Upload pictures of your
-        products here :
+        products/business here :
         <a href="javascript:void(0)" class="custom-file-container__image-clear" title="Clear Image">&times;</a></label>
       <label class="custom-file-container__custom-file">
         <input type="file" name="images" class="custom-file-container__custom-file__custom-file-input" accept="*"
           multiple aria-label="Choose File" />
         <input type="hidden" name="MAX_FILE_SIZE" value="10485760" />
-        <span class="custom-file-container__custom-file__custom-file-control"></span>
+        <span class="custom-file-container__custom-file__custom-file-control" id="imgs_selector"></span>
       </label>
-      <div class="custom-file-container__image-preview"></div>
+      <div class="custom-file-container__image-preview" id="imgs_container"></div>
     </div>
 
 
@@ -180,13 +231,13 @@ Empty {% endcomment %} {% endblock navElements %} {% block log %}
   </div>
 </div>
 
-{% endblock body %} {% block scripts %}
+{% endblock body %} 
+
+{% block scripts %}
 <script src="/static/business_signup/business_signup.js"></script>
 <script src="https://unpkg.com/file-upload-with-preview@4.1.0/dist/file-upload-with-preview.min.js"></script>
 <script>
-  var upload = new FileUploadWithPreview("myUniqueUploadId");
-</script>
-<script>
   setter("{{csc_token}}", `{{csc_email}}`);
+  var upload = new FileUploadWithPreview("myUniqueUploadId");
 </script>
 {% endblock scripts %}

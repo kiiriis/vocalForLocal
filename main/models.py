@@ -4,7 +4,7 @@ from tkinter import CASCADE
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from main.manager import UserManager
-from main.helper import saveDp
+from main.helper import saveBImg, saveDp, saveBDp
 from django_mysql.models import ListCharField
 from django.db.models import CharField
 import os
@@ -28,8 +28,7 @@ class User(AbstractUser):
     latitude = models.FloatField(null=True)
     longitude = models.FloatField(null=True)
     address = models.TextField()
-    display_pic = models.ImageField(
-        null=True, blank=True, default="users/admin.jpg", upload_to=saveDp)
+    display_pic = models.ImageField(null=True, blank=True, default="users/admin.jpg", upload_to=saveDp)
 
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = []
@@ -37,14 +36,19 @@ class User(AbstractUser):
 
 
 class Business(models.Model):
+    display_pic = models.ImageField(null=True, blank=True, default="businesses/shop.jpg", upload_to=saveBDp)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
-    name = models.CharField(max_length=100, unique=True)
+    name = models.CharField(max_length=100)
+    country = models.CharField(max_length=50, default="none", null=True, blank=True)
+    state = models.CharField(max_length=50, default="none", null=True, blank=True)
+    city = models.CharField(max_length=50, default="none", null=True, blank=True)
+    email = models.EmailField()
     latitude = models.FloatField(null=True)
     longitude = models.FloatField(null=True)
     keywords = ListCharField(
         base_field=CharField(max_length=50),
-        size=10,
-        max_length=(10*51)
+        size=25,
+        max_length=(25*51)
     )
     created_at = models.DateTimeField(auto_now_add=True)
     # Person.objects.create(name='Horatio', post_nominals=['PhD', 'Esq.', 'III'])
@@ -57,8 +61,7 @@ class Business(models.Model):
 
 class BusinessImage(models.Model):
     belongs_to = models.ForeignKey(Business, on_delete=models.CASCADE)
-    image = models.ImageField(
-        upload_to="businesses/"+str(belongs_to.name)+"/", null=True, blank=True)
+    image = models.ImageField(upload_to=saveBImg, null=True, blank=True)
 
 
 class Feedback(models.Model):

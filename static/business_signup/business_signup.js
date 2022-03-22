@@ -1,9 +1,11 @@
+getLocation();
+
 let otp,
   userEmail,
   emailVerified = false,
-  unameVerified = false,
-  phoneVerified = false,
-  username;
+  // unameVerified = false,
+  phoneVerified = false;
+  // username;
 
 function echecker(value) {
   return $.ajax({
@@ -97,39 +99,39 @@ function validateEmail() {
   }
 }
 
-function validatePhone() {
-  let ele = $("#phno");
-  let value = document.getElementById("phno").value;
-  var filter =
-    /^((\+[1-9]{1,4}[ \-]*)|(\([0-9]{2,3}\)[ \-]*)|([0-9]{2,4})[ \-]*)*?[0-9]{3,4}?[ \-]*[0-9]{3,4}?$/;
-  if (filter.test(value)) {
-    $.ajax({
-      type: "POST",
-      url: "phoneChecker",
-      data: {
-        phno: value,
-        csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
-      },
-      success: function (data) {
-        if (data === "0") {
-          phoneVerified = true;
-          $(ele).removeClass("is-invalid");
-          $(ele).addClass("is-valid");
-        } else {
-          phoneVerified = false;
-          $("#phone-tooltip").text("Phone number already in use.");
-          $(ele).removeClass("is-valid");
-          $(ele).addClass("is-invalid");
-        }
-      },
-    });
-  } else {
-    phoneVerified = false;
-    $("#phone-tooltip").text("Please enter a valid phone number.");
-    $(ele).removeClass("is-valid");
-    $(ele).addClass("is-invalid");
-  }
-}
+// function validatePhone() {
+//   let ele = $("#phno");
+//   let value = document.getElementById("phno").value;
+//   var filter =
+//     /^((\+[1-9]{1,4}[ \-]*)|(\([0-9]{2,3}\)[ \-]*)|([0-9]{2,4})[ \-]*)*?[0-9]{3,4}?[ \-]*[0-9]{3,4}?$/;
+//   if (filter.test(value)) {
+//     $.ajax({
+//       type: "POST",
+//       url: "phoneChecker",
+//       data: {
+//         phno: value,
+//         csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+//       },
+//       success: function (data) {
+//         if (data === "0") {
+//           phoneVerified = true;
+//           $(ele).removeClass("is-invalid");
+//           $(ele).addClass("is-valid");
+//         } else {
+//           phoneVerified = false;
+//           $("#phone-tooltip").text("Phone number already in use.");
+//           $(ele).removeClass("is-valid");
+//           $(ele).addClass("is-invalid");
+//         }
+//       },
+//     });
+//   } else {
+//     phoneVerified = false;
+//     $("#phone-tooltip").text("Please enter a valid phone number.");
+//     $(ele).removeClass("is-valid");
+//     $(ele).addClass("is-invalid");
+//   }
+// }
 
 function getLocation() {
   if (window.navigator.geolocation) {
@@ -187,57 +189,57 @@ function edit_email() {
   $("#email").focus();
 }
 
-$("#username").keyup(() => {
-  $("#username").removeClass("is-invalid");
-  $("#username").removeClass("is-valid");
-});
+// $("#username").keyup(() => {
+//   $("#username").removeClass("is-invalid");
+//   $("#username").removeClass("is-valid");
+// });
 
-$("#username").change(() => {
-  let val = $("#username").val();
-  let regex = /^[a-z0-9-\\_]{3,30}$/;
-  let multiHyphens = /[-]{2,}/;
-  let multiUnderScores = /[_]{2,}/;
-  let allSpecials = /^[\\_\\-]+$/g;
-  if (
-    regex.test(val) &&
-    !multiHyphens.test(val) &&
-    !multiUnderScores.test(val) &&
-    !allSpecials.test(val)
-  ) {
-    $.ajax({
-      type: "POST",
-      url: "unameChecker",
-      data: {
-        username: val,
-        csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
-      },
-      success: function (data) {
-        if (data == "1") {
-          $("#username-tooltip").text("Username already taken");
-          unameVerified = false;
-          $("#username").removeClass("is-valid");
-          $("#username").addClass("is-invalid");
-        } else {
-          unameVerified = true;
-          username = val;
-          $("#username").removeClass("is-invalid");
-          $("#username").addClass("is-valid");
-        }
-      },
-    });
-  } else {
-    if (!regex.test(val)) {
-      $("#username-tooltip").text(
-        "Valid username includes letters from a-z, 0-9, - and _ with minimum length = 3"
-      );
-    } else {
-      $("#username-tooltip").text("Multiple special characters not allowed");
-    }
-    unameVerified = false;
-    $("#username").removeClass("is-valid");
-    $("#username").addClass("is-invalid");
-  }
-});
+// $("#username").change(() => {
+//   let val = $("#username").val();
+//   let regex = /^[a-z0-9-\\_]{3,30}$/;
+//   let multiHyphens = /[-]{2,}/;
+//   let multiUnderScores = /[_]{2,}/;
+//   let allSpecials = /^[\\_\\-]+$/g;
+//   if (
+//     regex.test(val) &&
+//     !multiHyphens.test(val) &&
+//     !multiUnderScores.test(val) &&
+//     !allSpecials.test(val)
+//   ) {
+//     $.ajax({
+//       type: "POST",
+//       url: "unameChecker",
+//       data: {
+//         username: val,
+//         csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+//       },
+//       success: function (data) {
+//         if (data == "1") {
+//           $("#username-tooltip").text("Username already taken");
+//           unameVerified = false;
+//           $("#username").removeClass("is-valid");
+//           $("#username").addClass("is-invalid");
+//         } else {
+//           unameVerified = true;
+//           username = val;
+//           $("#username").removeClass("is-invalid");
+//           $("#username").addClass("is-valid");
+//         }
+//       },
+//     });
+//   } else {
+//     if (!regex.test(val)) {
+//       $("#username-tooltip").text(
+//         "Valid username includes letters from a-z, 0-9, - and _ with minimum length = 3"
+//       );
+//     } else {
+//       $("#username-tooltip").text("Multiple special characters not allowed");
+//     }
+//     unameVerified = false;
+//     $("#username").removeClass("is-valid");
+//     $("#username").addClass("is-invalid");
+//   }
+// });
 
 function inputValidator() {
   if ($(this).val().trim().length) {
@@ -249,81 +251,81 @@ function inputValidator() {
   }
 }
 
-$("#first_name").keyup(inputValidator);
+$("#business_name").keyup(inputValidator);
 
-$("#last_name").keyup(inputValidator);
+// $("#last_name").keyup(inputValidator);
 
 $("#country").change(inputValidator);
 $("#state").change(inputValidator);
 $("#city").change(inputValidator);
 
-function radioEvent() {
-  if ($("#account-b").prop("checked") || $("#account-p").prop("checked")) {
-    $("#account-b").removeClass("is-invalid");
-    $("#account-p").removeClass("is-invalid");
-    $("#account-b").addClass("is-valid");
-    $("#account-p").addClass("is-valid");
-  } else {
-    $("#account-b").removeClass("is-valid");
-    $("#account-p").removeClass("is-valid");
-    $("#account-b").addClass("is-invalid");
-    $("#account-p").addClass("is-invalid");
-  }
-}
+// function radioEvent() {
+//   if ($("#account-b").prop("checked") || $("#account-p").prop("checked")) {
+//     $("#account-b").removeClass("is-invalid");
+//     $("#account-p").removeClass("is-invalid");
+//     $("#account-b").addClass("is-valid");
+//     $("#account-p").addClass("is-valid");
+//   } else {
+//     $("#account-b").removeClass("is-valid");
+//     $("#account-p").removeClass("is-valid");
+//     $("#account-b").addClass("is-invalid");
+//     $("#account-p").addClass("is-invalid");
+//   }
+// }
 
-$("#account-b").change(radioEvent);
-$("#account-p").change(radioEvent);
+// $("#account-b").change(radioEvent);
+// $("#account-p").change(radioEvent);
 
-$("#pass-1").keyup(function () {
-  if ($("#pass-1").val().trim().length > 7) {
-    $("#pass-1").removeClass("is-invalid");
-    $("#pass-1").addClass("is-valid");
-  } else {
-    $("#pass-1").removeClass("is-valid");
-    $("#pass-1").addClass("is-invalid");
-  }
-  if ($("#pass-2").val().length > 0) {
-    pass2Checker();
-  }
-});
+// $("#pass-1").keyup(function () {
+//   if ($("#pass-1").val().trim().length > 7) {
+//     $("#pass-1").removeClass("is-invalid");
+//     $("#pass-1").addClass("is-valid");
+//   } else {
+//     $("#pass-1").removeClass("is-valid");
+//     $("#pass-1").addClass("is-invalid");
+//   }
+//   if ($("#pass-2").val().length > 0) {
+//     pass2Checker();
+//   }
+// });
 
-function pass2Checker() {
-  if (
-    $("#pass-2").val() == $("#pass-1").val() &&
-    $("#pass-2").val().trim().length > 7
-  ) {
-    $("#pass-2").removeClass("is-invalid");
-    $("#pass-2").addClass("is-valid");
-  } else {
-    $("#pass-2").removeClass("is-valid");
-    $("#pass-2").addClass("is-invalid");
-  }
-}
+// function pass2Checker() {
+//   if (
+//     $("#pass-2").val() == $("#pass-1").val() &&
+//     $("#pass-2").val().trim().length > 7
+//   ) {
+//     $("#pass-2").removeClass("is-invalid");
+//     $("#pass-2").addClass("is-valid");
+//   } else {
+//     $("#pass-2").removeClass("is-valid");
+//     $("#pass-2").addClass("is-invalid");
+//   }
+// }
 
-$("#pass-2").keyup(pass2Checker);
+// $("#pass-2").keyup(pass2Checker);
 
-function numbersOnly(ele) {
-  if ($(ele).val().trim().length > 0 && isNaN($(ele).val() / 1) == false) {
-    $(ele).removeClass("is-invalid");
-    $(ele).addClass("is-valid");
-  } else {
-    $(ele).removeClass("is-valid");
-    $(ele).addClass("is-invalid");
-  }
-}
+// function numbersOnly(ele) {
+//   if ($(ele).val().trim().length > 0 && isNaN($(ele).val() / 1) == false) {
+//     $(ele).removeClass("is-invalid");
+//     $(ele).addClass("is-valid");
+//   } else {
+//     $(ele).removeClass("is-valid");
+//     $(ele).addClass("is-invalid");
+//   }
+// }
 
-$("#zip").keyup(() => {
-  numbersOnly($("#zip"));
-});
-$("#phno").change(() => {
-  validatePhone();
-});
+// $("#zip").keyup(() => {
+//   numbersOnly($("#zip"));
+// });
+// $("#phno").change(() => {
+//   validatePhone();
+// });
 
-$("#address").keyup(inputValidator);
+$("#keywords").keyup(inputValidator);
+$("#business_description").keyup(inputValidator);
 
 $("#agree").change(function () {
   if ($("#agree").prop("checked")) {
-    getLocation();
     $("#agree").removeClass("is-invalid");
     $("#agree").addClass("is-valid");
   } else {
@@ -339,61 +341,61 @@ form.addEventListener(
   function (event) {
     let proper = true;
 
-    // First Name
-    if ($("#first_name").val().trim().length) {
-      $("#first_name").removeClass("is-invalid");
-      $("#first_name").val($("#first_name").val().trim());
-      $("#first_name").addClass("is-valid");
+    // Business Name
+    if ($("#business_name").val().trim().length) {
+      $("#business_name").removeClass("is-invalid");
+      $("#business_name").val($("#business_name").val().trim());
+      $("#business_name").addClass("is-valid");
     } else {
       proper = false;
-      $("#first_name").removeClass("is-valid");
-      $("#first_name").val("");
-      $("#first_name").addClass("is-invalid");
+      $("#business_name").removeClass("is-valid");
+      $("#business_name").val("");
+      $("#business_name").addClass("is-invalid");
     }
 
     // Last Name
-    if ($("#last_name").val().trim().length) {
-      $("#last_name").removeClass("is-invalid");
-      $("#last_name").val($("#last_name").val().trim());
-      $("#last_name").addClass("is-valid");
-    } else {
-      proper = false;
-      $("#last_name").removeClass("is-valid");
-      $("#last_name").val("");
-      $("#last_name").addClass("is-invalid");
-    }
+    // if ($("#last_name").val().trim().length) {
+    //   $("#last_name").removeClass("is-invalid");
+    //   $("#last_name").val($("#last_name").val().trim());
+    //   $("#last_name").addClass("is-valid");
+    // } else {
+    //   proper = false;
+    //   $("#last_name").removeClass("is-valid");
+    //   $("#last_name").val("");
+    //   $("#last_name").addClass("is-invalid");
+    // }
 
     // Radios
-    if ($("#account-b").prop("checked") || $("#account-p").prop("checked")) {
-      $("#account-b").removeClass("is-invalid");
-      $("#account-p").removeClass("is-invalid");
-      $("#account-b").addClass("is-valid");
-      $("#account-p").addClass("is-valid");
-    } else {
-      proper = false;
-      $("#account-b").removeClass("is-valid");
-      $("#account-p").removeClass("is-valid");
-      $("#account-b").addClass("is-invalid");
-      $("#account-p").addClass("is-invalid");
-    }
+    // if ($("#account-b").prop("checked") || $("#account-p").prop("checked")) {
+    //   $("#account-b").removeClass("is-invalid");
+    //   $("#account-p").removeClass("is-invalid");
+    //   $("#account-b").addClass("is-valid");
+    //   $("#account-p").addClass("is-valid");
+    // } else {
+    //   proper = false;
+    //   $("#account-b").removeClass("is-valid");
+    //   $("#account-p").removeClass("is-valid");
+    //   $("#account-b").addClass("is-invalid");
+    //   $("#account-p").addClass("is-invalid");
+    // }
 
     // Passwords
-    if ($("#pass-1").val().trim().length > 7) {
-      $("#pass-1").removeClass("is-invalid");
-      $("#pass-1").addClass("is-valid");
-      if ($("#pass-2").val() == $("#pass-1").val()) {
-        $("#pass-2").removeClass("is-invalid");
-        $("#pass-2").addClass("is-valid");
-      } else {
-        proper = false;
-        $("#pass-2").removeClass("is-valid");
-        $("#pass-2").addClass("is-invalid");
-      }
-    } else {
-      proper = false;
-      $("#pass-1").removeClass("is-valid");
-      $("#pass-1").addClass("is-invalid");
-    }
+    // if ($("#pass-1").val().trim().length > 7) {
+    //   $("#pass-1").removeClass("is-invalid");
+    //   $("#pass-1").addClass("is-valid");
+    //   if ($("#pass-2").val() == $("#pass-1").val()) {
+    //     $("#pass-2").removeClass("is-invalid");
+    //     $("#pass-2").addClass("is-valid");
+    //   } else {
+    //     proper = false;
+    //     $("#pass-2").removeClass("is-valid");
+    //     $("#pass-2").addClass("is-invalid");
+    //   }
+    // } else {
+    //   proper = false;
+    //   $("#pass-1").removeClass("is-valid");
+    //   $("#pass-1").addClass("is-invalid");
+    // }
 
     // Country, State, City
     if ($("#country").val().length > 0) {
@@ -431,44 +433,71 @@ form.addEventListener(
     }
 
     // Phone
-    if (!phoneVerified) {
-      proper = false;
-    }
+    // if (!phoneVerified) {
+    //   proper = false;
+    // }
 
     // Zip
-    if (
-      $("#zip").val().trim().length > 0 &&
-      isNaN($("#zip").val() / 1) == false
-    ) {
-      $("#zip").removeClass("is-invalid");
-      $("#zip").addClass("is-valid");
-    } else {
-      proper = false;
-      $("#zip").removeClass("is-valid");
-      $("#zip").addClass("is-invalid");
-    }
+    // if (
+    //   $("#zip").val().trim().length > 0 &&
+    //   isNaN($("#zip").val() / 1) == false
+    // ) {
+    //   $("#zip").removeClass("is-invalid");
+    //   $("#zip").addClass("is-valid");
+    // } else {
+    //   proper = false;
+    //   $("#zip").removeClass("is-valid");
+    //   $("#zip").addClass("is-invalid");
+    // }
 
-    // Address
-    if ($("#address").val().trim().length > 0) {
-      $("#address").removeClass("is-invalid");
-      $("#address").addClass("is-valid");
+    // Description
+    if ($("#business_description").val().trim().length > 0) {
+      $("#business_description").removeClass("is-invalid");
+      $("#business_description").addClass("is-valid");
     } else {
       proper = false;
-      $("#address").removeClass("is-valid");
-      $("#address").addClass("is-invalid");
+      $("#business_description").removeClass("is-valid");
+      $("#business_description").addClass("is-invalid");
+    }
+    
+    // Keywords
+    if ($("#keywords").val().trim().length > 0) {
+      let kwds = $('#keywords').val().trim().split(',')
+      if(kwds.length<=25){
+        let tmp = true;
+        for(let i = 0;i<kwds.length;i++){
+          if(kwds[i].length>50){
+            tmp = false;
+            break;
+          }
+        }
+        if(tmp){
+          $("#keywords").removeClass("is-invalid");
+          $("#keywords").addClass("is-valid");
+        }
+        else{
+          proper = false;
+          $("#keywords").removeClass("is-valid");
+          $("#keywords").addClass("is-invalid");
+        }
+      }
+    } else {
+      proper = false;
+      $("#keywords").removeClass("is-valid");
+      $("#keywords").addClass("is-invalid");
     }
 
     // Username
-    if (unameVerified) {
-      $("#username").removeClass("is-invalid");
-      $("#username").addClass("is-valid");
-      $("#username").val(username);
-    } else {
-      proper = false;
-      $("#username-tooltip").text("Please enter a valid username.");
-      $("#username").removeClass("is-valid");
-      $("#username").addClass("is-invalid");
-    }
+    // if (unameVerified) {
+    //   $("#username").removeClass("is-invalid");
+    //   $("#username").addClass("is-valid");
+    //   $("#username").val(username);
+    // } else {
+    //   proper = false;
+    //   $("#username-tooltip").text("Please enter a valid username.");
+    //   $("#username").removeClass("is-valid");
+    //   $("#username").addClass("is-invalid");
+    // }
 
     // Agreement
     if ($("#agree").prop("checked")) {
@@ -478,6 +507,17 @@ form.addEventListener(
       proper = false;
       $("#agree").removeClass("is-valid");
       $("#agree").addClass("is-invalid");
+    }
+
+    // Images handler
+    if($('#imgs_container').children().length > 0){
+      $('#imgs_selector').css("border","2px solid green")
+      $('#imgs_container').css("border","2px solid green")
+    }
+    else{
+      proper = false;
+      $('#imgs_selector').css("border","2px solid red")
+      $('#imgs_container').css("border","2px solid red")
     }
 
     if (!proper) {
@@ -499,9 +539,7 @@ form.addEventListener(
     }
 
     // form.classList.add('was-validated')
-  },
-  false
-);
+  },false);
 
 // Country, State and City
 
@@ -617,33 +655,4 @@ $("#checkbox").change(function () {
       .getElementsByClassName("dark-form-handler")
       [i].classList.toggle("dark");
   }
-});
-
-// Private & Business names --------------------------------------------------------------------------------------------------
-
-function name_handlers() {
-  if ($("#account-b").prop("checked")) {
-    $("#first_name_div label").text("Owner's first name");
-    $("#last_name_div label").text("Owner's last name");
-    $("#username-div label").text("Owner's username");
-    $("#email-section label").text("Owner's email");
-    $("#phno-div label").text("Owner's phone number");
-    $("#zip-div label").text("Owner's zip code");
-    $("#address-div span").text("Owner's address");
-  } else {
-    $("#first_name_div label").text("First name");
-    $("#last_name_div label").text("Last name");
-    $("#username-div label").text("Username");
-    $("#email-section label").text("Email");
-    $("#phno-div label").text("Phone number");
-    $("#zip-div label").text("Zip code");
-    $("#address-div span").text("Address");
-  }
-}
-
-$("#account-p").change(() => {
-  name_handlers();
-});
-$("#account-b").change(() => {
-  name_handlers();
 });
