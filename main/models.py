@@ -36,8 +36,8 @@ class User(AbstractUser):
 
 
 class Business(models.Model):
-    display_pic = models.ImageField(null=True, blank=True, default="businesses/shop.jpg", upload_to=saveBDp)
-    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    display_pic = models.ImageField(null=True, blank=True, default="businesses/shop.png", upload_to=saveBDp)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="owns")
     name = models.CharField(max_length=100)
     country = models.CharField(max_length=50, default="none", null=True, blank=True)
     state = models.CharField(max_length=50, default="none", null=True, blank=True)
@@ -45,6 +45,7 @@ class Business(models.Model):
     email = models.EmailField()
     latitude = models.FloatField(null=True)
     longitude = models.FloatField(null=True)
+    description = models.TextField(max_length=500, blank=False,null=False)
     keywords = ListCharField(
         base_field=CharField(max_length=50),
         size=25,

@@ -11,9 +11,6 @@ import os
 
 load_dotenv()
 
-# Create your views here.
-
-
 def index(request):
     theme = getTheme(request)
     return render(request, 'index.html', {'theme': theme})
@@ -81,7 +78,6 @@ def signUp(request):
                 last_name=request.POST['last_name'],
                 username=request.POST['username'],
                 account_type=request.POST['account'],
-                # password=request.POST['password'],
                 country=request.POST['country'],
                 state=request.POST['state'],
                 city=request.POST['city'],
@@ -99,7 +95,6 @@ def signUp(request):
                 last_name=request.POST['last_name'],
                 username=request.POST['username'],
                 account_type=request.POST['account'],
-                # password=request.POST['password'],
                 country=request.POST['country'],
                 state=request.POST['state'],
                 city=request.POST['city'],
@@ -119,11 +114,13 @@ def signUp(request):
 @login_required(login_url='/login')
 def dashboard(request):
     theme = getTheme(request)
-    return render(request, 'dashboard.html', {'theme': theme})
+    businesses = request.user.owns.all()
+    return render(request, 'dashboard.html', {'theme': theme,'businesses':businesses})
 
 
 @login_required(login_url='/login')
 def editProfile(request):
+    theme = getTheme(request)
     return HttpResponse("Coming soon...")
 
 @login_required(login_url='/login')
@@ -132,6 +129,7 @@ def businessSignup(request):
         theme = getTheme(request)
         return render(request, 'businessSignup.html', {'theme': theme,'csc_email': os.getenv('CSC_EMAIL'), 'csc_token': os.getenv('CSC_API_TOKEN')})
     else:
+        theme = request.POST['theme']
         if request.FILES.get('avatar') == None:
             b = Business(
                 name=request.POST['business_name'],
@@ -142,7 +140,7 @@ def businessSignup(request):
                 email=request.POST['email'],
                 latitude=float(request.POST['latitude']),
                 longitude=float(request.POST['longitude']),
-                keywords = request.POST['keywords'].split(','),
+                description = request.POST['description']
             )
         else:
             b = Business(
@@ -155,8 +153,15 @@ def businessSignup(request):
                 email=request.POST['email'],
                 latitude=float(request.POST['latitude']),
                 longitude=float(request.POST['longitude']),
-                keywords = request.POST['keywords'].split(','),
+                description = request.POST['description']
             )
+        keywords = request.POST['keywords'].split(',')
+        cleanKeywords = []
+        for keys in keywords:
+            if len(keys)>0:
+                cleanKeywords.append(keys)
+        keywords = cleanKeywords.join(',')
+        b.keywords = keywords
         b.save()
         images = request.FILES.getlist('images')
         for image in images:
@@ -165,4 +170,4 @@ def businessSignup(request):
             bi.image = image
             print(image)
             bi.save()
-        return redirect("/dashboard")
+        return redirect(redirector('/dashboard', theme))

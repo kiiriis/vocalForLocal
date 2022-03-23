@@ -55,11 +55,18 @@
                     href="{% url 'businessSignup' %}{% if theme == 'dark' %}?isDark=True{% endif %}"><i
                         class="far fa-plus" style="font-size:40px;"></i></a>
             </div>
-            <div>
-                hi</div>
-            <hr class="vfl-element {{theme}} sep">
+                {% for business in businesses %}
+                    <div class="b-display">
+                        <div> <img class="b-image" src="/media/{{business.display_pic}}" alt="{{business.name}}"> </div>
+                        <div style="margin-left:10px;width:200px;">
+                            <div class="b-heading">{{business.name}}</div>
+                            <div class="b-desc">{{business.description}}</div>
+                        </div>
+                    </div>
+                {% endfor %}
             {% endif %}
         </div>
+        <hr class="vfl-element {{theme}} sep">
         <div class="search-results">
             <div class="card" style="width: 20rem;">
                 <img src="/static/server/empty.jpg" class="card-img-top" alt="...">

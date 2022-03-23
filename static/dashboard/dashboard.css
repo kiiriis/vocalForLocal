@@ -97,9 +97,8 @@
 #adder-container{
     padding-left: 35px;
     display:flex;
-    align-items: flex-start;
-    justify-content:center;
-    flex-direction:column;
+    align-items: center;
+    flex-direction: row;
 }
 .adder{
     height: 150px;
@@ -112,6 +111,30 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+.b-display{
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    margin-left: 20px;
+    border: 2px dashed;
+    padding: 22px;
+}
+.b-display .b-image{
+    height: 100px;
+    width: 100px;
+    border-radius: 20px;
+}
+.b-display .b-heading{
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    font-weight: bold;
+    font-size: 14px;
+}
+.b-display .b-desc{
+    font-size: 8px;
+    height: 75px;
+    overflow: hidden;
 }
 
 @media screen and (max-width: 1320px) {
