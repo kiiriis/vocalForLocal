@@ -115,7 +115,7 @@ def signUp(request):
 def dashboard(request):
     theme = getTheme(request)
     businesses = request.user.owns.all()
-    return render(request, 'dashboard.html', {'theme': theme,'businesses':businesses})
+    return render(request, 'dashboard.html', {'theme': theme,'businesses':businesses,'nob':len(businesses)})
 
 
 @login_required(login_url='/login')
@@ -140,7 +140,7 @@ def businessSignup(request):
                 email=request.POST['email'],
                 latitude=float(request.POST['latitude']),
                 longitude=float(request.POST['longitude']),
-                description = request.POST['description']
+                description = request.POST['business_description']
             )
         else:
             b = Business(
@@ -153,14 +153,15 @@ def businessSignup(request):
                 email=request.POST['email'],
                 latitude=float(request.POST['latitude']),
                 longitude=float(request.POST['longitude']),
-                description = request.POST['description']
+                description = request.POST['business_description']
             )
         keywords = request.POST['keywords'].split(',')
         cleanKeywords = []
         for keys in keywords:
             if len(keys)>0:
                 cleanKeywords.append(keys)
-        keywords = cleanKeywords.join(',')
+        keywords = ","
+        keywords = keywords.join(cleanKeywords)
         b.keywords = keywords
         b.save()
         images = request.FILES.getlist('images')

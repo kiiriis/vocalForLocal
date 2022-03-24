@@ -55,15 +55,51 @@
                     href="{% url 'businessSignup' %}{% if theme == 'dark' %}?isDark=True{% endif %}"><i
                         class="far fa-plus" style="font-size:40px;"></i></a>
             </div>
-                {% for business in businesses %}
-                    <div class="b-display">
-                        <div> <img class="b-image" src="/media/{{business.display_pic}}" alt="{{business.name}}"> </div>
-                        <div style="margin-left:10px;width:200px;">
-                            <div class="b-heading">{{business.name}}</div>
-                            <div class="b-desc">{{business.description}}</div>
-                        </div>
+            {% if nob == 1 %}
+                <div id="b-display">
+                    {% for business in businesses %}
+                        <div class="b-display vfl-element {{theme}}"> 
+                            {% if business.display_pic == "businesses/Anna's Groceries/dp.png" %}
+                            <div> <img class="vfl-element b-image {{theme}}" src="/media/{{business.display_pic}}" alt="{{business.name}}"> </div>
+                            {% else %}
+                            <div> <img class="b-image" src="/media/{{business.display_pic}}" alt="{{business.name}}"> </div>
+                            {% endif %}
+                            <div style="margin-left:10px;width:200px;">
+                                <div class="b-heading">{{business.name}}</div>
+                                <div class="b-desc">{{business.description}}</div>
+                            </div>
+                            </div>
+                    {% endfor %}
+                </div>
+            {% elif nob > 1 %}
+                <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+                    <div id="b-display" class="carousel-inner">
+                            {% for business in businesses %}
+                            <div class="carousel-item">
+                                <div class="b-display vfl-element {{theme}}"> 
+                                    {% if business.display_pic == "businesses/Anna's Groceries/dp.png" %}
+                                    <div> <img class="vfl-element b-image {{theme}}" src="/media/{{business.display_pic}}" alt="{{business.name}}"> </div>
+                                    {% else %}
+                                    <div> <img class="b-image" src="/media/{{business.display_pic}}" alt="{{business.name}}"> </div>
+                                    {% endif %}
+                                    <div style="margin-left:10px;width:200px;">
+                                        <div class="b-heading">{{business.name}}</div>
+                                        <div class="b-desc">{{business.description}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
                     </div>
-                {% endfor %}
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                        <span class="vfl-element c-icon {{theme}} carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next" style="right:-20px;">
+                        <span class="vfl-element c-icon {{theme}} carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            {% endif %}
             {% endif %}
         </div>
         <hr class="vfl-element {{theme}} sep">

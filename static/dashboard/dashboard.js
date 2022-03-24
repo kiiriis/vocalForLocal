@@ -5,3 +5,7 @@ Array.from(blurredEle).forEach(ele => {
         ele.classList.toggle('blur');
     })
 });
+
+$(document).ready(function(){
+    document.querySelector("#b-display").firstElementChild.classList.add("active");
+})

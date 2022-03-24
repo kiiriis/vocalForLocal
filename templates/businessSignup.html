@@ -7,6 +7,7 @@
   href="https://unpkg.com/file-upload-with-preview@4.1.0/dist/file-upload-with-preview.min.css" />
 <link rel="stylesheet" href="/static/signup/signup.css" />
 <script src="https://preview.keenthemes.com/craft/assets/js/scripts.bundle.js"></script>
+<link rel="stylesheet" href="/static/business_signup/business_signup.css">
 {% endblock cdns %} 
 
 {% block title %}Business sign-up | #vocalForLocal{% endblock title%} 
@@ -29,17 +30,17 @@ Empty {% endcomment %} {% endblock navElements %}
       <div class="col-md-4" style="display: flex; justify-content: center">
         <!--begin::Image input-->
         <div class="image-input w-125px h-125px mb-5 mt-2" data-kt-image-input="true" style="
-            background-image: url(/media/businesses/shop.jpg);
+            background-image: url(/media/businesses/shop.png);
             width: fit-content;
             margin: auto;
           ">
           <!--begin::Image preview wrapper-->
-          <div class="image-input-wrapper w-125px h-125px" style="background-image: url(/media/businesses/shop.jpg)">
+          <div class="image-input-wrapper w-125px h-125px vfl-element {{theme}}">
           </div>
           <!--end::Image preview wrapper-->
 
           <!--begin::Edit button-->
-          <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-white shadow"
+          <label id="change-avatar" class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-white shadow"
             data-kt-image-input-action="change" data-bs-toggle="tooltip" data-bs-dismiss="click" title="Change avatar">
             <i class="fas fa-pen"></i>
 
@@ -51,14 +52,14 @@ Empty {% endcomment %} {% endblock navElements %}
           <!--end::Edit button-->
 
           <!--begin::Cancel button-->
-          <span class="btn btn-icon btn-active-color-primary w-25px h-25px bg-white shadow"
+          <span id="cancel-avatar" class="btn btn-icon btn-active-color-primary w-25px h-25px bg-white shadow"
             data-kt-image-input-action="cancel" data-bs-toggle="tooltip" data-bs-dismiss="click" title="Cancel avatar">
             <i class="fas fa-times"></i>
           </span>
           <!--end::Cancel button-->
 
           <!--begin::Remove button-->
-          <span class="btn btn-icon  btn-circle btn-active-color-primary w-25px h-25px bg-white shadow"
+          <span id="remove-avatar" class="btn btn-icon  btn-circle btn-active-color-primary w-25px h-25px bg-white shadow"
             data-kt-image-input-action="remove" data-bs-toggle="tooltip" data-bs-dismiss="click" title="Remove avatar">
             <i class="fas fa-user-times"></i>
           </span>
@@ -80,8 +81,6 @@ Empty {% endcomment %} {% endblock navElements %}
 
       </div>
     </div>
-
-
 
     <div class="input-group ep mt-3" id="address-div">
       <span class="textarea-label input-group-text col-sm-2 {{theme}} dark-form-handler">Description</span>

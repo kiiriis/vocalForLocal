@@ -68,7 +68,7 @@ $(document).ready(function() {
         let map = new mapboxgl.Map({
             container: 'map',
             center: [longitude,latitude],
-            zoom: 5,
+            zoom: 12.5,
             style: (theme=="light")?'mapbox://styles/mapbox/streets-v11':'mapbox://styles/mapbox/dark-v10',
         });
         map.on('idle',function(){
@@ -82,7 +82,7 @@ $(document).ready(function() {
                 map = new mapboxgl.Map({
                     container: 'map',
                     center: [longitude,latitude],
-                    zoom: 5,
+                    zoom: 12.5,
                     style: 'mapbox://styles/mapbox/dark-v10',
                 });
             }
@@ -91,7 +91,7 @@ $(document).ready(function() {
                 map = new mapboxgl.Map({
                     container: 'map',
                     center: [longitude,latitude],
-                    zoom: 5,
+                    zoom: 12.5,
                     style: 'mapbox://styles/mapbox/streets-v11',
                 });
             }

@@ -656,3 +656,31 @@ $("#checkbox").change(function () {
       [i].classList.toggle("dark");
   }
 });
+
+// Image handler
+
+$('#change-avatar').on('click',function(){
+  $('.image-input-wrapper').removeClass('vfl-element')
+  $('.image-input-wrapper').removeClass('dark')
+  $('.image-input-wrapper').removeClass('light')
+})
+
+$('#cancel-avatar').on('click',function(){
+  $('.image-input-wrapper').addClass('vfl-element')
+  if($('#checkbox').prop('checked')){
+    $('.image-input-wrapper').addClass('dark')
+  }
+  else{
+    $('.image-input-wrapper').addClass('light')
+  }
+})
+
+$('#remove-avatar').on('click',function(){
+  $('.image-input-wrapper').addClass('vfl-element')
+  if($('#checkbox').prop('checked')){
+    $('.image-input-wrapper').addClass('dark')
+  }
+  else{
+    $('.image-input-wrapper').addClass('light')
+  }
+})

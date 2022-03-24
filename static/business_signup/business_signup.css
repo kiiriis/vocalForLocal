@@ -105,6 +105,16 @@ button.dark {
   padding: 0;
 }
 
+.image-input-wrapper.dark{
+  background-image: url('/media/businesses/shop.png');
+  background-color: transparent;
+  filter: invert(1);
+}
+
+.image-input-wrapper.light{
+  background-image: url("/media/businesses/shop.png");
+}
+
 /* .ripple.show {
     -webkit-animation-duration: 2.00s!important;
     animation-duration: 2.00s!important;
