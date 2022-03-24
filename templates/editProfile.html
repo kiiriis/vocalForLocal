@@ -1,0 +1,247 @@
+{% extends 'base.html' %}
+
+{% block cdns %}
+<link href="https://preview.keenthemes.com/craft/assets/css/style.bundle.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="/static/editProfile/editProfile.css">
+<script src="https://preview.keenthemes.com/craft/assets/js/scripts.bundle.js"></script>
+{% endblock cdns %}
+
+{% block title %}Sign Up | #vocalForLocal{% endblock title %}
+
+
+{% block navElements %}
+{% comment %} Empty {% endcomment %}
+{% endblock navElements %}
+
+{% block log %}
+<a class="vfl rippler rippler-{{theme}} dark-form-handler" href="{% url 'login' %}{% if theme == 'dark' %}?isDark=True{% endif %}">Already a User?</a>
+{% endblock log %}
+
+{% block body %}
+
+<div class="form-container">
+  <form class="needs-validation" action="{% url 'signUp' %}" id="signup_form" method="post" novalidate enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="row">
+      <div class="col-md-4" style="display:flex;justify-content:center;">
+        <!--begin::Image input-->
+        <div class="image-input image-input-circle w-125px h-125px" data-kt-image-input="true"
+          style="background-image: url(/static/server/empty.jpg); width:fit-content; margin:auto;">
+          <!--begin::Image preview wrapper-->
+          <div class="image-input-wrapper w-125px h-125px" style="background-image: url(/media/{{request.user.display_pic}})">
+          </div>
+          <!--end::Image preview wrapper-->
+
+          <!--begin::Edit button-->
+          <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-white shadow"
+            data-kt-image-input-action="change" data-bs-toggle="tooltip" data-bs-dismiss="click" title="Change avatar">
+            <i class="fas fa-pen"></i>
+
+            <!--begin::Inputs-->
+            <input type="file" name="avatar" accept=".png, .jpg, .jpeg" />
+            <input type="hidden" name="avatar_remove" />
+            <!--end::Inputs-->
+          </label>
+          <!--end::Edit button-->
+
+          <!--begin::Cancel button-->
+          <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-white shadow"
+            data-kt-image-input-action="cancel" data-bs-toggle="tooltip" data-bs-dismiss="click" title="Cancel avatar">
+            <i class="fas fa-times"></i>
+          </span>
+          <!--end::Cancel button-->
+
+          <!--begin::Remove button-->
+          <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-white shadow"
+            data-kt-image-input-action="remove" data-bs-toggle="tooltip" data-bs-dismiss="click" title="Remove avatar">
+            <i class="fas fa-user-times"></i>
+          </span>
+          <!--end::Remove button-->
+        </div>
+        <!--end::Image input-->
+      </div>
+      <div class="col-md-8" id="name-div">
+        <div class="row" id="first_name_div">
+          <div class="position-relative">
+            <label for="first_name" class="form-label {{theme}} dark-form-handler">First name</label>
+            <input value="{{request.user.first_name}}" type="text" class="form-control {{theme}} dark-form-handler" name="first_name" id="first_name" placeholder="First name" required>
+            {% comment %} <div class="valid-tooltip">
+              Looks good!
+            </div> {% endcomment %}
+          </div>
+        </div>
+        <div class="row" id="last_name_div">
+          <div class="position-relative">
+            <label for="last_name" class="form-label {{theme}} dark-form-handler">Last name</label>
+            <input value="{{request.user.last_name}}" type="text" class="form-control {{theme}} dark-form-handler" name="last_name" id="last_name" placeholder="Last name" required>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" style="align-items:flex-end;">
+      <div class="position-relative col-md-4" id="username-div">
+        <label for="username" class="form-label {{theme}} dark-form-handler">Username</label>
+        <div class="input-group has-validation">
+          <span class="input-group-text" id="validationTooltipUsernamePrepend">@</span>
+          <input value="{{request.user.username}}" type="text" class="form-control {{theme}} dark-form-handler" name="username" id="username"
+            aria-describedby="username" required>
+          <div class="invalid-tooltip" id="username-tooltip">
+            Please provide a valid username.
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label {{theme}} dark-form-handler">Type of account :</label>
+        <div class="input-group">
+          <div class="input-group-text">
+            {% if request.user.account_type == "private" %}
+                <input class="form-check-input mt-0 is-valid" id="account-p" type="radio" name="account" value="private" aria-label="Radio button for following text input" required checked>
+            {% else %}
+                <input class="form-check-input mt-0 is-valid" id="account-p" type="radio" name="account" value="private" aria-label="Radio button for following text input" required>
+            {% endif %}
+          </div>
+          <span class="form-control {{theme}} dark-form-handler" aria-label="Text input with radio button"><label for="account-p">Private</label></span>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="input-group">
+          <div class="input-group-text">
+            {% if request.user.account_type == "business" %}
+                <input checked class="form-check-input mt-0" id="account-b" type="radio" name="account" value="business" aria-label="Radio button for following text input" required>
+            {% else %}
+                <input class="form-check-input mt-0" id="account-b" type="radio" name="account" value="business" aria-label="Radio button for following text input" required>
+            {% endif %}
+          </div>
+          <span class="form-control {{theme}} dark-form-handler" aria-label="Text input with radio button"><label for="account-b">Business</label></span>
+        </div>
+      </div>
+      
+    </div>
+    
+    <div class="row">
+      <div class="col-md-4">
+        <div class="mb-3">
+          <select class="form-select {{theme}} dark-form-handler" id="country" name="country" required aria-label="select">
+            <option value="{{request.user.country}}">{{request.user.country}}</option>
+          </select>
+          <div class="invalid-feedback">Choose your country</div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="mb-3">
+          <select class="form-select {{theme}} dark-form-handler" id="state" name="state" required aria-label="select">
+            <option value="{{request.user.state}}">{{request.user.state}}</option>
+          </select>
+          <div class="invalid-feedback">Choose your state</div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="mb-3">
+          <select class="form-select {{theme}} dark-form-handler" id="city" name="city" required aria-label="select">
+            <option value="{{request.user.city}}">{{request.user.city}}</option>
+          </select>
+          <div class="invalid-feedback">Choose your city</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="email-section" class="input-group mb-3 ep">
+      <label for="email" class="col-sm-2 col-form-label {{theme}} dark-form-handler">Email</label>
+      <input value="{{request.user.email}}" type="text" class="form-control {{theme}} dark-form-handler" name="email" id="email" placeholder="xxx@xxx.xxx" aria-label="Recipient's username" aria-describedby="button-addon1">
+      <div class="invalid-tooltip" id="email-tooltip">
+        Please provide a valid email id and get it verified. It won't be shared with any third party applications and you won't recieve any promotional messages, so feel free to verify yourselves!
+      </div>
+      <button type="button" class="outline-btn" id="email_editor" onclick="edit_email()"><i class="fas fa-pen"></i></button>
+    </div>
+
+    <div class="input-group mb-3 ep" id="phno-div">
+      <label for="phno" class="col-sm-2 col-form-label {{theme}} dark-form-handler">Phone number</label>
+      <input value="{{request.user.phone_number}}" type="tel" class="form-control {{theme}} dark-form-handler" name="phno" id="phno" placeholder="xxxxxxxxxx" aria-label="Recipient's username" aria-describedby="button-addon2">
+      <div class="invalid-tooltip" id="phone-tooltip">
+        Please enter a valid phone number.
+      </div>
+      {% comment %} <button class="outline-btn" type="button" id="button-addon2">Send OTP</button> {% endcomment %}
+    </div>
+
+    <div class="mb-3 row position-relative" id="zip-div">
+      <label for="zip" class="col-sm-2 col-form-label {{theme}} dark-form-handler">Zip Code</label>
+      <div class="col-sm-10">
+        <input value="{{request.user.zip}}" type="text" class="form-control {{theme}} dark-form-handler" id="zip" name="zip" required>
+        <div class="invalid-tooltip">
+          Please provide a valid zip.
+        </div>
+      </div>
+    </div>
+
+    <div class="input-group ep" id="address-div">
+      <span class="textarea-label input-group-text col-sm-2 {{theme}} dark-form-handler">Address</span>
+      <textarea class="form-control {{theme}} dark-form-handler" aria-label="Textarea" id="address" name="address" placeholder="Address" style="border-radius: 0.475rem;" required>{{request.user.address}}</textarea>
+      <div class="invalid-feedback">
+        Please enter your address.
+      </div>
+    </div>
+
+    <input type="hidden" name="latitude" id="latitude" />
+    <input type="hidden" name="longitude" id="longitude" />
+    <input type="hidden" name="theme" id="themeInput" value="{{theme}}"/>
+
+    <div class="col-md-12" style="margin-top:33px;">
+      <div class="form-check">
+        <input class="form-check-input" style="box-shadow:none;" type="checkbox" value="" id="agree" required>
+        <label class="form-check-label {{theme}} dark-form-handler" for="agree" style="font-size:16px;">
+          You agree to the terms and conditions of <b>#vocalForLocal</b> and will abide by its rules. Any kind of misbehaviour, threats or unorderly actions can lead to permanent ban of your account.
+        </label>
+        <div class="invalid-feedback">
+          You must agree before submitting.
+        </div>
+      </div>
+    </div>
+    
+    <div class="row mb-15 mt-10" style="justify-content:flex-end;">
+      <div class="col-md-2" style="padding:0;">
+        <button class="btn-secondary rippler rippler-{{theme}} dark-form-handler {{theme}} dark-form-handler" type="submit">Submit form</button>
+      </div>
+    </div>
+    
+  </form>
+</div>
+
+<div class="modal fade" id="grantLocation" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="grantLocationLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="grantLocationLabel">Permission Required</h5>
+                {% comment %} <button type="button" class="btn-close" data-bs-dismiss="modal"
+                    aria-label="Close"></button> {% endcomment %}
+            </div>
+            <div class="modal-body">
+                <p>As far as this website is concerned, we need access to your location to accurately determine which
+                    stores are nearby your area and to provide you with the best of our services.</p>
+                <p>We are not involved with any kind of third party applications and your location will not be forwarded
+                    to any external sources.</p>
+                <p>This is how you can grant us access to your location</p>
+                <p>Method 1</p>
+                <img src="/static/permission/permission.jpg" alt="Location Access">
+                <p>Look at the top right of your browser, click on the location icon, select Allow and click Done</p>
+                <p>Method 2</p>
+                <p>Click on the i icon on the left side of website's name, toggle the location checkbox and reload the
+                    website</p>
+            </div>
+            {% comment %} <div class="modal-footer"> {% endcomment %}
+                {% comment %} <button type="button" class="btn btn-primary" data-bs-dismiss="modal">I
+                    Understand</button> {% endcomment %}
+                {% comment %} </div> {% endcomment %}
+        </div>
+    </div>
+</div>
+
+{% endblock body %}
+
+{% block scripts %}
+<script src="/static/editProfile/editProfile.js"></script>
+<script>
+    setter("{{csc_token}}",`{{csc_email}}`,`{{request.user.email}}`,`{{request.user.username}}`);
+</script>
+{% endblock scripts %}

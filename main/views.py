@@ -119,9 +119,12 @@ def dashboard(request):
 
 
 @login_required(login_url='/login')
-def editProfile(request):
+def profile(request, username):
     theme = getTheme(request)
-    return HttpResponse("Coming soon...")
+    if username == request.user.username:
+        return render(request, "editProfile.html", {'theme': theme, 'csc_email': os.getenv('CSC_EMAIL'), 'csc_token': os.getenv('CSC_API_TOKEN')})
+    else:
+        return HttpResponse("View profile coming soon")
 
 @login_required(login_url='/login')
 def businessSignup(request):

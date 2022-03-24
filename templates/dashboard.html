@@ -34,7 +34,7 @@
             </div>
             <div class="ep-container" style="display:flex;justify-content:flex-end;">
                 <a id="editProfile" class="vfl rippler rippler-{{theme}}"
-                    href="{% url 'editProfile' %}{% if theme == 'dark' %}?isDark=True{% endif %}">Edit profile</a>
+                    href="/user/{{request.user.username}}{% if theme == 'dark' %}?isDark=True{% endif %}">Edit profile</a>
                 <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
                     data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Toggle right offcanvas</button>
                 <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
