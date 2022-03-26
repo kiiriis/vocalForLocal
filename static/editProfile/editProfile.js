@@ -3,7 +3,13 @@ let otp,
   emailVerified = true,
   unameVerified = true,
   phoneVerified = true,
+  originalUsername,
+  originalPhone,
+  originalEmail,
   username;
+
+  
+getLocation();
 
 function echecker(value) {
   return $.ajax({
@@ -74,7 +80,10 @@ function validateEmail() {
     /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   let value = document.getElementById("email").value;
   if (re.test(value)) {
-    $.when(echecker(value)).then(
+    if(value==originalEmail){
+      send_otp_email();
+    }
+    else{$.when(echecker(value)).then(
       function successHandler(data) {
         if (data === "0") {
           send_otp_email();
@@ -87,7 +96,7 @@ function validateEmail() {
       function errorHandler(er) {
         console.log(er);
       }
-    );
+    );}
   } else {
     $("#email-tooltip").text(
       "Please provide a valid email id and get it verified. It won't be shared with any third party applications and you won't recieve any promotional messages, so feel free to verify yourselves!"
@@ -100,7 +109,10 @@ function validateEmail() {
 function validatePhone() {
   let ele = $("#phno");
   let value = document.getElementById("phno").value;
-  var filter =
+  if(value == originalPhone){
+    phoneVerified = true;
+  }
+  else{var filter =
     /^((\+[1-9]{1,4}[ \-]*)|(\([0-9]{2,3}\)[ \-]*)|([0-9]{2,4})[ \-]*)*?[0-9]{3,4}?[ \-]*[0-9]{3,4}?$/;
   if (filter.test(value)) {
     $.ajax({
@@ -128,7 +140,7 @@ function validatePhone() {
     $("#phone-tooltip").text("Please enter a valid phone number.");
     $(ele).removeClass("is-valid");
     $(ele).addClass("is-invalid");
-  }
+  }}
 }
 
 function getLocation() {
@@ -193,11 +205,19 @@ $("#username").keyup(() => {
 });
 
 $("#username").change(() => {
+  unameVerified = false;
   let val = $("#username").val();
   let regex = /^[a-z0-9-\\_]{3,30}$/;
   let multiHyphens = /[-]{2,}/;
   let multiUnderScores = /[_]{2,}/;
   let allSpecials = /^[\\_\\-]+$/g;
+  if(val == originalUsername){
+    unameVerified = true;
+    username = val;
+    $("#username").removeClass("is-invalid");
+    $("#username").addClass("is-valid");
+  }
+  else{
   if (
     regex.test(val) &&
     !multiHyphens.test(val) &&
@@ -237,6 +257,7 @@ $("#username").change(() => {
     $("#username").removeClass("is-valid");
     $("#username").addClass("is-invalid");
   }
+}
 });
 
 function inputValidator() {
@@ -287,21 +308,6 @@ $("#pass-1").keyup(function () {
   }
 });
 
-function pass2Checker() {
-  if (
-    $("#pass-2").val() == $("#pass-1").val() &&
-    $("#pass-2").val().trim().length > 7
-  ) {
-    $("#pass-2").removeClass("is-invalid");
-    $("#pass-2").addClass("is-valid");
-  } else {
-    $("#pass-2").removeClass("is-valid");
-    $("#pass-2").addClass("is-invalid");
-  }
-}
-
-$("#pass-2").keyup(pass2Checker);
-
 function numbersOnly(ele) {
   if ($(ele).val().trim().length > 0 && isNaN($(ele).val() / 1) == false) {
     $(ele).removeClass("is-invalid");
@@ -316,6 +322,7 @@ $("#zip").keyup(() => {
   numbersOnly($("#zip"));
 });
 $("#phno").change(() => {
+  phoneVerified = false;
   validatePhone();
 });
 
@@ -323,7 +330,6 @@ $("#address").keyup(inputValidator);
 
 $("#agree").change(function () {
   if ($("#agree").prop("checked")) {
-    getLocation();
     $("#agree").removeClass("is-invalid");
     $("#agree").addClass("is-valid");
   } else {
@@ -364,7 +370,7 @@ form.addEventListener(
     }
 
     // Radios
-    if ($("#account-b").prop("checked") || $("#account-p").prop("checked")) {
+    if ($('#account-b').length>0 && $('#account-p').length>0 && ($("#account-b").prop("checked") || $("#account-p").prop("checked"))) {
       $("#account-b").removeClass("is-invalid");
       $("#account-p").removeClass("is-invalid");
       $("#account-b").addClass("is-valid");
@@ -375,24 +381,6 @@ form.addEventListener(
       $("#account-p").removeClass("is-valid");
       $("#account-b").addClass("is-invalid");
       $("#account-p").addClass("is-invalid");
-    }
-
-    // Passwords
-    if ($("#pass-1").val().trim().length > 7) {
-      $("#pass-1").removeClass("is-invalid");
-      $("#pass-1").addClass("is-valid");
-      if ($("#pass-2").val() == $("#pass-1").val()) {
-        $("#pass-2").removeClass("is-invalid");
-        $("#pass-2").addClass("is-valid");
-      } else {
-        proper = false;
-        $("#pass-2").removeClass("is-valid");
-        $("#pass-2").addClass("is-invalid");
-      }
-    } else {
-      proper = false;
-      $("#pass-1").removeClass("is-valid");
-      $("#pass-1").addClass("is-invalid");
     }
 
     // Country, State, City
@@ -524,11 +512,14 @@ function getToken() {
     },
   });
 }
-function setter(val, email, useremail, userName) {
+function setter(val, email, useremail, userName, userPhone) {
   auth_token = val;
   auth_email = email;
   userEmail = useremail;
+  originalEmail = useremail;
   username = userName;
+  originalUsername = userName;
+  originalPhone = userPhone;
   getToken();
 }
 

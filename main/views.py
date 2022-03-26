@@ -117,14 +117,34 @@ def dashboard(request):
     businesses = request.user.owns.all()
     return render(request, 'dashboard.html', {'theme': theme,'businesses':businesses,'nob':len(businesses)})
 
-
 @login_required(login_url='/login')
 def profile(request, username):
-    theme = getTheme(request)
-    if username == request.user.username:
-        return render(request, "editProfile.html", {'theme': theme, 'csc_email': os.getenv('CSC_EMAIL'), 'csc_token': os.getenv('CSC_API_TOKEN')})
+    if request.method=="POST":
+        theme = request.POST['theme']
+        u = User.objects.get(id=request.user.id)
+        if request.FILES.get('avatar') != None:
+            u.display_pic=request.FILES.get('avatar')
+        u.first_name=request.POST['first_name']
+        u.last_name=request.POST['last_name']
+        u.username=request.POST['username']
+        u.account_type=request.POST['account']
+        u.country=request.POST['country']
+        u.state=request.POST['state']
+        u.city=request.POST['city']
+        u.email=request.POST['email']
+        u.phone_number=request.POST['phno']
+        u.zip=request.POST['zip']
+        u.address=request.POST['address']
+        u.latitude=float(request.POST['latitude'])
+        u.longitude=float(request.POST['longitude'])
+        u.save()
+        return redirect('/dashboard')
     else:
-        return HttpResponse("View profile coming soon")
+        theme = getTheme(request)
+        if username == request.user.username:
+            return render(request, "editProfile.html", {'theme': theme, 'csc_email': os.getenv('CSC_EMAIL'), 'csc_token': os.getenv('CSC_API_TOKEN')})
+        else:
+            return HttpResponse("View profile coming soon")
 
 @login_required(login_url='/login')
 def businessSignup(request):

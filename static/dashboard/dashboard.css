@@ -21,6 +21,7 @@
 #user-img{
     border-radius: 100%;
     width: 97px;
+    height: 97px;
     box-shadow: 8px 8px 33px -10px;
 }
 #user-img.dark{

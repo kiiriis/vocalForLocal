@@ -8,19 +8,10 @@
 
 {% block title %}Sign Up | #vocalForLocal{% endblock title %}
 
-
-{% block navElements %}
-{% comment %} Empty {% endcomment %}
-{% endblock navElements %}
-
-{% block log %}
-<a class="vfl rippler rippler-{{theme}} dark-form-handler" href="{% url 'login' %}{% if theme == 'dark' %}?isDark=True{% endif %}">Already a User?</a>
-{% endblock log %}
-
 {% block body %}
 
 <div class="form-container">
-  <form class="needs-validation" action="{% url 'signUp' %}" id="signup_form" method="post" novalidate enctype="multipart/form-data">
+  <form class="needs-validation" action="/user/{{request.user.username}}" id="signup_form" method="post" novalidate enctype="multipart/form-data">
     {% csrf_token %}
     <div class="row">
       <div class="col-md-4" style="display:flex;justify-content:center;">
@@ -80,7 +71,7 @@
     </div>
 
     <div class="row" style="align-items:flex-end;">
-      <div class="position-relative col-md-4" id="username-div">
+      <div class="position-relative{% if request.user.account_type == "private" %} col-md-4{%endif%}" id="username-div">
         <label for="username" class="form-label {{theme}} dark-form-handler">Username</label>
         <div class="input-group has-validation">
           <span class="input-group-text" id="validationTooltipUsernamePrepend">@</span>
@@ -91,6 +82,7 @@
           </div>
         </div>
       </div>
+      {% if request.user.account_type == "private" %}
       <div class="col-md-4">
         <label class="form-label {{theme}} dark-form-handler">Type of account :</label>
         <div class="input-group">
@@ -116,7 +108,7 @@
           <span class="form-control {{theme}} dark-form-handler" aria-label="Text input with radio button"><label for="account-b">Business</label></span>
         </div>
       </div>
-      
+      {% endif %}
     </div>
     
     <div class="row">
@@ -242,6 +234,6 @@
 {% block scripts %}
 <script src="/static/editProfile/editProfile.js"></script>
 <script>
-    setter("{{csc_token}}",`{{csc_email}}`,`{{request.user.email}}`,`{{request.user.username}}`);
+    setter("{{csc_token}}",`{{csc_email}}`,`{{request.user.email}}`,`{{request.user.username}}`,`{{request.user.phone_number}}`);
 </script>
 {% endblock scripts %}
