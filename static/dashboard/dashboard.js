@@ -8,4 +8,8 @@ Array.from(blurredEle).forEach(ele => {
 
 $(document).ready(function(){
     document.querySelector("#b-display").firstElementChild.classList.add("active");
+
+    for(let i = 0;i<document.querySelectorAll('.search-results .card').length;i++){
+        document.querySelectorAll('.search-results .card .carousel-inner')[i].firstElementChild.classList.add("active");
+    }
 })

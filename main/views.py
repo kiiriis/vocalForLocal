@@ -1,4 +1,4 @@
-from unicodedata import name
+import json
 from django.http.response import HttpResponse
 from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate, login, logout
@@ -8,6 +8,7 @@ from main.helper import getTheme, redirector, isAnonymous
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
 import os
+import requests
 
 load_dotenv()
 
@@ -115,7 +116,30 @@ def signUp(request):
 def dashboard(request):
     theme = getTheme(request)
     businesses = request.user.owns.all()
-    return render(request, 'dashboard.html', {'theme': theme,'businesses':businesses,'nob':len(businesses)})
+    allBuss = Business.objects.all()
+    userlong = request.user.longitude
+    userlat = request.user.latitude
+    dist = request.GET.get("distance")
+    if dist == None or dist.isdigit():
+        if dist == None:
+            dist = 1
+        else:
+            dist = int(dist)
+        others = []
+        for b in allBuss:
+            r = requests.get(f"https://api.mapbox.com/optimized-trips/v1/mapbox/driving/{userlong},{userlat};{b.longitude},{b.latitude}?access_token={os.getenv('MAP_ACCESS_TOKEN')}")
+            d = json.loads(r.text)["trips"][0]['distance']/1000
+            if d <= dist:
+                others.append({"business":b,"distance":round(d,2)})
+    else:
+        dist = 'inf'
+        others = []
+        for b in allBuss:
+            r = requests.get(f"https://api.mapbox.com/optimized-trips/v1/mapbox/driving/{userlong},{userlat};{b.longitude},{b.latitude}?access_token={os.getenv('MAP_ACCESS_TOKEN')}")
+            d = json.loads(r.text)["trips"][0]['distance']/1000
+            others.append({"business":b,"distance":round(d,2)})
+    images = BusinessImage.objects.all()
+    return render(request, 'dashboard.html', {'theme': theme,'businesses':businesses,'nob':len(businesses),'otherBusinesses':others,'images':images, 'distance':str(dist)})
 
 @login_required(login_url='/login')
 def profile(request, username):
@@ -195,3 +219,8 @@ def businessSignup(request):
             print(image)
             bi.save()
         return redirect(redirector('/dashboard', theme))
+
+def demo(request,businessName):
+    theme = getTheme(request)
+    b = Business.objects.get(name=businessName)
+    return render(request,'viewBusiness.html',{'theme':theme,'business':b})

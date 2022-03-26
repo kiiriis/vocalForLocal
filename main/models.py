@@ -1,3 +1,4 @@
+from asyncio.windows_events import NULL
 from distutils.command.upload import upload
 from pickle import FALSE
 from tkinter import CASCADE
@@ -61,7 +62,7 @@ class Business(models.Model):
 
 
 class BusinessImage(models.Model):
-    belongs_to = models.ForeignKey(Business, on_delete=models.CASCADE)
+    belongs_to = models.ForeignKey(Business, on_delete=models.CASCADE,related_name="has")
     image = models.ImageField(upload_to=saveBImg, null=True, blank=True)
 
 

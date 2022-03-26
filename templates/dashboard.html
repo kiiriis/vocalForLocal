@@ -44,9 +44,35 @@
         </div>
     </section>
     <section id="mid">
-        <div class="flex-col">
-            <input class="vfl-element {{theme}}" type="text" name="search" id="search"
-                placeholder="Search for your requirements...">
+        <div id="search-container">
+            <input class="vfl-element {{theme}}" type="text" name="search" id="search" placeholder="Search for your requirements...">
+            <select class="form-select form-select-sm" aria-label=".form-select-sm example">
+                {% if distance.isdigit == True %}
+                    {% if distance != "1" and distance != "10" and distance != "100" %}
+                        <option value="{{distance}}">{{distance}} km</option>
+                    {% endif %}
+                {% endif %}
+                {% if distance.isdigit == "1" %}
+                    <option value="1" selected>1 km</option>
+                {% else %}
+                    <option value="1" >1 km</option>
+                {% endif %}
+                {% if distance.isdigit == "10" %}
+                    <option value="10" selected>10 km</option>
+                {% else %}
+                    <option value="10" >10 km</option>
+                {% endif %}
+                {% if distance.isdigit == "100" %}
+                    <option value="100" selected>100 km</option>
+                {% else %}
+                    <option value="100" >100 km</option>
+                {% endif %}
+                {% if distance == "inf" %}
+                    <option value="inf" selected>∞</option>
+                {% else %}
+                    <option value="inf">∞</option>
+                {% endif %}
+            </select>
         </div>
         <div id="adder-container">
             {% if request.user.account_type == "business" %}
@@ -59,12 +85,12 @@
                 <div id="b-display">
                     {% for business in businesses %}
                         <div class="b-display vfl-element {{theme}}"> 
-                            {% if business.display_pic == "businesses/Anna's Groceries/dp.png" %}
+                            {% if business.display_pic == "businesses/shop.png" %}
                             <div> <img class="vfl-element b-image {{theme}}" src="/media/{{business.display_pic}}" alt="{{business.name}}"> </div>
                             {% else %}
                             <div> <img class="b-image" src="/media/{{business.display_pic}}" alt="{{business.name}}"> </div>
                             {% endif %}
-                            <div style="margin-left:10px;width:200px;">
+                            <div class="b-content" style="margin-left:10px;width:200px;">
                                 <div class="b-heading">{{business.name}}</div>
                                 <div class="b-desc">{{business.description}}</div>
                             </div>
@@ -82,7 +108,7 @@
                                     {% else %}
                                     <div> <img class="b-image" src="/media/{{business.display_pic}}" alt="{{business.name}}"> </div>
                                     {% endif %}
-                                    <div style="margin-left:10px;width:200px;">
+                                    <div class="b-content" style="margin-left:10px;width:200px;">
                                         <div class="b-heading">{{business.name}}</div>
                                         <div class="b-desc">{{business.description}}</div>
                                     </div>
@@ -104,7 +130,39 @@
         </div>
         <hr class="vfl-element {{theme}} sep">
         <div class="search-results">
-            <div class="card" style="width: 20rem;">
+            {% for business in otherBusinesses %}
+                <div class="card" style="width: 20rem;position:relative;">
+                    <img src="/media/{{business.business.display_pic}}" class="o-dp" alt="{{business.business.name}}" style="position:absolute;">
+
+                    <div id="business-{{business.business.id}}" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            {% for image in business.business.has.all %}
+                                <div class="carousel-item card-img-top">
+                                    <img src="/media/{{image.image}}" style="height:318px;" class="d-block w-100" alt="{{business.business.name}}">
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#business-{{business.business.id}}" data-bs-slide="prev">
+                          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                          <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#business-{{business.business.id}}" data-bs-slide="next">
+                          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                          <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+
+                    {% comment %} <img src="/static/server/empty.jpg" class="card-img-top" alt="..."> {% endcomment %}
+                    <div class="card-body vfl-element {{theme}}">
+                        <h5 class="card-title">{{business.business.name}}</h5>
+                        <p class="card-text">{{business.business.description}}</p>
+                        <button class="btn btn-outline-info">{{business.distance}} km</button>
+                        <button class="btn btn-outline-info"><i class="fas fa-comments"></i></button>
+                        <a href="#" class="btn btn-outline-info"><i class="fas fa-external-link-alt"></i></a>
+                    </div>
+                </div>
+            {% endfor %}
+            {% comment %} <div class="card" style="width: 20rem;">
                 <img src="/static/server/empty.jpg" class="card-img-top" alt="...">
                 <div class="card-body">
                     <h5 class="card-title">Card title</h5>
@@ -130,16 +188,7 @@
                         card's content.</p>
                     <a href="#" class="btn btn-primary">Go somewhere</a>
                 </div>
-            </div>
-            <div class="card" style="width: 20rem;">
-                <img src="/static/server/empty.jpg" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                        card's content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
-            </div>
+            </div> {% endcomment %}
         </div>
     </section>
 

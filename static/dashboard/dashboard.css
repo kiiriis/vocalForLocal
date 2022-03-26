@@ -95,6 +95,29 @@
     width: 100%;
     margin: 20px;
 }
+.search-results .card .card-text{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.search-results .btn:focus{
+    box-shadow: none;
+    outline: none;
+}
+#search-container{
+    display: grid;
+    grid-template-columns: 9fr 1fr;
+}
+select.form-select.form-select-sm{
+    height: 35px;
+    align-self: center;
+    width: 95px;
+}
+select.form-select.form-select-sm:focus {
+    outline: none;
+    border: none;
+    box-shadow: none;
+}
 #adder-container{
     padding-left: 35px;
     display:flex;
@@ -164,6 +187,16 @@
     height: 75px;
     overflow: hidden;
 }
+.search-results .o-dp{
+    position: absolute;
+    z-index: 99;
+    width: 75px;
+    border-radius: 50%;
+    height: 75px;
+    box-shadow: 0.5px 0.5px 10px 0px;
+    top: 10px;
+    left: 10px;
+}
 
 @media screen and (max-width: 1320px) {
     .card{
@@ -196,5 +229,52 @@
     }
     .search-results{
         display: block;
+    }
+}
+
+@media screen and (max-width: 580px) {
+    #search{
+        margin: 10px;
+    }
+    select.form-select.form-select-sm{
+        width: 75px;
+    }
+    #adder-container{
+        flex-direction: column;
+        padding: 0;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+    .b-display{
+        padding: 5px;
+        display: block;
+        margin-left: 0;
+    }
+    .adder{
+        width: 100%;
+        height: 60px;
+    }
+    #b-display{
+        width: 100%;
+    }
+    #carouselExampleControls{
+        width: 100%;
+    }
+    #b-display.carousel-inner{
+        width: 100%!important;
+    }
+    #b-display .carousel-item{
+        width: 100%;
+    }
+    .b-content{
+        width: 100%!important;
+        margin: 0!important;
+        margin-top: 10px!important;
+    }
+    #carouselExampleControls .carousel-control-next-icon{
+        margin-right: 15px!important;
+    }
+    #carouselExampleControls .carousel-control-prev-icon{
+        margin-left: -25px!important;
     }
 }
