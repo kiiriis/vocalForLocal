@@ -226,4 +226,4 @@ def businessSignup(request):
 def demo(request,businessName):
     theme = getTheme(request)
     b = Business.objects.get(name=businessName)
-    return render(request,'viewBusiness.html',{'theme':theme,'business':b})
+    return render(request,'viewBusiness.html',{'theme':theme,'business':b,'token': os.getenv('MAP_ACCESS_TOKEN'),'images':b.has.all()})
