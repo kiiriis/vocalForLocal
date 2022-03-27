@@ -147,11 +147,14 @@ def profile(request, username):
         theme = request.POST['theme']
         u = User.objects.get(id=request.user.id)
         if request.FILES.get('avatar') != None:
+            if u.display_pic.url.split('.')[0][-5:] != "admin" and os.path.exists(os.path.abspath(os.curdir)+u.display_pic.url):
+                os.remove(os.path.abspath(os.curdir)+u.display_pic.url)
             u.display_pic=request.FILES.get('avatar')
         u.first_name=request.POST['first_name']
         u.last_name=request.POST['last_name']
         u.username=request.POST['username']
-        u.account_type=request.POST['account']
+        if request.POST.get('account'):
+            u.account_type=request.POST['account']
         u.country=request.POST['country']
         u.state=request.POST['state']
         u.city=request.POST['city']

@@ -340,10 +340,10 @@ $("#agree").change(function () {
 
 let form = document.querySelector(".needs-validation");
 
+let proper = true;
 form.addEventListener(
   "submit",
   function (event) {
-    let proper = true;
 
     // First Name
     if ($("#first_name").val().trim().length) {
@@ -351,7 +351,7 @@ form.addEventListener(
       $("#first_name").val($("#first_name").val().trim());
       $("#first_name").addClass("is-valid");
     } else {
-      proper = false;
+      proper = false; console.log("im here 1");
       $("#first_name").removeClass("is-valid");
       $("#first_name").val("");
       $("#first_name").addClass("is-invalid");
@@ -363,20 +363,20 @@ form.addEventListener(
       $("#last_name").val($("#last_name").val().trim());
       $("#last_name").addClass("is-valid");
     } else {
-      proper = false;
+      proper = false; console.log("im here2");
       $("#last_name").removeClass("is-valid");
       $("#last_name").val("");
       $("#last_name").addClass("is-invalid");
     }
 
     // Radios
-    if ($('#account-b').length>0 && $('#account-p').length>0 && ($("#account-b").prop("checked") || $("#account-p").prop("checked"))) {
+    if (($('#account-b').length==0 && $('#account-p').length==0) || ($("#account-b").prop("checked") || $("#account-p").prop("checked"))) {
       $("#account-b").removeClass("is-invalid");
       $("#account-p").removeClass("is-invalid");
       $("#account-b").addClass("is-valid");
       $("#account-p").addClass("is-valid");
     } else {
-      proper = false;
+      proper = false; console.log("im here3");;
       $("#account-b").removeClass("is-valid");
       $("#account-p").removeClass("is-valid");
       $("#account-b").addClass("is-invalid");
@@ -388,7 +388,7 @@ form.addEventListener(
       $("#country").removeClass("is-invalid");
       $("#country").addClass("is-valid");
     } else {
-      proper = false;
+      proper = false; console.log("im here4");;
       $("#country").removeClass("is-valid");
       $("#country").addClass("is-invalid");
     }
@@ -396,7 +396,7 @@ form.addEventListener(
       $("#state").removeClass("is-invalid");
       $("#state").addClass("is-valid");
     } else {
-      proper = false;
+      proper = false; console.log("im here5");;
       $("#state").removeClass("is-valid");
       $("#state").addClass("is-invalid");
     }
@@ -404,7 +404,7 @@ form.addEventListener(
       $("#city").removeClass("is-invalid");
       $("#city").addClass("is-valid");
     } else {
-      proper = false;
+      proper = false; console.log("im here6");;
       $("#city").removeClass("is-valid");
       $("#city").addClass("is-invalid");
     }
@@ -413,14 +413,15 @@ form.addEventListener(
     if (!emailVerified) {
       $("#email").removeClass("is-valid");
       $("#email").addClass("is-invalid");
-      proper = false;
+      proper = false; console.log("im here7");;
     } else {
+      $("#email").addClass("is-valid");
       $("#email").val(userEmail);
     }
 
     // Phone
     if (!phoneVerified) {
-      proper = false;
+      proper = false; console.log("im here8");;
     }
 
     // Zip
@@ -431,7 +432,7 @@ form.addEventListener(
       $("#zip").removeClass("is-invalid");
       $("#zip").addClass("is-valid");
     } else {
-      proper = false;
+      proper = false; console.log("im here9");;
       $("#zip").removeClass("is-valid");
       $("#zip").addClass("is-invalid");
     }
@@ -441,7 +442,7 @@ form.addEventListener(
       $("#address").removeClass("is-invalid");
       $("#address").addClass("is-valid");
     } else {
-      proper = false;
+      proper = false; console.log("im here10");;
       $("#address").removeClass("is-valid");
       $("#address").addClass("is-invalid");
     }
@@ -452,7 +453,7 @@ form.addEventListener(
       $("#username").addClass("is-valid");
       $("#username").val(username);
     } else {
-      proper = false;
+      proper = false; console.log("im here11");;
       $("#username-tooltip").text("Please enter a valid username.");
       $("#username").removeClass("is-valid");
       $("#username").addClass("is-invalid");
@@ -463,7 +464,7 @@ form.addEventListener(
       $("#agree").removeClass("is-invalid");
       $("#agree").addClass("is-valid");
     } else {
-      proper = false;
+      proper = false; console.log("im here12");;
       $("#agree").removeClass("is-valid");
       $("#agree").addClass("is-invalid");
     }
