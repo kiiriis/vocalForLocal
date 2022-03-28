@@ -250,7 +250,7 @@ def business(request, businessname):
         b.keywords = keywords
         b.save()
         return redirect('/dashboard')
-    return render(request, 'editBusinessForm.html', {'theme': theme, 'cb': b, 'csc_email': os.getenv('CSC_EMAIL'), 'csc_token': os.getenv('CSC_API_TOKEN'), 'images': images})
+    return render(request, 'editBusinessForm.html', {'theme': theme, 'cb': b, 'csc_email': os.getenv('CSC_EMAIL'), 'csc_token': os.getenv('CSC_API_TOKEN')})
 
 
 def demo(request,businessName):
