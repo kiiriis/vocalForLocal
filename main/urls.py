@@ -23,4 +23,5 @@ urlpatterns = [
     path('phoneChecker', utility.phoneChecker, name="phoneChecker"),
     path('user/<str:username>', views.profile, name="profile"),
     path('demo/<str:businessName>',views.demo,name="demoBusiness"),
+    path('business/<str:businessname>',views.business, name="business"),
 ]

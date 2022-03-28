@@ -223,6 +223,36 @@ def businessSignup(request):
             bi.save()
         return redirect(redirector('/dashboard', theme))
 
+@login_required(login_url='/login')
+def business(request, businessname):
+    if request.method == "POST":
+        theme = getTheme(request)
+        b = Business.objects.get(name=businessname)
+        if(request.FILES.get('avatar') != None):
+            os.remove(os.path.abspath(os.curdir) + b.display_pic.url)
+            b.display_pic = request.FILES.get('avatar')
+
+        b.name = request.POST['business_name']
+        b.country = request.POST['country']
+        b.state = request.POST['state']
+        b.city = request.POST['city']
+        b.email = request.POST['email']
+        b.latitude = request.POST['latitude']
+        b.longitude = request.POST['longitude']
+        b.description = request.POST['business_description']
+        keywords = request.POST['keywords'].split(',')
+        cleanKeywords = []
+        for keys in keywords:
+            if len(keys) > 0:
+                cleanKeywords.append(keys)
+        keywords = ","
+        keywords = keywords.join(cleanKeywords)
+        b.keywords = keywords
+        b.save()
+        return redirect('/dashboard')
+    return render(request, 'editBusinessForm.html', {'theme': theme, 'cb': b, 'csc_email': os.getenv('CSC_EMAIL'), 'csc_token': os.getenv('CSC_API_TOKEN'), 'images': images})
+
+
 def demo(request,businessName):
     theme = getTheme(request)
     b = Business.objects.get(name=businessName)
