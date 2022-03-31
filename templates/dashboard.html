@@ -35,44 +35,54 @@
             <div class="ep-container" style="display:flex;justify-content:flex-end;">
                 <a id="editProfile" class="vfl rippler rippler-{{theme}}"
                     href="/user/{{request.user.username}}{% if theme == 'dark' %}?isDark=True{% endif %}">Edit profile</a>
-                <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
+                {% comment %} <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
                     data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Toggle right offcanvas</button>
                 <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
                     data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">Enable both
-                    scrolling and backdrop</button>
+                    scrolling and backdrop</button> {% endcomment %}
             </div>
         </div>
     </section>
     <section id="mid">
         <div id="search-container">
             <input class="vfl-element {{theme}}" type="text" name="search" id="search" placeholder="Search for your requirements...">
-            <select class="form-select form-select-sm" aria-label=".form-select-sm example">
-                {% if distance.isdigit == True %}
-                    {% if distance != "1" and distance != "10" and distance != "100" %}
-                        <option value="{{distance}}">{{distance}} km</option>
+            {% comment %} <form action="dashboard" method="post"></form> {% endcomment %}
+            <form action="dashboard" method="post" id="distanceSelector">
+                {% csrf_token %}
+                <input type="hidden" name="theme" id="themeInput" value="{{theme}}"/>
+                <select name="distance" class="form-select form-select-sm" aria-label=".form-select-sm example" onchange="distSelectorTrigger()">
+                    {% if distance.isdigit == True %}
+                        {% if distance != "1" and distance != "10" and distance != "100" %}
+                            <option value="{{distance}}">{{distance}} km</option>
+                        {% endif %}
                     {% endif %}
-                {% endif %}
-                {% if distance.isdigit == "1" %}
-                    <option value="1" selected>1 km</option>
-                {% else %}
-                    <option value="1" >1 km</option>
-                {% endif %}
-                {% if distance.isdigit == "10" %}
-                    <option value="10" selected>10 km</option>
-                {% else %}
-                    <option value="10" >10 km</option>
-                {% endif %}
-                {% if distance.isdigit == "100" %}
-                    <option value="100" selected>100 km</option>
-                {% else %}
-                    <option value="100" >100 km</option>
-                {% endif %}
-                {% if distance == "inf" %}
-                    <option value="inf" selected>∞</option>
-                {% else %}
-                    <option value="inf">∞</option>
-                {% endif %}
-            </select>
+                    {% if distance == "1" %}
+                        <option value="1" selected>1 km</option>
+                    {% else %}
+                        <option value="1" >1 km</option>
+                    {% endif %}
+                    {% if distance == "10" %}
+                        <option value="10" selected>10 km</option>
+                    {% else %}
+                        <option value="10" >10 km</option>
+                    {% endif %}
+                    {% if distance == "100" %}
+                        <option value="100" selected>100 km</option>
+                    {% else %}
+                        <option value="100" >100 km</option>
+                    {% endif %}
+                    {% if distance == "1000" %}
+                        <option value="1000" selected>1000 km</option>
+                    {% else %}
+                        <option value="1000" >1000 km</option>
+                    {% endif %}
+                    {% if distance == "inf" %}
+                        <option value="inf" selected>∞</option>
+                    {% else %}
+                        <option value="inf">∞</option>
+                    {% endif %}
+                </select>
+            </form>
         </div>
         <div id="adder-container">
             {% if request.user.account_type == "business" %}
@@ -88,10 +98,10 @@
                             {% if business.display_pic == "businesses/shop.png" %}
                             <div> <img class="vfl-element b-image {{theme}}" src="/media/{{business.display_pic}}" alt="{{business.name}}"> </div>
                             {% else %}
-                            <div> <img class="b-image" src="/media/{{business.display_pic}}" alt="{{business.name}}"> </div>
+                            <div><a href="/business/{{business.name}}"><img class="b-image" src="/media/{{business.display_pic}}" alt="{{business.name}}"></a> </div>
                             {% endif %}
                             <div class="b-content" style="margin-left:10px;width:200px;">
-                                <div class="b-heading">{{business.name}}</div>
+                                <div class="b-heading"><a href="/business/{{business.name}}" class="{{theme}} vfl-element" style="text-decoration:none;">{{business.name}}</a></div>
                                 <div class="b-desc">{{business.description}}</div>
                             </div>
                             </div>
@@ -104,12 +114,12 @@
                             <div class="carousel-item">
                                 <div class="b-display vfl-element {{theme}}"> 
                                     {% if business.display_pic == "businesses/Anna's Groceries/dp.png" %}
-                                    <div> <img class="vfl-element b-image {{theme}}" src="/media/{{business.display_pic}}" alt="{{business.name}}"> </div>
+                                    <div><a href="/business/{{business.name}}"><img class="vfl-element b-image {{theme}}" src="/media/{{business.display_pic}}" alt="{{business.name}}"></a> </div>
                                     {% else %}
                                     <div> <img class="b-image" src="/media/{{business.display_pic}}" alt="{{business.name}}"> </div>
                                     {% endif %}
                                     <div class="b-content" style="margin-left:10px;width:200px;">
-                                        <div class="b-heading">{{business.name}}</div>
+                                        <div class="b-heading"><a href="/business/{{business.name}}" class="{{theme}} vfl-element" style="text-decoration:none;">{{business.name}}</a></div>
                                         <div class="b-desc">{{business.description}}</div>
                                     </div>
                                 </div>
@@ -157,8 +167,9 @@
                         <h5 class="card-title">{{business.business.name}}</h5>
                         <p class="card-text">{{business.business.description}}</p>
                         <button class="btn btn-outline-info">{{business.distance}} km</button>
-                        <button class="btn btn-outline-info"><i class="fas fa-comments"></i></button>
-                        <a href="#" class="btn btn-outline-info"><i class="fas fa-external-link-alt"></i></a>
+                        {% comment %} <button class="btn btn-outline-info"><i class="fas fa-comments"></i></button> {% endcomment %}
+                        <a href="/business/{{business.business.name}}" class="btn btn-outline-info"><i class="fas fa-external-link-alt"></i></a>
+                        <a href="#" class="btn btn-outline-warning"><i class="fas fa-exclamation-triangle"></i></a>
                     </div>
                 </div>
             {% endfor %}
@@ -192,20 +203,7 @@
         </div>
     </section>
 
-
-
-    {% comment %} <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight"
-        aria-labelledby="offcanvasRightLabel">
-        <div class="offcanvas-header">
-            <h5 id="offcanvasRightLabel">Offcanvas right</h5>
-            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <div class="offcanvas-body">
-            ...
-        </div>
-    </div> {% endcomment %}
-
-    <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasRight"
+    {% comment %} <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasRight"
         aria-labelledby="offcanvasRightLabel">
         <div class="offcanvas-header">
             <h5 id="offcanvasRightLabel">Offcanvas right</h5>
@@ -225,7 +223,7 @@
         <div class="offcanvas-body">
             <p>Try scrolling the rest of the page to see this option in action.</p>
         </div>
-    </div>
+    </div> {% endcomment %}
 
     {% comment %} <section class="vfl-element {{theme}} dash-section" id="chat">Three</section> {% endcomment %}
 </div>

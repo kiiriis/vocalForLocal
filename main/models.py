@@ -67,8 +67,8 @@ class BusinessImage(models.Model):
 
 
 class Feedback(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    business = models.ForeignKey(Business, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE,related_name="rated")
+    business = models.ForeignKey(Business, on_delete=models.CASCADE,related_name="feedbacks")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -78,7 +78,9 @@ class Feedback(models.Model):
         star_3 = 3, 'Works'
         star_4 = 4, 'Satisfied'
         star_5 = 5, 'Delighted'
-    rating = models.PositiveSmallIntegerField(
-        choices=Rating.choices, help_text="How would you rate this business?")
+    rating = models.PositiveSmallIntegerField(choices=Rating.choices, help_text="How would you rate this business?")
     description = models.TextField()
-    edited = models.BooleanField(default=FALSE)
+    edited = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.business.name

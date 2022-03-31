@@ -10,7 +10,7 @@
 
 {% block body %}
 
-<div id="b-header">
+<div class="b-header">
     <img class="b-logo" src="/media/{{business.display_pic}}" alt="{{business.name}}">
     <div class="vfl-element {{theme}}" style="font-size: 40px;font-weight: 600;">
         {{business.name}}
@@ -40,6 +40,69 @@
 </div>
 
 <div id="map"></div>
+
+<div class="b-header b-feedback">
+    <form method="post" action="feedback">
+        {% csrf_token %}
+        <h1>Visited this store? Leave a feedback.</h1>
+        <div style="display:grid;grid-template-columns:2fr 8fr;margin-top: 20px;">
+            <input type="hidden" name="business_id" value="{{business.id}}">
+            <select class="form-select no-shadow" name='rating' multiple aria-label="multiple select example">
+                <option value="1" {% if isExist == True and userFbObj.rating == 1 %}selected{% endif %}>Disappointed</option>
+                <option value="2" {% if isExist == True and userFbObj.rating == 2 %}selected{% endif %}>Unhappy</option>
+                {% if isExist == True and userFbObj.rating == 3 %}
+                    <option value="3" selected>Works</option>
+                {% elif isExist == False %}
+                    <option value="3" selected>Works</option>
+                {% else %}
+                    <option value="3">Works</option>
+                {% endif %}
+                <option value="4" {% if isExist == True and userFbObj.rating == 4 %}selected{% endif %}>Satisfied</option>
+                <option value="5" {% if isExist == True and userFbObj.rating == 5 %}selected{% endif %}>Delighted</option>
+            </select>
+            <input type="hidden" name="theme" id="themeInput" value="{{theme}}"/>
+            <div style="margin-left:40px;">
+                <label for="f_description" class="form-label">Description: </label>
+                <textarea name="f_description" class="form-control no-shadow" id="f_description" rows="3">{{userFbObj.description}}</textarea>
+            </div>
+        </div>
+        <div style="display:flex;width:100%;flex-direction:row;justify-content:flex-end;margin-top:20px;">
+            <input type="submit" value="Post feedback" class="outline-btn" />
+        </div>
+    </form>
+</div>
+
+<div class="b-header b-feedback" style="margin-top:25px;">
+    <h1>Feedback from users</h1>
+    <div style="border: 2px solid black;padding: 40px;margin-top: 25px;width:70%;">
+        {% for feedback in feedbacks %}
+            <hr>
+            <div style="display: grid;grid-template-columns: 5fr 1fr;width:100%;margin-bottom:20px;">
+                <div style="position:relative;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;display: grid;grid-template-columns: 9fr 1fr;"><b>{{feedback.user.first_name}} {{feedback.user.last_name}}</b>
+                {% if feedback.edited %}<span><small style="background-color:#ffe86f;position: absolute;bottom: 0;right: 10px;">(edited)</small></span>{% endif %}</div>
+                <div style="display: flex;flex-direction: row;justify-content: flex-end;">
+                    {% if feedback.rating > 0%}
+                        <i class="fas fa-star"></i>
+                    {% endif %}
+                    {% if feedback.rating > 1%}
+                        <i class="fas fa-star"></i>
+                    {% endif %}
+                    {% if feedback.rating > 2%}
+                        <i class="fas fa-star"></i>
+                    {% endif %}
+                    {% if feedback.rating > 3%}
+                        <i class="fas fa-star"></i>
+                    {% endif %}
+                    {% if feedback.rating > 4%}
+                        <i class="fas fa-star"></i>
+                    {% endif %}
+                </div>
+            </div>
+            <div style="width:100%; margin-top:15px;">{{feedback.description}}</div>
+            <hr>
+        {% endfor %}
+    </div>
+</div>
 
 <div class="modal fade" id="grantLocation" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="grantLocationLabel" aria-hidden="true">

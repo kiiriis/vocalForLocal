@@ -6,6 +6,10 @@ Array.from(blurredEle).forEach(ele => {
     })
 });
 
+function distSelectorTrigger(){
+    $('#distanceSelector').submit();
+}
+
 $(document).ready(function(){
     document.querySelector("#b-display").firstElementChild.classList.add("active");
 

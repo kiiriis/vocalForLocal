@@ -1,8 +1,9 @@
+from asyncio.windows_events import NULL
 import json
 from django.http.response import HttpResponse
 from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate, login, logout
-from main.models import Business, BusinessImage, User
+from main.models import Business, BusinessImage, User, Feedback
 from dotenv import load_dotenv
 from main.helper import getTheme, redirector, isAnonymous
 from django.contrib import messages
@@ -114,12 +115,16 @@ def signUp(request):
 
 @login_required(login_url='/login')
 def dashboard(request):
-    theme = getTheme(request)
+    if request.method == "POST":
+        theme = request.POST['theme']
+        dist = request.POST["distance"]
+    else:
+        theme = getTheme(request)
+        dist = request.GET.get("distance")
     businesses = request.user.owns.all()
     allBuss = Business.objects.all()
     userlong = request.user.longitude
     userlat = request.user.latitude
-    dist = request.GET.get("distance")
     if dist == None or dist.isdigit():
         if dist == None:
             dist = 1
@@ -219,14 +224,12 @@ def businessSignup(request):
             bi = BusinessImage.objects.create(belongs_to=b)
             bi.save()
             bi.image = image
-            print(image)
             bi.save()
         return redirect(redirector('/dashboard', theme))
 
 @login_required(login_url='/login')
 def business(request, businessname):
     if request.method == "POST":
-        theme = getTheme(request)
         b = Business.objects.get(name=businessname)
         if(request.FILES.get('avatar') != None):
             os.remove(os.path.abspath(os.curdir) + b.display_pic.url)
@@ -250,10 +253,34 @@ def business(request, businessname):
         b.keywords = keywords
         b.save()
         return redirect('/dashboard')
+    else:
+        b = Business.objects.get(name=businessname)
+        theme = getTheme(request)
     return render(request, 'editBusinessForm.html', {'theme': theme, 'cb': b, 'csc_email': os.getenv('CSC_EMAIL'), 'csc_token': os.getenv('CSC_API_TOKEN')})
 
 
 def demo(request,businessName):
     theme = getTheme(request)
+    if Business.objects.filter(name=businessName).exists() == False:
+        return redirect("/dashboard")
     b = Business.objects.get(name=businessName)
-    return render(request,'viewBusiness.html',{'theme':theme,'business':b,'token': os.getenv('MAP_ACCESS_TOKEN'),'images':b.has.all()})
+    isExist = False
+    ufo = NULL
+    if request.user.rated.filter(business=b.id).exists():
+        isExist = True
+        ufo = request.user.rated.get(business = b.id)
+    return render(request,'viewBusiness.html',{'isExist':isExist, 'userFbObj': ufo, 'theme':theme, 'business':b,'token': os.getenv('MAP_ACCESS_TOKEN'),'images':b.has.all(),'feedbacks':b.feedbacks.all()})
+
+def feedback(request):
+    if request.method=="POST":
+        theme = request.POST['theme']
+        b = Business.objects.get(id = request.POST['business_id'])
+        if request.user.rated.filter(business=b.id).exists():
+            f = request.user.rated.get(business = b.id)
+            f.edited = True
+            f.rating = request.POST['rating']
+            f.description = request.POST['f_description']
+        else:
+            f = Feedback(user=request.user, business=b, rating = request.POST['rating'], description = request.POST['f_description'])
+        f.save()
+    return redirect('/demo/'+b.name)

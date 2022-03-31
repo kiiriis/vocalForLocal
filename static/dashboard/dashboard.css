@@ -107,11 +107,13 @@
 #search-container{
     display: grid;
     grid-template-columns: 9fr 1fr;
+    align-items: center;
+    justify-content: center;
 }
 select.form-select.form-select-sm{
     height: 35px;
     align-self: center;
-    width: 95px;
+    width: 100px;
 }
 select.form-select.form-select-sm:focus {
     outline: none;
@@ -197,6 +199,9 @@ select.form-select.form-select-sm:focus {
     top: 10px;
     left: 10px;
 }
+#b-display a.light{
+    color:black;
+}
 
 @media screen and (max-width: 1320px) {
     .card{
@@ -249,6 +254,8 @@ select.form-select.form-select-sm:focus {
         padding: 5px;
         display: block;
         margin-left: 0;
+        padding-left:15px;
+        padding-top:15px;
     }
     .adder{
         width: 100%;

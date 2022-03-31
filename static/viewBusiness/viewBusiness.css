@@ -1,10 +1,10 @@
-#b-header{
+.b-header{
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
 }
-#b-header .b-logo{
+.b-header .b-logo{
     height: 100px;
     width: 100px;
     margin-right: 30px;
@@ -12,6 +12,41 @@
 }
 .b-desc{
     width: 75%;
+}
+.b-feedback{
+    margin-top: 50px;
+    justify-content: flex-start;
+    flex-direction: column;
+    margin-bottom: 50px;
+}
+.no-shadow:focus{
+    box-shadow: none!important;
+    outline:none!important;
+}
+.fa, .fas{
+    margin-left: 2px;
+    margin-right: 2px;
+}
+.outline-btn{
+    font-weight: 100;
+    padding: 7px;
+    display: inline-block;
+    line-height: 1.5;
+    color: white;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    user-select: none;
+    border: 1px solid transparent;
+    border-color: #0003a5;
+    background-color: #0014ff!important;
+    font-size: 1.1rem;
+    border-radius: 0.475rem!important;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+.outline-btn:hover{
+    background-color: #0013a5!important;
+    color: white;
 }
 #map{
     height: 500px;
