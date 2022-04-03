@@ -24,18 +24,18 @@
 <div id="business" class="carousel slide" data-bs-ride="carousel" style="display:flex;justify-content:center;">
     <div class="carousel-inner" style="display:flex;justify-content:center;width:50%;">
         {% for image in images %}
-            <div class="carousel-item" style="margin-right:0;">
-                <img src="/media/{{image.image}}" style="height:318px;" class="d-block w-100" alt="{{business.name}}">
-            </div>
+        <div class="carousel-item" style="margin-right:0;">
+            <img src="/media/{{image.image}}" style="height:318px;" class="d-block w-100" alt="{{business.name}}">
+        </div>
         {% endfor %}
     </div>
     <button class="carousel-control-prev" type="button" data-bs-target="#business" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Previous</span>
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
     </button>
     <button class="carousel-control-next" type="button" data-bs-target="#business" data-bs-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Next</span>
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
     </button>
 </div>
 
@@ -48,22 +48,24 @@
         <div style="display:grid;grid-template-columns:2fr 8fr;margin-top: 20px;">
             <input type="hidden" name="business_id" value="{{business.id}}">
             <select class="form-select no-shadow" name='rating' multiple aria-label="multiple select example">
-                <option value="1" {% if isExist == True and userFbObj.rating == 1 %}selected{% endif %}>Disappointed</option>
-                <option value="2" {% if isExist == True and userFbObj.rating == 2 %}selected{% endif %}>Unhappy</option>
+                <option value="1" {% if isExist==True and userFbObj.rating==1 %}selected{% endif %}>Disappointed
+                </option>
+                <option value="2" {% if isExist==True and userFbObj.rating==2 %}selected{% endif %}>Unhappy</option>
                 {% if isExist == True and userFbObj.rating == 3 %}
-                    <option value="3" selected>Works</option>
+                <option value="3" selected>Works</option>
                 {% elif isExist == False %}
-                    <option value="3" selected>Works</option>
+                <option value="3" selected>Works</option>
                 {% else %}
-                    <option value="3">Works</option>
+                <option value="3">Works</option>
                 {% endif %}
-                <option value="4" {% if isExist == True and userFbObj.rating == 4 %}selected{% endif %}>Satisfied</option>
-                <option value="5" {% if isExist == True and userFbObj.rating == 5 %}selected{% endif %}>Delighted</option>
+                <option value="4" {% if isExist==True and userFbObj.rating==4 %}selected{% endif %}>Satisfied</option>
+                <option value="5" {% if isExist==True and userFbObj.rating==5 %}selected{% endif %}>Delighted</option>
             </select>
-            <input type="hidden" name="theme" id="themeInput" value="{{theme}}"/>
+            <input type="hidden" name="theme" id="themeInput" value="{{theme}}" />
             <div style="margin-left:40px;">
                 <label for="f_description" class="form-label">Description: </label>
-                <textarea name="f_description" class="form-control no-shadow" id="f_description" rows="3">{{userFbObj.description}}</textarea>
+                <textarea name="f_description" class="form-control no-shadow" id="f_description"
+                    rows="3">{{userFbObj.description}}</textarea>
             </div>
         </div>
         <div style="display:flex;width:100%;flex-direction:row;justify-content:flex-end;margin-top:20px;">
@@ -76,30 +78,34 @@
     <h1>Feedback from users</h1>
     <div style="border: 2px solid black;padding: 40px;margin-top: 25px;width:70%;">
         {% for feedback in feedbacks %}
-            <hr>
-            <div style="display: grid;grid-template-columns: 5fr 1fr;width:100%;margin-bottom:20px;">
-                <div style="position:relative;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;display: grid;grid-template-columns: 9fr 1fr;"><b>{{feedback.user.first_name}} {{feedback.user.last_name}}</b>
-                {% if feedback.edited %}<span><small style="background-color:#ffe86f;position: absolute;bottom: 0;right: 10px;">(edited)</small></span>{% endif %}</div>
-                <div style="display: flex;flex-direction: row;justify-content: flex-end;">
-                    {% if feedback.rating > 0%}
-                        <i class="fas fa-star"></i>
-                    {% endif %}
-                    {% if feedback.rating > 1%}
-                        <i class="fas fa-star"></i>
-                    {% endif %}
-                    {% if feedback.rating > 2%}
-                        <i class="fas fa-star"></i>
-                    {% endif %}
-                    {% if feedback.rating > 3%}
-                        <i class="fas fa-star"></i>
-                    {% endif %}
-                    {% if feedback.rating > 4%}
-                        <i class="fas fa-star"></i>
-                    {% endif %}
-                </div>
+        <hr>
+        <div style="display: grid;grid-template-columns: 5fr 1fr;width:100%;margin-bottom:20px;">
+            <div
+                style="position:relative;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;display: grid;grid-template-columns: 9fr 1fr;">
+                <b>{{feedback.user.first_name}} {{feedback.user.last_name}}</b>
+                {% if feedback.edited %}<span><small
+                        style="background-color:#ffe86f;position: absolute;bottom: 0;right: 10px;">(edited)</small></span>{%
+                endif %}</div>
+            <div style="display: flex;flex-direction: row;justify-content: flex-end;">
+                {% if feedback.rating > 0%}
+                <i class="fas fa-star"></i>
+                {% endif %}
+                {% if feedback.rating > 1%}
+                <i class="fas fa-star"></i>
+                {% endif %}
+                {% if feedback.rating > 2%}
+                <i class="fas fa-star"></i>
+                {% endif %}
+                {% if feedback.rating > 3%}
+                <i class="fas fa-star"></i>
+                {% endif %}
+                {% if feedback.rating > 4%}
+                <i class="fas fa-star"></i>
+                {% endif %}
             </div>
-            <div style="width:100%; margin-top:15px;">{{feedback.description}}</div>
-            <hr>
+        </div>
+        <div style="width:100%; margin-top:15px;">{{feedback.description}}</div>
+        <hr>
         {% endfor %}
     </div>
 </div>

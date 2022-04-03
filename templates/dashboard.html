@@ -34,7 +34,8 @@
             </div>
             <div class="ep-container" style="display:flex;justify-content:flex-end;">
                 <a id="editProfile" class="vfl rippler rippler-{{theme}}"
-                    href="/user/{{request.user.username}}{% if theme == 'dark' %}?isDark=True{% endif %}">Edit profile</a>
+                    href="/user/{{request.user.username}}{% if theme == 'dark' %}?isDark=True{% endif %}">Edit
+                    profile</a>
                 {% comment %} <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
                     data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Toggle right offcanvas</button>
                 <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
@@ -45,44 +46,49 @@
     </section>
     <section id="mid">
         <div id="search-container">
-            <input class="vfl-element {{theme}}" type="text" name="search" id="search" placeholder="Search for your requirements...">
-            {% comment %} <form action="dashboard" method="post"></form> {% endcomment %}
+            <form autocomplete="off" method="post" id="search-form">
+                {% csrf_token %}
+                <input class="vfl-element {{theme}} hide-box" type="text" name="search" id="search"
+                    placeholder="Search for your requirements..." />
+            </form>
             <form action="dashboard" method="post" id="distanceSelector">
                 {% csrf_token %}
-                <input type="hidden" name="theme" id="themeInput" value="{{theme}}"/>
-                <select name="distance" class="form-select form-select-sm" aria-label=".form-select-sm example" onchange="distSelectorTrigger()">
+                <input type="hidden" name="theme" id="themeInput" value="{{theme}}" />
+                <select name="distance" class="form-select form-select-sm" aria-label=".form-select-sm example"
+                    onchange="distSelectorTrigger()">
                     {% if distance.isdigit == True %}
-                        {% if distance != "1" and distance != "10" and distance != "100" %}
-                            <option value="{{distance}}">{{distance}} km</option>
-                        {% endif %}
+                    {% if distance != "1" and distance != "10" and distance != "100" %}
+                    <option value="{{distance}}">{{distance}} km</option>
+                    {% endif %}
                     {% endif %}
                     {% if distance == "1" %}
-                        <option value="1" selected>1 km</option>
+                    <option value="1" selected>1 km</option>
                     {% else %}
-                        <option value="1" >1 km</option>
+                    <option value="1">1 km</option>
                     {% endif %}
                     {% if distance == "10" %}
-                        <option value="10" selected>10 km</option>
+                    <option value="10" selected>10 km</option>
                     {% else %}
-                        <option value="10" >10 km</option>
+                    <option value="10">10 km</option>
                     {% endif %}
                     {% if distance == "100" %}
-                        <option value="100" selected>100 km</option>
+                    <option value="100" selected>100 km</option>
                     {% else %}
-                        <option value="100" >100 km</option>
+                    <option value="100">100 km</option>
                     {% endif %}
                     {% if distance == "1000" %}
-                        <option value="1000" selected>1000 km</option>
+                    <option value="1000" selected>1000 km</option>
                     {% else %}
-                        <option value="1000" >1000 km</option>
+                    <option value="1000">1000 km</option>
                     {% endif %}
                     {% if distance == "inf" %}
-                        <option value="inf" selected>∞</option>
+                    <option value="inf" selected>∞</option>
                     {% else %}
-                        <option value="inf">∞</option>
+                    <option value="inf">∞</option>
                     {% endif %}
                 </select>
             </form>
+            <div id="result-box" class="result-card not-visible"></div>
         </div>
         <div id="adder-container">
             {% if request.user.account_type == "business" %}
@@ -92,86 +98,101 @@
                         class="far fa-plus" style="font-size:40px;"></i></a>
             </div>
             {% if nob == 1 %}
-                <div id="b-display">
+            <div id="b-display">
+                {% for business in businesses %}
+                <div class="b-display vfl-element {{theme}}">
+                    {% if business.display_pic == "businesses/shop.png" %}
+                    <div> <img class="vfl-element b-image {{theme}}" src="/media/{{business.display_pic}}"
+                            alt="{{business.name}}"> </div>
+                    {% else %}
+                    <div><a href="/business/{{business.name}}"><img class="b-image"
+                                src="/media/{{business.display_pic}}" alt="{{business.name}}"></a> </div>
+                    {% endif %}
+                    <div class="b-content" style="margin-left:10px;width:200px;">
+                        <div class="b-heading"><a href="/business/{{business.name}}" class="{{theme}} vfl-element"
+                                style="text-decoration:none;">{{business.name}}</a></div>
+                        <div class="b-desc">{{business.description}}</div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% elif nob > 1 %}
+            <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+                <div id="b-display" class="carousel-inner">
                     {% for business in businesses %}
-                        <div class="b-display vfl-element {{theme}}"> 
-                            {% if business.display_pic == "businesses/shop.png" %}
-                            <div> <img class="vfl-element b-image {{theme}}" src="/media/{{business.display_pic}}" alt="{{business.name}}"> </div>
+                    <div class="carousel-item">
+                        <div class="b-display vfl-element {{theme}}">
+                            {% if business.display_pic == "businesses/Anna's Groceries/dp.png" %}
+                            <div><a href="/business/{{business.name}}"><img class="vfl-element b-image {{theme}}"
+                                        src="/media/{{business.display_pic}}" alt="{{business.name}}"></a> </div>
                             {% else %}
-                            <div><a href="/business/{{business.name}}"><img class="b-image" src="/media/{{business.display_pic}}" alt="{{business.name}}"></a> </div>
+                            <div> <img class="b-image" src="/media/{{business.display_pic}}" alt="{{business.name}}">
+                            </div>
                             {% endif %}
                             <div class="b-content" style="margin-left:10px;width:200px;">
-                                <div class="b-heading"><a href="/business/{{business.name}}" class="{{theme}} vfl-element" style="text-decoration:none;">{{business.name}}</a></div>
+                                <div class="b-heading"><a href="/business/{{business.name}}"
+                                        class="{{theme}} vfl-element"
+                                        style="text-decoration:none;">{{business.name}}</a></div>
                                 <div class="b-desc">{{business.description}}</div>
                             </div>
-                            </div>
+                        </div>
+                    </div>
                     {% endfor %}
                 </div>
-            {% elif nob > 1 %}
-                <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-                    <div id="b-display" class="carousel-inner">
-                            {% for business in businesses %}
-                            <div class="carousel-item">
-                                <div class="b-display vfl-element {{theme}}"> 
-                                    {% if business.display_pic == "businesses/Anna's Groceries/dp.png" %}
-                                    <div><a href="/business/{{business.name}}"><img class="vfl-element b-image {{theme}}" src="/media/{{business.display_pic}}" alt="{{business.name}}"></a> </div>
-                                    {% else %}
-                                    <div> <img class="b-image" src="/media/{{business.display_pic}}" alt="{{business.name}}"> </div>
-                                    {% endif %}
-                                    <div class="b-content" style="margin-left:10px;width:200px;">
-                                        <div class="b-heading"><a href="/business/{{business.name}}" class="{{theme}} vfl-element" style="text-decoration:none;">{{business.name}}</a></div>
-                                        <div class="b-desc">{{business.description}}</div>
-                                    </div>
-                                </div>
-                            </div>
-                            {% endfor %}
-                    </div>
-                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-                        <span class="vfl-element c-icon {{theme}} carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Previous</span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next" style="right:-20px;">
-                        <span class="vfl-element c-icon {{theme}} carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Next</span>
-                    </button>
-                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
+                    data-bs-slide="prev">
+                    <span class="vfl-element c-icon {{theme}} carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
+                    data-bs-slide="next" style="right:-20px;">
+                    <span class="vfl-element c-icon {{theme}} carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
             {% endif %}
             {% endif %}
         </div>
         <hr class="vfl-element {{theme}} sep">
         <div class="search-results">
             {% for business in otherBusinesses %}
-                <div class="card" style="width: 20rem;position:relative;">
-                    <img src="/media/{{business.business.display_pic}}" class="o-dp" alt="{{business.business.name}}" style="position:absolute;">
+            <div class="card" style="width: 20rem;position:relative;">
+                <img src="/media/{{business.business.display_pic}}" class="o-dp" alt="{{business.business.name}}"
+                    style="position:absolute;">
 
-                    <div id="business-{{business.business.id}}" class="carousel slide" data-bs-ride="carousel">
-                        <div class="carousel-inner">
-                            {% for image in business.business.has.all %}
-                                <div class="carousel-item card-img-top">
-                                    <img src="/media/{{image.image}}" style="height:318px;" class="d-block w-100" alt="{{business.business.name}}">
-                                </div>
-                            {% endfor %}
+                <div id="business-{{business.business.id}}" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        {% for image in business.business.has.all %}
+                        <div class="carousel-item card-img-top">
+                            <img src="/media/{{image.image}}" style="height:318px;" class="d-block w-100"
+                                alt="{{business.business.name}}">
                         </div>
-                        <button class="carousel-control-prev" type="button" data-bs-target="#business-{{business.business.id}}" data-bs-slide="prev">
-                          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                          <span class="visually-hidden">Previous</span>
-                        </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#business-{{business.business.id}}" data-bs-slide="next">
-                          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                          <span class="visually-hidden">Next</span>
-                        </button>
+                        {% endfor %}
                     </div>
-
-                    {% comment %} <img src="/static/server/empty.jpg" class="card-img-top" alt="..."> {% endcomment %}
-                    <div class="card-body vfl-element {{theme}}">
-                        <h5 class="card-title">{{business.business.name}}</h5>
-                        <p class="card-text">{{business.business.description}}</p>
-                        <button class="btn btn-outline-info">{{business.distance}} km</button>
-                        {% comment %} <button class="btn btn-outline-info"><i class="fas fa-comments"></i></button> {% endcomment %}
-                        <a href="/business/{{business.business.name}}" class="btn btn-outline-info"><i class="fas fa-external-link-alt"></i></a>
-                        <a href="#" class="btn btn-outline-warning"><i class="fas fa-exclamation-triangle"></i></a>
-                    </div>
+                    <button class="carousel-control-prev" type="button"
+                        data-bs-target="#business-{{business.business.id}}" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button"
+                        data-bs-target="#business-{{business.business.id}}" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
                 </div>
+
+                {% comment %} <img src="/static/server/empty.jpg" class="card-img-top" alt="..."> {% endcomment %}
+                <div class="card-body vfl-element {{theme}}">
+                    <h5 class="card-title">{{business.business.name}}</h5>
+                    <p class="card-text">{{business.business.description}}</p>
+                    <button class="btn btn-outline-info">{{business.distance}} km</button>
+                    {% comment %} <button class="btn btn-outline-info"><i class="fas fa-comments"></i></button> {%
+                    endcomment %}
+                    <a href="/business/{{business.business.name}}" class="btn btn-outline-info"><i
+                            class="fas fa-external-link-alt"></i></a>
+                    <a href="#" class="btn btn-outline-warning"><i class="fas fa-exclamation-triangle"></i></a>
+                </div>
+            </div>
             {% endfor %}
             {% comment %} <div class="card" style="width: 20rem;">
                 <img src="/static/server/empty.jpg" class="card-img-top" alt="...">
@@ -227,7 +248,7 @@
 
     {% comment %} <section class="vfl-element {{theme}} dash-section" id="chat">Three</section> {% endcomment %}
 </div>
-
+<!-- {%endfor%} -->
 {% endblock body %}
 
 {% block scripts %}

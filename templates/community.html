@@ -51,30 +51,30 @@
 <script>
     setter("{{token}}", "{{theme}}");
 
-    var decodeEntities = (function() {
-    // this prevents any overhead from creating the object each time
-    var element = document.createElement('div');
-    
-    function decodeHTMLEntities (str) {
-        if(str && typeof str === 'string') {
-        // strip script/html tags
-        str = str.replace(/<script[^>]*>([\S\s]*?)<\/script>/gmi, '');
-        str = str.replace(/<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')*>/gmi, '');
-        element.innerHTML = str;
-        str = element.textContent;
-        element.textContent = '';
+    var decodeEntities = (function () {
+        // this prevents any overhead from creating the object each time
+        var element = document.createElement('div');
+
+        function decodeHTMLEntities(str) {
+            if (str && typeof str === 'string') {
+                // strip script/html tags
+                str = str.replace(/<script[^>]*>([\S\s]*?)<\/script>/gmi, '');
+                str = str.replace(/<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')*>/gmi, '');
+                element.innerHTML = str;
+                str = element.textContent;
+                element.textContent = '';
+            }
+
+            return str;
         }
-    
-        return str;
-    }
-    
-    return decodeHTMLEntities;
+
+        return decodeHTMLEntities;
     })();
 
     const business = {};
 
     {% for business in businesses %}
-        business[decodeEntities(`{{business.name}}`)] = ["{{business.latitude}}", "{{business.longitude}}"];
+    business[decodeEntities(`{{business.name}}`)] = ["{{business.latitude}}", "{{business.longitude}}"];
     {% endfor %}
 
     setBusiness(business);

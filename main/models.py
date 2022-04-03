@@ -29,7 +29,8 @@ class User(AbstractUser):
     latitude = models.FloatField(null=True)
     longitude = models.FloatField(null=True)
     address = models.TextField()
-    display_pic = models.ImageField(null=True, blank=True, default="users/admin.jpg", upload_to=saveDp)
+    display_pic = models.ImageField(
+        null=True, blank=True, default="users/admin.jpg", upload_to=saveDp)
 
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = []
@@ -37,16 +38,21 @@ class User(AbstractUser):
 
 
 class Business(models.Model):
-    display_pic = models.ImageField(null=True, blank=True, default="businesses/shop.png", upload_to=saveBDp)
-    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="owns")
+    display_pic = models.ImageField(
+        null=True, blank=True, default="businesses/shop.png", upload_to=saveBDp)
+    owner = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="owns")
     name = models.CharField(max_length=100)
-    country = models.CharField(max_length=50, default="none", null=True, blank=True)
-    state = models.CharField(max_length=50, default="none", null=True, blank=True)
-    city = models.CharField(max_length=50, default="none", null=True, blank=True)
+    country = models.CharField(
+        max_length=50, default="none", null=True, blank=True)
+    state = models.CharField(
+        max_length=50, default="none", null=True, blank=True)
+    city = models.CharField(
+        max_length=50, default="none", null=True, blank=True)
     email = models.EmailField()
     latitude = models.FloatField(null=True)
     longitude = models.FloatField(null=True)
-    description = models.TextField(max_length=500, blank=False,null=False)
+    description = models.TextField(max_length=500, blank=False, null=False)
     keywords = ListCharField(
         base_field=CharField(max_length=50),
         size=25,
@@ -62,13 +68,16 @@ class Business(models.Model):
 
 
 class BusinessImage(models.Model):
-    belongs_to = models.ForeignKey(Business, on_delete=models.CASCADE,related_name="has")
+    belongs_to = models.ForeignKey(
+        Business, on_delete=models.CASCADE, related_name="has")
     image = models.ImageField(upload_to=saveBImg, null=True, blank=True)
 
 
 class Feedback(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE,related_name="rated")
-    business = models.ForeignKey(Business, on_delete=models.CASCADE,related_name="feedbacks")
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="rated")
+    business = models.ForeignKey(
+        Business, on_delete=models.CASCADE, related_name="feedbacks")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -78,7 +87,8 @@ class Feedback(models.Model):
         star_3 = 3, 'Works'
         star_4 = 4, 'Satisfied'
         star_5 = 5, 'Delighted'
-    rating = models.PositiveSmallIntegerField(choices=Rating.choices, help_text="How would you rate this business?")
+    rating = models.PositiveSmallIntegerField(
+        choices=Rating.choices, help_text="How would you rate this business?")
     description = models.TextField()
     edited = models.BooleanField(default=False)
 
