@@ -62,7 +62,8 @@ $(document).ready(function() {
     // })
     
     function successfulLookup(position){
-        // const { latitude, longitude } = position.coords;
+        userlong = position.coords.longitude;
+        userlat = position.coords.latitude
         mapboxgl.accessToken = mapBoxToken;
 
         let map = new mapboxgl.Map({

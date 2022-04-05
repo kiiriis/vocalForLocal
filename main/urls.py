@@ -22,8 +22,10 @@ urlpatterns = [
     path('unameChecker', utility.unameChecker, name="unameChecker"),
     path('phoneChecker', utility.phoneChecker, name="phoneChecker"),
     path('user/<str:username>', views.profile, name="profile"),
+    path('business/feedback', views.feedback, name="feedback"),
+    path('business/report', utility.reportEmail, name="report"),
     path('business/<str:businessname>', views.business, name="business"),
-    path('demo/feedback', views.feedback, name="feedback"),
-    path('demo/<str:businessName>', views.demo, name="demo"),
+    # path('demo/feedback', views.feedback, name="feedback"),
+    # path('demo/<str:businessName>', views.demo, name="demo"),
     path('search/', views.search_result, name="search"),
 ]

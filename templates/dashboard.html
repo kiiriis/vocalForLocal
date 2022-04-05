@@ -33,14 +33,14 @@
                 <span class="value blur">{{request.user.phone_number}}</span>
             </div>
             <div class="ep-container" style="display:flex;justify-content:flex-end;">
-                <a id="editProfile" class="vfl rippler rippler-{{theme}}"
+                <a id="editProfile" class="position-relative vfl rippler rippler-{{theme}}"
                     href="/user/{{request.user.username}}{% if theme == 'dark' %}?isDark=True{% endif %}">Edit
-                    profile</a>
-                {% comment %} <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
-                    data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Toggle right offcanvas</button>
-                <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
-                    data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">Enable both
-                    scrolling and backdrop</button> {% endcomment %}
+                    profile
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="top: 10px!important;left: 41px!important;font-size: 9px;">
+                    Update Location
+                    <span class="visually-hidden">Update Location</span>
+                    </span>
+                </a>
             </div>
         </div>
     </section>
@@ -49,7 +49,7 @@
             <form autocomplete="off" method="post" id="search-form">
                 {% csrf_token %}
                 <input class="vfl-element {{theme}} hide-box" type="text" name="search" id="search"
-                    placeholder="Search for your requirements..." />
+                    placeholder="Search for your requirements..." style="width:95%;"/>
             </form>
             <form action="dashboard" method="post" id="distanceSelector">
                 {% csrf_token %}
@@ -88,7 +88,7 @@
                     {% endif %}
                 </select>
             </form>
-            <div id="result-box" class="result-card not-visible"></div>
+            <div id="result-box" class="result-card not-visible" style="background-color: #bfbfbf;"></div>
         </div>
         <div id="adder-container">
             {% if request.user.account_type == "business" %}
@@ -180,75 +180,48 @@
                         <span class="visually-hidden">Next</span>
                     </button>
                 </div>
-
-                {% comment %} <img src="/static/server/empty.jpg" class="card-img-top" alt="..."> {% endcomment %}
                 <div class="card-body vfl-element {{theme}}">
                     <h5 class="card-title">{{business.business.name}}</h5>
                     <p class="card-text">{{business.business.description}}</p>
                     <button class="btn btn-outline-info">{{business.distance}} km</button>
-                    {% comment %} <button class="btn btn-outline-info"><i class="fas fa-comments"></i></button> {%
-                    endcomment %}
                     <a href="/business/{{business.business.name}}" class="btn btn-outline-info"><i
                             class="fas fa-external-link-alt"></i></a>
-                    <a href="#" class="btn btn-outline-warning"><i class="fas fa-exclamation-triangle"></i></a>
+                    <a type="button" data-bs-toggle="modal" data-bs-target="#business-modal-{{business.business.id}}" class="btn btn-outline-warning"><i class="fas fa-exclamation-triangle"></i></a>
+                      
+                      <!-- Modal -->
+                      <div class="modal fade" id="business-modal-{{business.business.id}}" tabindex="-1" aria-labelledby="business-modal-{{business.business.id}}Label" aria-hidden="true">
+                        <form action="/business/report" method="post">
+                            {% csrf_token %}
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="business-modal-{{business.business.id}}Label">Report a business</h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <h3>{{business.business.name}}</h3>
+                                <input type="hidden" name="email" value="{{business.business.email}}"/>
+                                <input type="hidden" name="theme" id="themeInput" value="{{theme}}"/>
+                                <div class="mb-3">
+                                    <label for="feedback-{{business.business.id}}" class="form-label">Submit your feedback/report:</label>
+                                    <textarea class="form-control" name="feedback" rows="3" style="outline:none;box-shadow:none;"></textarea>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                              <button type="submit" id="submit-report" class="btn btn-primary">Submit Report</button>
+                            </div>
+                          </div>
+                        </div>
+                        </form>
+                      </div>
                 </div>
             </div>
             {% endfor %}
-            {% comment %} <div class="card" style="width: 20rem;">
-                <img src="/static/server/empty.jpg" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                        card's content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
-            </div>
-            <div class="card" style="width: 20rem;">
-                <img src="/static/server/empty.jpg" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                        card's content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
-            </div>
-            <div class="card" style="width: 20rem;">
-                <img src="/static/server/empty.jpg" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                        card's content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
-            </div> {% endcomment %}
         </div>
     </section>
-
-    {% comment %} <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasRight"
-        aria-labelledby="offcanvasRightLabel">
-        <div class="offcanvas-header">
-            <h5 id="offcanvasRightLabel">Offcanvas right</h5>
-            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <div class="offcanvas-body">
-            ...
-        </div>
-    </div>
-
-    <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions"
-        aria-labelledby="offcanvasWithBothOptionsLabel">
-        <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Backdroped with scrolling</h5>
-            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <div class="offcanvas-body">
-            <p>Try scrolling the rest of the page to see this option in action.</p>
-        </div>
-    </div> {% endcomment %}
-
-    {% comment %} <section class="vfl-element {{theme}} dash-section" id="chat">Three</section> {% endcomment %}
 </div>
-<!-- {%endfor%} -->
+
 {% endblock body %}
 
 {% block scripts %}

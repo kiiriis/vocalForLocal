@@ -11,7 +11,7 @@ function distSelectorTrigger(){
 }
 
 $(document).ready(function(){
-    document.querySelector("#b-display").firstElementChild.classList.add("active");
+    if(document.querySelector('#adder-container').childElementCount>1 && document.querySelector("#b-display").childElementCount > 0) document.querySelector("#b-display").firstElementChild.classList.add("active");
 
     for(let i = 0;i<document.querySelectorAll('.search-results .card').length;i++){
         document.querySelectorAll('.search-results .card .carousel-inner')[i].firstElementChild.classList.add("active");
@@ -36,19 +36,13 @@ const sendSearchData = (business) => {
           result_box.innerHTML;
           data.forEach((business) => {
             result_box.innerHTML += `
-                      <a href='#' class='link'>
-                      <div class='row mt-2 mb-2'>
+                      <a href="`+`/business/${business.name}`+`" class='link' style="text-decoration:none;">
+                      <div class='row mt-2 mb-2' id="#sc">
                       <div class = 'col-2'>
-                          <img src="/media/{{business.display_pic}}" class = 'business'>
+                          <img src="${business.image}" class = 'business'>
                       </div>
                       <div class='col-10'>
-                          <h5>${business.name}</h5>
-                      </div>
-                      <div class='col-10'>
-                          <h5>${business.state}</h5>
-                      </div>
-                      <div class='col-10'>
-                          <h5>${business.city}</h5>
+                          <div style="font-size: 18px;font-weight: 500;">${business.name} <span style="font-size: 13px;">(${business.city}, ${business.state}, ${business.country})</span></div>
                       </div>
                   </div>
                       </a>`;
@@ -82,7 +76,14 @@ const sendSearchData = (business) => {
   // csrf token
   const csrf = document.getElementsByName("csrfmiddlewaretoken")[0].value;
   search_input.addEventListener("keyup", (e) => {
-    console.log(e.target.value);
+    if($('#search').val().trim().length == 0){
+      $('#result-box').empty();
+      $('#result-box').css('display','none');
+    }
+    else{
+      $('#result-box').css('display','block');
+    }
+    // console.log(e.target.value);
   
     //show result when key is up
     if (result_box.classList.contains("not-visible")) {

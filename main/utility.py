@@ -1,8 +1,9 @@
 from django.http.response import HttpResponse
 from django.core.mail import send_mail
+from django.shortcuts import redirect
 from main.models import User
 from dotenv import load_dotenv
-from main.helper import generateEmailOTP
+from main.helper import generateEmailOTP, redirector
 import os
 
 load_dotenv()
@@ -39,3 +40,11 @@ def emailChecker(request):
 def phoneChecker(request):
     if request.method == "POST":
         return HttpResponse(len(User.objects.filter(phone_number=request.POST["phno"])))
+
+def reportEmail(request):
+    email = request.POST['email']
+    theme = request.POST['theme']
+    feedback = request.POST['feedback']
+    message = f'''Your business has been reported. Refer to the feedback provided by the customer: {feedback}'''
+    send_mail('Reported!',message,os.getenv('EMAIL_HOST_USER'),[email,os.getenv('EMAIL_HOST_USER')], fail_silently=False,html_message=message)
+    return redirect(redirector('/dashboard', theme))

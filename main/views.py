@@ -12,6 +12,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
 import os
 import requests
+import urllib
 from django.http import JsonResponse
 load_dotenv()
 
@@ -159,7 +160,7 @@ def profile(request, username):
         theme = request.POST['theme']
         u = User.objects.get(id=request.user.id)
         if request.FILES.get('avatar') != None:
-            if u.display_pic.url.split('.')[0][-5:] != "admin" and os.path.exists(os.path.abspath(os.curdir)+u.display_pic.url):
+            if os.path.exists(os.path.abspath(os.curdir)+u.display_pic.url):
                 os.remove(os.path.abspath(os.curdir)+u.display_pic.url)
             u.display_pic = request.FILES.get('avatar')
         u.first_name = request.POST['first_name']
@@ -238,116 +239,76 @@ def businessSignup(request):
 
 @login_required(login_url='/login')
 def business(request, businessname):
-    if request.method == "POST":
-        b = Business.objects.get(name=businessname)
-        if(request.FILES.get('avatar') != None):
-            os.remove(os.path.abspath(os.curdir) + b.display_pic.url)
-            b.display_pic = request.FILES.get('avatar')
+    if len(request.user.owns.filter(name=businessname)) > 0:
+        if request.method == "POST":
+            b = Business.objects.get(name=businessname)
+            if(request.FILES.get('avatar') != None):
+                os.remove(os.path.abspath(os.curdir) + urllib.parse.unquote(b.display_pic.url))
+                b.display_pic = request.FILES.get('avatar')
 
-        b.name = request.POST['business_name']
-        b.country = request.POST['country']
-        b.state = request.POST['state']
-        b.city = request.POST['city']
-        b.email = request.POST['email']
-        b.latitude = request.POST['latitude']
-        b.longitude = request.POST['longitude']
-        b.description = request.POST['business_description']
-        keywords = request.POST['keywords'].split(',')
-        cleanKeywords = []
-        for keys in keywords:
-            if len(keys) > 0:
-                cleanKeywords.append(keys)
-        keywords = ","
-        keywords = keywords.join(cleanKeywords)
-        b.keywords = keywords
-        b.save()
-        return redirect('/dashboard')
+            b.name = request.POST['business_name']
+            b.country = request.POST['country']
+            b.state = request.POST['state']
+            b.city = request.POST['city']
+            b.email = request.POST['email']
+            b.latitude = request.POST['latitude']
+            b.longitude = request.POST['longitude']
+            b.description = request.POST['business_description']
+            keywords = request.POST['keywords'].split(',')
+            cleanKeywords = []
+            for keys in keywords:
+                if len(keys) > 0:
+                    cleanKeywords.append(keys)
+            keywords = ","
+            keywords = keywords.join(cleanKeywords)
+            b.keywords = keywords
+            b.save()
+            return redirect('/dashboard')
+        else:
+            b = Business.objects.get(name=businessname)
+            theme = getTheme(request)
+        return render(request, 'editBusinessForm.html', {'theme': theme, 'cb': b, 'csc_email': os.getenv('CSC_EMAIL'), 'csc_token': os.getenv('CSC_API_TOKEN')})
     else:
-        b = Business.objects.get(name=businessname)
         theme = getTheme(request)
-    return render(request, 'editBusinessForm.html', {'theme': theme, 'cb': b, 'csc_email': os.getenv('CSC_EMAIL'), 'csc_token': os.getenv('CSC_API_TOKEN')})
+        if Business.objects.filter(name=businessname).exists() == False:
+            return redirect("/dashboard")
+        b = Business.objects.get(name=businessname)
+        isExist = False
+        ufo = NULL
+        if request.user.rated.filter(business=b.id).exists():
+            isExist = True
+            ufo = request.user.rated.get(business=b.id)
+        return render(request, 'viewBusiness.html', {'isExist': isExist, 'userFbObj': ufo, 'theme': theme, 'business': b, 'token': os.getenv('MAP_ACCESS_TOKEN'), 'images': b.has.all(), 'feedbacks': b.feedbacks.all()})
 
 
-def demo(request, businessName):
-    theme = getTheme(request)
-    if Business.objects.filter(name=businessName).exists() == False:
-        return redirect("/dashboard")
-    b = Business.objects.get(name=businessName)
-    isExist = False
-    ufo = NULL
-    if request.user.rated.filter(business=b.id).exists():
-        isExist = True
-        ufo = request.user.rated.get(business=b.id)
-    return render(request, 'viewBusiness.html', {'isExist': isExist, 'userFbObj': ufo, 'theme': theme, 'business': b, 'token': os.getenv('MAP_ACCESS_TOKEN'), 'images': b.has.all(), 'feedbacks': b.feedbacks.all()})
+# def demo(request, businessName):
+#     theme = getTheme(request)
+#     if Business.objects.filter(name=businessName).exists() == False:
+#         return redirect("/dashboard")
+#     b = Business.objects.get(name=businessName)
+#     isExist = False
+#     ufo = NULL
+#     if request.user.rated.filter(business=b.id).exists():
+#         isExist = True
+#         ufo = request.user.rated.get(business=b.id)
+#     return render(request, 'viewBusiness.html', {'isExist': isExist, 'userFbObj': ufo, 'theme': theme, 'business': b, 'token': os.getenv('MAP_ACCESS_TOKEN'), 'images': b.has.all(), 'feedbacks': b.feedbacks.all()})
 
 
 def feedback(request):
-    if request.method == "POST":
+    print("here")
+    if request.method=="POST":
         theme = request.POST['theme']
-        b = Business.objects.get(id=request.POST['business_id'])
+        b = Business.objects.get(id = request.POST['business_id'])
         if request.user.rated.filter(business=b.id).exists():
-            f = request.user.rated.get(business=b.id)
+            f = request.user.rated.get(business = b.id)
             f.edited = True
             f.rating = request.POST['rating']
             f.description = request.POST['f_description']
         else:
-            f = Feedback(user=request.user, business=b,
-                         rating=request.POST['rating'], description=request.POST['f_description'])
+            f = Feedback(user=request.user, business=b, rating = request.POST['rating'], description = request.POST['f_description'])
         f.save()
-    return redirect('/demo/'+b.name)
-
-
-# def search_result(request):
-    # if request.is_ajax():
-    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-        res = None
-        business = request.POST.get('business')
-        query_se = (Business.objects.filter(name__icontains=business))
-        if(len(query_se) > 0 and len(business) > 0):
-            data = []
-            for pos in query_se:
-                item = {
-                    'pk': pos.pk,
-                    'name': pos.name,
-                }
-                data.append(item)
-            res = data
-            print(len(data))
-            query_se = Business.objects.none()
-        elif(len(query_se) == 0):
-            query_se = Business.objects.filter(
-                description__icontains=business)
-            data = []
-            for pos in query_se:
-                item = {
-                    'pk': pos.pk,
-                    'name': pos.name,
-                }
-                data.append(item)
-                print(len(data))
-            res = data
-            query_se = Business.objects.none()
-        elif(len(query_se) == 0):
-            for x in Business.objects.all():
-                print(x.keywords)
-                for temp in x.keywords:
-                    if business in temp:
-                        query_se = Business.objects.filter(keywords=x.keywords)
-            print(query_se)
-            data = []
-            for pos in query_se:
-                item = {
-                    'pk': pos.pk,
-                    'name': pos.name,
-                }
-                data.append(item)
-            res = data
-        else:
-            res = 'No business found'
-        return JsonResponse({'data': res})
-
-    return JsonResponse({})
-
+        return redirect('/business/'+b.name)
+    return redirect('/')
 
 def search_result(request):
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
@@ -375,6 +336,8 @@ def search_result(request):
                     'name': pos.name,
                     'state': pos.state,
                     'city': pos.city,
+                    'image': pos.display_pic.url,
+                    'country': pos.country,
                 }
                 data.append(item)
                 print(len(data))
